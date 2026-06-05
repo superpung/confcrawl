@@ -1,0 +1,10 @@
+# Netlify builds the Astro site in web/ and serves the static output.
+# The scraper's JSON (web/public/data/*.json) is committed, so Netlify only
+# runs the Astro build — it does not run the Python scraper.
+[build]
+  base = "web"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"

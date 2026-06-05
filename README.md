@@ -66,8 +66,15 @@ npm run build      # static build → web/dist/
 
 The site reads `web/public/data/` (produced by `confcrawl build`) and pre-renders one
 page per venue. Favorites are stored client-side in `localStorage`, so it needs no
-backend and deploys to GitHub Pages as static files. For GitHub Project Pages (served at
-`/<repo>/`), build with `BASE_PATH=/dac26 npm run build`.
+backend.
 
-> The old hand-built site under `docs/` is superseded by `web/` and will be removed once
-> Pages deploys the Astro build.
+## Deploy (Netlify)
+
+`netlify.toml` builds the Astro site from `web/` (`base = "web"`, `npm run build`,
+publish `dist`). The committed `web/public/data/*.json` is the build input, so Netlify
+runs only the Astro build, not the Python scraper. Build artifacts (`web/dist/`,
+`node_modules/`) are gitignored. Set `SITE_URL` in the Netlify environment for canonical
+URLs once the domain is known.
+
+To refresh the data, run `confcrawl build` locally and commit the updated JSON; Netlify
+redeploys on push.

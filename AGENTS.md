@@ -64,10 +64,9 @@ web/                   [now] Astro static site (GitHub Pages)
   public/data/
     venues.json        [now] sidebar manifest (written by scraper export)
     <venue_id>.json    [now] unified papers per venue (written by scraper export)
+  dist/                [now] Astro build output, gitignored (Netlify publishes it)
 data/cache/            [now] cached raw HTML, gitignored. Per-venue subdirs.
-
-# [now] still present: superseded but not yet removed —
-docs/                  old hand-built site; remove once Pages deploys the Astro build
+netlify.toml           [now] Netlify build config (base=web, publish=dist)
 ```
 
 ## Unified `Paper` schema
@@ -144,8 +143,7 @@ uv run confcrawl list
 # [now] Astro site (run inside web/)
 npm install
 npm run dev                       # local dev server
-npm run build                     # static build → web/dist/
-BASE_PATH=/dac26 npm run build    # build for GitHub Project Pages (/<repo>/ prefix)
+npm run build                     # static build → web/dist/ (what Netlify publishes)
 ```
 
 ## Conventions & guardrails
@@ -161,8 +159,8 @@ BASE_PATH=/dac26 npm run build    # build for GitHub Project Pages (/<repo>/ pre
 - **One schema:** if an adapter has data that does not fit the `Paper` keys, put it in
   `extra`, do not add top-level keys the site does not read.
 - **Site aesthetic:** keep the minimal, Claude-like style (warm paper bg `#faf9f5`,
-  clay accent `#c96442`, Source Serif 4 headings, flat thin-bordered cards). Carry these
-  tokens into the Astro site's global CSS when porting from `docs/assets/styles.css`.
+  clay accent `#c96442`, Source Serif 4 headings, flat thin-bordered cards). The tokens
+  live in `web/src/styles/global.css`.
 - **Favorites** are client-side `localStorage`. When multi-venue lands, key them as
   `venueId:paperId` so they do not collide across venues.
 - **No backend:** the site is fully static. All filtering/search is client-side.
@@ -180,8 +178,9 @@ BASE_PATH=/dac26 npm run build    # build for GitHub Project Pages (/<repo>/ pre
    <venue>.json}`; Astro app scaffolded: `index.astro` (redirect), `[venue].astro` (SSG
    per venue), `Sidebar`/`PaperCard`, ported Claude-style CSS, sidebar venue switching,
    client-side search/track/sort + per-venue favorites (`venueId:paperId`). Client
-   interactivity is plain inlined `<script>` (no framework island needed). **Open:** wire
-   GitHub Pages deployment (Action vs build into `docs/`) and retire the old `docs/` site.
+   interactivity is plain inlined `<script>` (no framework island needed). Deploys on
+   **Netlify** (`netlify.toml`, builds `web/`, publishes `dist/`); the old `docs/` site
+   has been removed. Build artifacts are not committed.
 3. **Second adapter** — OpenReview (clean JSON API), to validate generality.
 4. **UX polish** — a dedicated favorites view, deep links within a venue, mobile drawer.
 
