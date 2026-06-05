@@ -1,19 +1,24 @@
 [project]
-name = "dac26"
+name = "confcrawl"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+description = "Scrape conference/journal programs into a unified schema for a static site."
+requires-python = ">=3.10"
 authors = [
     { name = "SUPER", email = "hi@repus.me" }
 ]
-requires-python = ">=3.10"
 dependencies = [
     "beautifulsoup4>=4.12.3",
     "requests>=2.32.3",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
 ]
 
 [project.scripts]
-dac26 = "dac26.scrape:main"
+confcrawl = "confcrawl.cli:main"
 
 [build-system]
 requires = ["hatchling"]

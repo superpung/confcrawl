@@ -64,9 +64,8 @@ web/                   [target] Astro site (GitHub Pages)
     <venue_id>.json    [target] unified papers per venue (written by scraper export)
 data/cache/            [now] cached raw HTML, gitignored. Per-venue subdirs [target].
 
-# [now] still present until Phase 1/2 land:
-src/dac26/scrape.py    single-module scraper
-data/dac2026_*.{json,csv}   current DAC exports
+# [now] the scraper/ tree above is real (Phase 1 landed). Still present until Phase 2:
+data/dac2026_*.{json,csv}   legacy DAC exports, superseded by web/public/data/dac2026.json
 docs/                  current hand-built static site (index/favorites/assets/data)
 ```
 
@@ -173,11 +172,11 @@ python3 -m http.server 8000 --directory docs   # then open http://localhost:8000
 
 0. **Scaffolding** — AGENTS.md, CLAUDE.md, seed `config/venues.yaml`, untrack cache.
    *(done)*
-1. **Scraper monorepo + rename** — move `src/dac26` → `scraper/src/confcrawl`; rename
-   package, console script, and `dac2026_*` outputs; extract `fetcher.py`, `models.py`,
-   `config.py` (reads `config/venues.yaml` via PyYAML); wrap current DAC logic as
-   `scrapers/linklings.py` behind the `Scraper` interface; `confcrawl build --venue
-   dac2026` reproduces today's data; add offline parser tests from cached pages.
+1. **Scraper monorepo + rename** — *(done)* moved `src/dac26` → `scraper/src/confcrawl`;
+   renamed package + console script (`confcrawl`); split into `fetcher/models/config/
+   util/paths/pipeline/export/cli` + `scrapers/{base,linklings}`; reads
+   `config/venues.yaml` via PyYAML; `confcrawl build --venue dac2026` reproduces today's
+   543 papers byte-for-byte; offline pytest from `tests/fixtures/`.
 2. **Export + Astro site** — `export.py` writes `web/public/data/{venues.json,<venue>
    .json}`; scaffold the Astro app (`index.astro`, `[venue].astro`, Sidebar/PaperList
    components, a search/filter island); port the Claude-style CSS; deploy via Pages.

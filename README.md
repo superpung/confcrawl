@@ -1,60 +1,65 @@
-# DAC 2026 Program Scraper
+# confcrawl
 
-Crawl the Linklings program data from `https://63dac.conference-program.com/` and export DAC 2026 paper tables.
+Scrape academic **conference / journal** programs into one unified schema and publish a
+static, searchable website for browsing papers.
 
-By default, the scraper only includes `RESEARCH*` presentations, which correspond to `Research Manuscript` entries on the site. It preserves two export views:
+The project started as a single-purpose DAC 2026 scraper and is being generalized into a
+config-driven, multi-venue pipeline. See **[AGENTS.md](AGENTS.md)** for the full
+architecture, the unified `Paper` schema, the scraper-adapter contract, and conventions.
 
-- `data/dac2026_papers.csv`: one row per paper, deduplicated by `presentation_id`.
-- `data/dac2026_paper_presentations.csv`: one row per `presentation_id + session_id`, preserving cases where the same paper appears in multiple sessions.
+## Layout (monorepo)
 
-The scraper also writes matching JSON files that preserve nested fields such as authors, institutions, recommended presentations, and page information sections.
-
-## Run
-
-```bash
-uv run dac26
+```
+config/venues.yaml   Registry of venues to scrape and publish.
+scraper/             Python package `confcrawl`: fetch → parse → unified JSON.
+web/                 Static site (Astro — Phase 2) consuming the JSON.
+  public/data/       venues.json (sidebar manifest) + <venue>.json (papers).
+data/cache/          Cached raw HTML, gitignored (regenerable; the parser test corpus).
+docs/                Current hand-built site (being replaced by web/).
 ```
 
-Fetch only a few detail pages while debugging:
+## Scrape
+
+Run inside `scraper/` (uses [uv](https://docs.astral.sh/uv/)):
 
 ```bash
-uv run dac26 --limit 5
+cd scraper
+
+uv run confcrawl list                    # show configured venues
+uv run confcrawl build                    # build all enabled venues → web/public/data/
+uv run confcrawl build --venue dac2026     # build a single venue
+uv run confcrawl build --refresh           # ignore cache, refetch over the network
+uv run confcrawl build --venue dac2026 --limit 5   # debug: only a few detail pages
 ```
 
-Fetch every presentation type instead of only research papers:
+Each venue is cached under `data/cache/<venue_id>/`, so re-runs are offline unless you
+pass `--refresh`.
+
+### Tests
 
 ```bash
-uv run dac26 --all-presentations
+cd scraper
+uv run --extra dev pytest        # offline, drives parsers from tests/fixtures/
 ```
 
-Refresh the cache and fetch pages again:
+## Add a venue
+
+1. Add an entry to `config/venues.yaml` (see the comments there for the fields).
+2. Point `scraper:` at a registered adapter (currently `linklings`).
+3. `uv run confcrawl build --venue <id>` and check `web/public/data/<id>.json`.
+
+To support a new platform, add an adapter under
+`scraper/src/confcrawl/scrapers/` implementing the `Scraper` interface and register it —
+see AGENTS.md "How to add a scraper adapter".
+
+## Website
+
+The unified data lives in `web/public/data/`. The Astro site that renders it (with a
+venue sidebar) lands in Phase 2; until then the current site under `docs/` is live:
 
 ```bash
-uv run dac26 --refresh
+python3 -m http.server 8000 --directory docs   # http://localhost:8000/
 ```
 
-## Output Fields
-
-The paper table includes title, authors, author institutions, abstract, event type, track/category, session, date, location, URL, page information sections as JSON, complete occurrence records as JSON, and related fields.
-
-The scraper writes the 7 date snippets discovered from the home page, link counts, prefix statistics, and fetch status counts to `data/dac2026_metadata.json` so completeness can be checked.
-
-## Static Website
-
-The static website lives in `docs/` and is ready for GitHub Pages. It includes:
-
-- `docs/index.html`: searchable paper list with local favorite buttons.
-- `docs/favorites.html`: favorite-only view.
-- `docs/data/papers.json`: compact paper data used by the website.
-
-Favorites are stored in browser `localStorage`, so the site does not need a backend.
-
-To preview locally:
-
-```bash
-python3 -m http.server 8000 --directory docs
-```
-
-Then open `http://localhost:8000/`.
-
-To deploy on GitHub Pages, set the Pages source to the repository branch and `/docs` folder.
+Favorites are stored client-side in `localStorage`, so the site needs no backend, and it
+deploys to GitHub Pages as static files.
