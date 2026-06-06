@@ -46,28 +46,30 @@ const totalPapers = totalPaperCount(venues);
               <span class="cat-count">{group.count.toLocaleString()}</span>
             </button>
             <div class="venue-cat-body">
-              {[
-                { label: 'Conferences', items: group.conferences },
-                { label: 'Journals', items: group.journals },
-              ].filter((s) => s.items.length > 0).map((sub) => (
-                <div class="venue-sub">
-                  {group.conferences.length > 0 && group.journals.length > 0 && (
-                    <p class="venue-sub-label">{sub.label}</p>
-                  )}
-                  {sub.items.map((venue) => (
-                    <label
-                      class="venue-row"
-                      data-venue-row
-                      data-venue-name={`${venue.name} ${venue.series}`.toLowerCase()}
-                    >
-                      <input class="venue-check" type="checkbox" value={venue.id} data-venue-check />
-                      <span class="venue-row-name">{venue.name}</span>
-                      <span class={`venue-kind kind-${venue.kind}`}>{venue.kind === 'journal' ? 'J' : 'C'}</span>
-                      <span class="venue-row-count">{venue.count.toLocaleString()}</span>
-                    </label>
-                  ))}
-                </div>
-              ))}
+              <div class="venue-cat-inner">
+                {[
+                  { label: 'Conferences', items: group.conferences },
+                  { label: 'Journals', items: group.journals },
+                ].filter((s) => s.items.length > 0).map((sub) => (
+                  <div class="venue-sub">
+                    {group.conferences.length > 0 && group.journals.length > 0 && (
+                      <p class="venue-sub-label">{sub.label}</p>
+                    )}
+                    {sub.items.map((venue) => (
+                      <label
+                        class="venue-row"
+                        data-venue-row
+                        data-venue-name={`${venue.name} ${venue.series}`.toLowerCase()}
+                      >
+                        <input class="venue-check" type="checkbox" value={venue.id} data-venue-check />
+                        <span class="venue-row-name">{venue.name}</span>
+                        <span class={`venue-kind kind-${venue.kind}`}>{venue.kind === 'journal' ? 'J' : 'C'}</span>
+                        <span class="venue-row-count">{venue.count.toLocaleString()}</span>
+                      </label>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
         ))}
@@ -108,7 +110,11 @@ const totalPapers = totalPaperCount(venues);
       </div>
 
       <div class="active-filters" id="activeFilters"></div>
-      <section class="facets" id="facets" hidden aria-label="Filters"></section>
+      <div class="facets-wrap" id="facetsWrap">
+        <div class="facets-clip">
+          <section class="facets" id="facets" aria-label="Filters"></section>
+        </div>
+      </div>
 
       <div class="export-bar" id="exportBar" hidden>
         <span id="selCount">0 selected</span>

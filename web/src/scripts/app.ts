@@ -161,6 +161,7 @@ const els = {
   more: $('#listMore'),
   summary: $('#resultSummary'),
   facets: $<HTMLElement>('#facets'),
+  facetsWrap: $<HTMLElement>('#facetsWrap'),
   facetCount: $('#facetActiveCount'),
   active: $('#activeFilters'),
   exportBar: $('#exportBar'),
@@ -217,11 +218,11 @@ function renderFacets(base: { p: Paper; v: string }[]) {
     const rows = opts.map(([val, n]) =>
       `<label class="facet-option"><input type="checkbox" data-facet="${kind}" value="${esc(val)}" ${active.has(val) ? 'checked' : ''}>
         <span class="facet-label">${esc(label(val))}</span><span class="facet-count">${n}</span></label>`).join('');
-    return `<div class="facet-group" data-facet-group="${esc(title)}">
+    return `<div class="facet-group${collapsed ? ' is-collapsed' : ''}" data-facet-group="${esc(title)}">
       <button class="facet-title" type="button" data-facet-group-toggle aria-expanded="${!collapsed}">
         <span class="facet-caret">▾</span><span class="facet-title-text">${title}</span><span class="facet-group-count">${opts.length}</span>
       </button>
-      <div class="facet-options"${collapsed ? ' hidden' : ''}>${rows}</div>
+      <div class="facet-collapse"><div class="facet-options">${rows}</div></div>
     </div>`;
   };
   const venueGroup = state.selected.size > 1
@@ -395,12 +396,12 @@ function wire() {
   document.querySelectorAll<HTMLInputElement>('[data-venue-check]').forEach((cb) => {
     cb.addEventListener('change', () => setVenue(cb.value, cb.checked));
   });
-  // collapse categories
+  // collapse categories (animated via the .is-collapsed grid-rows trick)
   document.querySelectorAll<HTMLButtonElement>('[data-cat-toggle]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const open = btn.getAttribute('aria-expanded') !== 'false';
       btn.setAttribute('aria-expanded', String(!open));
-      (btn.nextElementSibling as HTMLElement).hidden = open;
+      btn.closest('.venue-cat')?.classList.toggle('is-collapsed', open);
     });
   });
   // venue filter in sidebar
@@ -438,8 +439,7 @@ function wire() {
   // facets toggle + changes
   $('[data-facets-toggle]').addEventListener('click', (e) => {
     const btn = e.currentTarget as HTMLButtonElement;
-    const open = els.facets.hidden;
-    els.facets.hidden = !open;
+    const open = els.facetsWrap.classList.toggle('is-open');
     btn.setAttribute('aria-expanded', String(open));
   });
   els.facets.addEventListener('change', (e) => {
@@ -449,15 +449,16 @@ function wire() {
     if (cb.checked) set.add(cb.value); else set.delete(cb.value);
     state.shown = PAGE; writeUrl(); render();
   });
-  // collapse individual facet groups (no full re-render needed)
+  // collapse individual facet groups (animated; no full re-render needed)
   els.facets.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-facet-group-toggle]');
     if (!btn) return;
-    const title = btn.closest<HTMLElement>('[data-facet-group]')?.dataset.facetGroup ?? '';
+    const groupEl = btn.closest<HTMLElement>('[data-facet-group]');
+    const title = groupEl?.dataset.facetGroup ?? '';
     const open = btn.getAttribute('aria-expanded') !== 'false';
     if (open) state.facetCollapsed.add(title); else state.facetCollapsed.delete(title);
     btn.setAttribute('aria-expanded', String(!open));
-    (btn.nextElementSibling as HTMLElement).hidden = open;
+    groupEl?.classList.toggle('is-collapsed', open);
   });
   els.active.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-remove-filter]');
@@ -546,7 +547,7 @@ function wire() {
     else if (e.key === 'Escape') {
       if (document.activeElement === els.search && state.query) { state.query = ''; els.search.value = ''; writeUrl(); render(); }
       else { closeModals(); $('#app').classList.remove('sidebar-open'); }
-    } else if (e.key === 'f' && !typing) { els.facets.hidden = !els.facets.hidden; $('[data-facets-toggle]').setAttribute('aria-expanded', String(!els.facets.hidden)); }
+    } else if (e.key === 'f' && !typing) { const open = els.facetsWrap.classList.toggle('is-open'); $('[data-facets-toggle]').setAttribute('aria-expanded', String(open)); }
   });
 }
 
