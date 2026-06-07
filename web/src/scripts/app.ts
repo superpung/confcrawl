@@ -540,18 +540,23 @@ function setThemeColor() {
   if (!m) { m = document.createElement('meta'); m.name = 'theme-color'; document.head.appendChild(m); }
   m.content = bg;
 }
-// iOS Safari can leave a stale backdrop-filter snapshot when the theme's colors
-// change, painting the old tint over the text under the frosted bar. Toggling
-// the filter off for a frame forces it to re-capture against the new colors.
-function repaintGlass() {
-  document.querySelectorAll<HTMLElement>('.topbar').forEach((el) => {
-    el.style.backdropFilter = 'none';
-    el.style.setProperty('-webkit-backdrop-filter', 'none');
-    requestAnimationFrame(() => {
-      el.style.removeProperty('backdrop-filter');
-      el.style.removeProperty('-webkit-backdrop-filter');
-    });
-  });
+// iOS Safari can leave parts of the page painted in the previous theme's colors
+// until a reload: the frosted top bar keeps a stale backdrop snapshot, and the
+// bottom safe-area strip (canvas, driven by color-scheme / root background)
+// keeps the old fill. Nudge the properties that drive those paints for a frame
+// — held across one paint via double rAF — to force a repaint with the new theme.
+function repaintForTheme() {
+  const root = document.documentElement;
+  const scheme = root.dataset.theme === 'dark' ? 'dark' : 'light';
+  const bg = getComputedStyle(root).getPropertyValue('--bg').trim();
+  const canvas: HTMLElement[] = [root, document.body];
+  const bars = [...document.querySelectorAll<HTMLElement>('.topbar')];
+  canvas.forEach((el) => { el.style.backgroundColor = bg; el.style.colorScheme = scheme; });
+  bars.forEach((el) => { el.style.backdropFilter = 'none'; el.style.setProperty('-webkit-backdrop-filter', 'none'); });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    canvas.forEach((el) => { el.style.removeProperty('background-color'); el.style.removeProperty('color-scheme'); });
+    bars.forEach((el) => { el.style.removeProperty('backdrop-filter'); el.style.removeProperty('-webkit-backdrop-filter'); });
+  }));
 }
 function reflectTheme() {
   const dark = document.documentElement.dataset.theme === 'dark';
@@ -563,7 +568,7 @@ function toggleTheme() {
   document.documentElement.dataset.theme = dark ? 'light' : 'dark';
   try { localStorage.setItem(K_THEME, dark ? 'light' : 'dark'); } catch { /* ignore */ }
   reflectTheme();
-  repaintGlass();
+  repaintForTheme();
 }
 
 // --- events ------------------------------------------------------------
