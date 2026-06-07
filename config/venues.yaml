@@ -28,6 +28,17 @@ venues:
       prefixes: [RESEARCH]      # presentation-id prefixes to include
       all_presentations: false  # true = every presentation type, not just papers
 
+  - id: date2026
+    name: DATE 2026
+    series: DATE
+    category: EDA & Design Automation
+    kind: conference
+    year: 2026
+    scraper: dateconf
+    enabled: true
+    source:
+      program_url: https://www.date-conference.com/programme
+
   - id: icse2026
     name: ICSE 2026
     series: ICSE

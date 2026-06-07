@@ -9,11 +9,13 @@ from __future__ import annotations
 from ..config import VenueConfig
 from ..fetcher import Fetcher
 from .base import Scraper
+from .dateconf import DateConfScraper
 from .linklings import LinklingsScraper
 from .researchr import ResearchrScraper
 
 
 SCRAPERS: dict[str, type[Scraper]] = {
+    DateConfScraper.name: DateConfScraper,
     LinklingsScraper.name: LinklingsScraper,
     ResearchrScraper.name: ResearchrScraper,
 }

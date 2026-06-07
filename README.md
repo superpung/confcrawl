@@ -29,6 +29,7 @@ cd scraper
 uv run confer list                    # show configured venues
 uv run confer build                    # build all enabled venues → web/public/data/
 uv run confer build --venue dac2026     # build a single venue
+uv run confer build --venue date2026    # DATE 2026 via the official programme
 uv run confer build --venue icse2026    # ICSE 2026 via Researchr
 uv run confer build --venue fse2026     # Researchr detailed timeline venue
 uv run confer build --venue oopsla2026  # Researchr accepted-papers track venue
@@ -49,7 +50,7 @@ uv run --extra dev pytest        # offline, drives parsers from tests/fixtures/
 ## Add a venue
 
 1. Add an entry to `config/venues.yaml` (see the comments there for the fields).
-2. Point `scraper:` at a registered adapter (currently `linklings` or `researchr`).
+2. Point `scraper:` at a registered adapter (currently `dateconf`, `linklings`, or `researchr`).
 3. `uv run confer build --venue <id>` and check `web/public/data/<id>.json`.
 
 To support a new platform, add an adapter under

@@ -51,6 +51,7 @@ scraper/               [now] Python project, package `confer`
     util.py            [now] shared helpers
     scrapers/
       base.py          [now] Scraper ABC + SCRAPERS registry
+      dateconf.py      [now] DATE official programme adapter
       linklings.py     [now] DAC (Linklings program) adapter
       researchr.py     [now] Researchr program / timeline / accepted-list adapter
       ...              [target] openreview.py, dblp.py, ieee.py, acm_dl.py
@@ -137,6 +138,7 @@ file in `scrapers/` + one registry entry.** Do not branch on platform anywhere e
 uv run confer list                       # show configured venues
 uv run confer build                       # all enabled venues → web/public/data/
 uv run confer build --venue dac2026       # a single venue
+uv run confer build --venue date2026      # DATE official programme venue
 uv run confer build --venue icse2026      # ICSE 2026 via Researchr
 uv run confer build --venue fse2026       # Researchr detailed timeline venue
 uv run confer build --refresh             # ignore cache, refetch over the network
@@ -192,6 +194,9 @@ npm run build                     # static build → web/dist/ (what Netlify pub
    tracks/event types; fetches cached detail modals for abstracts and official detail
    URLs; and publishes ICSE 2026, FSE 2026, ASE 2025, ISSTA 2025, and OOPSLA 2026
    alongside DAC.
+6. **DATE 2026** — `dateconf` adapter parses the DATE official detailed programme,
+   keeps downloadable paper rows, normalizes session metadata / author affiliations /
+   PDF links, and publishes DATE 2026 alongside DAC.
 
 **Planned:**
 
