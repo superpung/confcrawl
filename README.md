@@ -30,6 +30,8 @@ uv run confer list                    # show configured venues
 uv run confer build                    # build all enabled venues → web/public/data/
 uv run confer build --venue dac2026     # build a single venue
 uv run confer build --venue icse2026    # ICSE 2026 via Researchr
+uv run confer build --venue fse2026     # Researchr detailed timeline venue
+uv run confer build --venue oopsla2026  # Researchr accepted-papers track venue
 uv run confer build --refresh           # ignore cache, refetch over the network
 uv run confer build --venue dac2026 --limit 5   # debug: only a few detail pages
 ```

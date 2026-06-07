@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T15:21:29+00:00",
+  "generatedAt": "2026-06-07T16:03:09+00:00",
   "venues": [
     {
       "category": "EDA & Design Automation",
@@ -11,6 +11,33 @@
       "year": 2026
     },
     {
+      "category": "Programming Languages",
+      "count": 74,
+      "id": "oopsla2026",
+      "kind": "conference",
+      "name": "OOPSLA 2026",
+      "series": "OOPSLA",
+      "year": 2026
+    },
+    {
+      "category": "Software Engineering",
+      "count": 437,
+      "id": "ase2025",
+      "kind": "conference",
+      "name": "ASE 2025",
+      "series": "ASE",
+      "year": 2025
+    },
+    {
+      "category": "Software Engineering",
+      "count": 438,
+      "id": "fse2026",
+      "kind": "conference",
+      "name": "FSE 2026",
+      "series": "FSE",
+      "year": 2026
+    },
+    {
       "category": "Software Engineering",
       "count": 737,
       "id": "icse2026",
@@ -18,6 +45,15 @@
       "name": "ICSE 2026",
       "series": "ICSE",
       "year": 2026
+    },
+    {
+      "category": "Software Testing & Analysis",
+      "count": 127,
+      "id": "issta2025",
+      "kind": "conference",
+      "name": "ISSTA 2025",
+      "series": "ISSTA",
+      "year": 2025
     }
   ]
 }

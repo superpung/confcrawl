@@ -7,6 +7,7 @@ Source-specific options:
     include_tracks:      track display names to keep (optional)
     include_event_types: event type labels to keep (optional)
     exclude_event_types: event type labels to drop (optional)
+    default_event_type: event type to use when a page omits one (optional)
     fetch_details:       fetch event detail modals for abstracts (default true)
     require_authors:     skip records without parsed authors (default false)
 """
@@ -81,9 +82,16 @@ class ResearchrEvent:
 
 @dataclass
 class ResearchrDetail:
+    title: str = ""
     abstract: str = ""
     url: str = ""
     urls: list[str] = field(default_factory=list)
+    authors: list[str] = field(default_factory=list)
+    author_institutions: str = ""
+    tracks: list[str] = field(default_factory=list)
+    session_title: str = ""
+    date: str = ""
+    location: str = ""
 
 
 class ResearchrScraper(Scraper):
@@ -99,6 +107,7 @@ class ResearchrScraper(Scraper):
         self.include_tracks = set(self._as_list(venue.source.get("include_tracks")))
         self.include_event_types = set(self._as_list(venue.source.get("include_event_types")))
         self.exclude_event_types = set(self._as_list(venue.source.get("exclude_event_types")))
+        self.default_event_type = str(venue.source.get("default_event_type") or "")
         self.fetch_details = bool(venue.source.get("fetch_details", True))
         self.require_authors = bool(venue.source.get("require_authors", False))
         self.track_prefix = str(venue.source.get("track_prefix") or venue.series or "")
@@ -116,7 +125,10 @@ class ResearchrScraper(Scraper):
         )
 
         details = self.crawl_details(selected, modal_config) if self.fetch_details else {}
-        return [self.to_paper(event, details.get(event.event_id)) for event in selected]
+        papers = [self.to_paper(event, details.get(event.event_id)) for event in selected]
+        if self.require_authors:
+            papers = [paper for paper in papers if paper.authors]
+        return papers
 
     def _abs(self, href: str) -> str:
         return urljoin(self.program_url, href) if href else ""
@@ -157,6 +169,14 @@ class ResearchrScraper(Scraper):
                 occurrence = self.parse_occurrence(row, session)
                 if occurrence:
                     occurrences.append(occurrence)
+        for node in soup.select("div[data-slot-id]"):
+            occurrence = self.parse_timeline_occurrence(node)
+            if occurrence:
+                occurrences.append(occurrence)
+        for row in soup.select("#event-overview table tr"):
+            occurrence = self.parse_overview_occurrence(row)
+            if occurrence:
+                occurrences.append(occurrence)
         return occurrences, modal_config
 
     def parse_modal_config(self, soup: BeautifulSoup) -> ResearchrModalConfig | None:
@@ -278,6 +298,100 @@ class ResearchrScraper(Scraper):
             urls=unique_preserve_order(urls),
         )
 
+    def parse_timeline_occurrence(self, node: Tag) -> ResearchrOccurrence | None:
+        title_anchor = node.select_one("a[data-event-modal]")
+        if title_anchor is None:
+            return None
+        event_id = title_anchor.get("data-event-modal", "")
+        if not event_id:
+            return None
+
+        track = self._normalize_track(str(node.get("data-facet-track", "")))
+        date = str(node.get("data-facet-date", ""))
+        location = str(node.get("data-facet-room", ""))
+        time_range = clean_text(node.select_one(".small .pull-left"))
+        session_id = safe_slug(f"{date}-{location}-{time_range}-{track}")
+
+        return ResearchrOccurrence(
+            event_id=event_id,
+            slot_id=node.get("data-slot-id", ""),
+            title=self.parse_timeline_title(title_anchor, track),
+            event_type="",
+            tracks=unique_preserve_order([track]),
+            facet_tracks=unique_preserve_order([track]),
+            authors=[],
+            author_institutions="",
+            session_id=session_id,
+            session_title=track,
+            date=self.combine_date_time(date, time_range),
+            location=location,
+            urls=[],
+        )
+
+    def parse_overview_occurrence(self, row: Tag) -> ResearchrOccurrence | None:
+        title_anchor = row.select_one("a[data-event-modal]")
+        if title_anchor is None:
+            return None
+        event_id = title_anchor.get("data-event-modal", "")
+        if not event_id:
+            return None
+
+        tracks = unique_preserve_order(
+            [
+                self._normalize_track(clean_text(node))
+                for node in row.select(".prog-track")
+                if clean_text(node)
+            ]
+        )
+        people = self.parse_people(row.select_one(".performers"))
+        session_title = tracks[0] if tracks else self.venue.name
+        return ResearchrOccurrence(
+            event_id=event_id,
+            slot_id=event_id,
+            title=self.parse_event_title(title_anchor),
+            event_type=self.default_event_type,
+            tracks=tracks,
+            facet_tracks=tracks,
+            authors=[person["name"] for person in people if person.get("name")],
+            author_institutions="; ".join(
+                f"{person['name']} ({person['institution']})"
+                if person.get("institution")
+                else person["name"]
+                for person in people
+                if person.get("name")
+            ),
+            session_id=safe_slug(f"{self.venue.id}-{session_title}"),
+            session_title=session_title,
+            date="",
+            location="",
+            urls=[],
+        )
+
+    @staticmethod
+    def parse_timeline_title(anchor: Tag, track: str = "") -> str:
+        event = anchor.select_one(".event-elem")
+        if event is not None:
+            candidates: list[str] = []
+            for node in event.find_all("div", recursive=False):
+                text = clean_text(node)
+                if not text:
+                    continue
+                strong = clean_text(node.select_one("strong"))
+                if strong and text == strong:
+                    continue
+                if track and text == track:
+                    continue
+                candidates.append(text)
+            if candidates:
+                return candidates[-1]
+        return ResearchrScraper.parse_event_title(anchor)
+
+    @staticmethod
+    def combine_date_time(date: str, time_range: str) -> str:
+        if date and time_range:
+            return f"{date} {time_range}"
+        return date or time_range
+
     @staticmethod
     def parse_event_title(anchor: Tag) -> str:
         chunks: list[str] = []
@@ -319,6 +433,29 @@ class ResearchrScraper(Scraper):
             people.append({"name": name, "institution": institution})
         return people
 
+    @staticmethod
+    def parse_modal_people(container: Tag | None) -> list[dict[str, str]]:
+        if container is None:
+            return []
+        people: list[dict[str, str]] = []
+        for anchor in container.select('a[href*="/profile/"]'):
+            body = anchor.select_one(".media-body")
+            if body is None:
+                name = clean_text(anchor)
+                institution = ""
+            else:
+                name_heading = body.select_one(".media-heading")
+                if name_heading is None:
+                    name = clean_text(anchor)
+                else:
+                    for node in name_heading.select(".pull-right"):
+                        node.extract()
+                    name = clean_text(name_heading)
+                institution = clean_text(body.select_one(".text-black"))
+            if name:
+                people.append({"name": name, "institution": institution})
+        return people
+
     @classmethod
     def format_event_date(cls, date: str, start: str, duration: str) -> str:
         if not date:
@@ -349,8 +486,6 @@ class ResearchrScraper(Scraper):
     def keep_occurrence(self, occurrence: ResearchrOccurrence) -> bool:
         if not occurrence.title:
             return False
-        if self.require_authors and not occurrence.authors:
-            return False
         if self.include_event_types and occurrence.event_type not in self.include_event_types:
             return False
         if self.exclude_event_types and occurrence.event_type in self.exclude_event_types:
@@ -370,16 +505,16 @@ class ResearchrScraper(Scraper):
                 grouped[occurrence.event_id] = ResearchrEvent(
                     event_id=occurrence.event_id,
                     title=occurrence.title,
-                    event_types=[occurrence.event_type],
+                    event_types=unique_preserve_order([occurrence.event_type]),
                     tracks=list(occurrence.tracks),
                     facet_tracks=list(occurrence.facet_tracks),
                     authors=list(occurrence.authors),
                     author_institutions=occurrence.author_institutions,
-                    slot_ids=[occurrence.slot_id],
-                    session_ids=[occurrence.session_id],
-                    session_titles=[occurrence.session_title],
-                    dates=[occurrence.date],
-                    locations=[occurrence.location],
+                    slot_ids=unique_preserve_order([occurrence.slot_id]),
+                    session_ids=unique_preserve_order([occurrence.session_id]),
+                    session_titles=unique_preserve_order([occurrence.session_title]),
+                    dates=unique_preserve_order([occurrence.date]),
+                    locations=unique_preserve_order([occurrence.location]),
                     urls=list(occurrence.urls),
                 )
                 continue
@@ -457,6 +592,24 @@ class ResearchrScraper(Scraper):
             )
 
         soup = BeautifulSoup(html, "html.parser")
+        title_node = soup.select_one(".event-title h4")
+        title = self.parse_event_title(title_node) if title_node else ""
+
+        header = soup.select_one(".modal-header")
+        header_track = clean_text(header.select_one("p.text-muted")) if header else ""
+        tracks = unique_preserve_order([self._normalize_track(header_track)])
+        date = ""
+        location = ""
+        session_title = ""
+        if header is not None:
+            time_node = header.select_one("strong")
+            time_text = clean_text(time_node)
+            if " at " in time_text:
+                date, location = [part.strip() for part in time_text.split(" at ", maxsplit=1)]
+            else:
+                date = time_text
+            session_title = clean_text(header.select_one("strong ~ a.navigate"))
+
         detail_links = [
             self._abs(anchor.get("href", ""))
             for anchor in soup.select('a[href*="/details/"]')
@@ -467,6 +620,7 @@ class ResearchrScraper(Scraper):
         description = soup.select_one(".event-description")
         abstract = ""
         extra_urls: list[str] = []
+        people = self.parse_modal_people(description)
         if description is not None:
             paragraphs = [
                 clean_text(paragraph)
@@ -487,25 +641,44 @@ class ResearchrScraper(Scraper):
             ]
 
         return ResearchrDetail(
+            title=title,
             abstract=abstract,
             url=detail_url,
             urls=unique_preserve_order(extra_urls),
+            authors=[person["name"] for person in people if person.get("name")],
+            author_institutions="; ".join(
+                f"{person['name']} ({person['institution']})"
+                if person.get("institution")
+                else person["name"]
+                for person in people
+                if person.get("name")
+            ),
+            tracks=tracks,
+            session_title=session_title,
+            date=date,
+            location=location,
         )
 
     def to_paper(self, event: ResearchrEvent, detail: ResearchrDetail | None = None) -> Paper:
         detail = detail or ResearchrDetail()
         urls = unique_preserve_order([detail.url] + event.urls + detail.urls + [self.program_url])
+        tracks = list(event.tracks or detail.tracks)
+        authors = event.authors or detail.authors
+        session_titles = unique_preserve_order(event.session_titles + [detail.session_title])
+        dates = unique_preserve_order(event.dates + [detail.date])
+        locations = unique_preserve_order(event.locations + [detail.location])
+        event_types = unique_preserve_order(event.event_types + [self.default_event_type])
         return Paper(
             id=event.event_id,
-            title=event.title,
+            title=detail.title or event.title,
             abstract=detail.abstract,
-            authors=list(event.authors),
-            author_institutions=event.author_institutions,
-            tracks=list(event.tracks),
-            event_type="; ".join(event.event_types),
-            session_titles=list(event.session_titles),
-            sessions=list(event.session_ids),
-            dates=list(event.dates),
-            locations=list(event.locations),
+            authors=list(authors),
+            author_institutions=event.author_institutions or detail.author_institutions,
+            tracks=tracks,
+            event_type="; ".join(event_types),
+            session_titles=session_titles,
+            sessions=unique_preserve_order(event.session_ids),
+            dates=dates,
+            locations=locations,
             urls=urls,
         )

@@ -9,8 +9,8 @@ A pipeline that scrapes academic **conference / journal** programs and publishes
 static, searchable website (Netlify) for browsing papers. Venues are configured in
 `config/venues.yaml`, scraped through pluggable adapters, normalized to one schema, and
 shown in a single site with a category **sidebar**. DAC 2026 and ICSE 2026 are
-the first enabled venues; more are added by config + adapter, never by changing
-the site.
+the first enabled venues; additional Researchr venues are added by config +
+adapter, never by changing the site.
 
 **Stack:** a **monorepo** — a **Python** scraper (`scraper/`, package `confer`) that
 emits unified JSON, consumed by an **Astro** static site (`web/`) that renders a single
@@ -52,7 +52,7 @@ scraper/               [now] Python project, package `confer`
     scrapers/
       base.py          [now] Scraper ABC + SCRAPERS registry
       linklings.py     [now] DAC (Linklings program) adapter
-      researchr.py     [now] Researchr program adapter (ICSE 2026)
+      researchr.py     [now] Researchr program / timeline / accepted-list adapter
       ...              [target] openreview.py, dblp.py, ieee.py, acm_dl.py
   tests/fixtures/      [now] small sample of cached pages for offline parse tests
 web/                   [now] Astro static site (Netlify)
@@ -138,6 +138,7 @@ uv run confer list                       # show configured venues
 uv run confer build                       # all enabled venues → web/public/data/
 uv run confer build --venue dac2026       # a single venue
 uv run confer build --venue icse2026      # ICSE 2026 via Researchr
+uv run confer build --venue fse2026       # Researchr detailed timeline venue
 uv run confer build --refresh             # ignore cache, refetch over the network
 uv run confer build --venue dac2026 --limit 5   # debug: only a few detail pages
 uv run --extra dev pytest                    # offline parser tests (tests/fixtures/)
@@ -186,9 +187,11 @@ npm run build                     # static build → web/dist/ (what Netlify pub
    (`venueId:paperId`) / BibTeX + CSV export / saved searches.
 4. **UX polish** — collapsible sidebar & filter groups (animated), responsive mobile layout
    + drawer, sidebar footer (last update, repo + commit links).
-5. **Researchr + ICSE 2026** — `researchr` adapter parses Researchr program tables,
-   filters venue-configured paper tracks/event types, fetches cached detail modals for
-   abstracts and official detail URLs, and publishes ICSE 2026 alongside DAC.
+5. **Researchr venues** — `researchr` adapter parses Researchr program tables,
+   detailed timelines, and accepted-paper track pages; filters venue-configured paper
+   tracks/event types; fetches cached detail modals for abstracts and official detail
+   URLs; and publishes ICSE 2026, FSE 2026, ASE 2025, ISSTA 2025, and OOPSLA 2026
+   alongside DAC.
 
 **Planned:**
 

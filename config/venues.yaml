@@ -59,6 +59,94 @@ venues:
         - SRC - ACM Student Research Competition
         - Software Engineering Education and Training (SEET)
 
+  - id: fse2026
+    name: FSE 2026
+    series: FSE
+    category: Software Engineering
+    kind: conference
+    year: 2026
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://conf.researchr.org/program/fse-2026/program-fse-2026/Detailed-Timeline
+      context: fse-2026
+      default_event_type: Paper
+      require_authors: true
+      include_tracks:
+        - Doctoral Symposium
+        - Ideas, Visions and Reflections
+        - Industry Papers
+        - Journal-First Paper
+        - Posters
+        - Research Papers
+        - Software Engineering Education
+        - Student Research Competition
+        - Tool Demonstrations
+
+  - id: ase2025
+    name: ASE 2025
+    series: ASE
+    category: Software Engineering
+    kind: conference
+    year: 2025
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://conf.researchr.org/program/ase-2025/program-ase-2025/
+      context: ase-2025
+      require_authors: true
+      include_event_types:
+        - Demonstration
+        - Full-paper
+        - Long-paper
+        - Poster
+        - Research paper
+        - Short-paper
+        - Talk
+      include_tracks:
+        - Doctoral Symposium
+        - Industry Showcase
+        - Journal-First
+        - NIER
+        - Posters
+        - Research Papers
+        - Student Research Competition
+        - Tool Demonstration Track
+
+  - id: issta2025
+    name: ISSTA 2025
+    series: ISSTA
+    category: Software Testing & Analysis
+    kind: conference
+    year: 2025
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://conf.researchr.org/program/issta-2025/program-issta-2025/Detailed-Timeline
+      context: issta-2025
+      default_event_type: Paper
+      require_authors: true
+      include_tracks:
+        - Doctoral Symposium
+        - Research Papers
+        - Tool Demonstrations
+
+  - id: oopsla2026
+    name: OOPSLA 2026
+    series: OOPSLA
+    category: Programming Languages
+    kind: conference
+    year: 2026
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://conf.researchr.org/track/splash-2026/oopsla-2026
+      context: splash-2026
+      default_event_type: Paper
+      require_authors: true
+      include_tracks:
+        - OOPSLA
+
   # Example of a second venue on a different platform (disabled until the
   # openreview adapter exists — see "Planned" in AGENTS.md).
   - id: neurips2025

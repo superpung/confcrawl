@@ -8,19 +8,27 @@ from confer.scrapers.researchr import ResearchrScraper
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
-def make_scraper(tmp_path: Path) -> ResearchrScraper:
+def make_scraper(
+    tmp_path: Path,
+    *,
+    series: str = "ICSE",
+    source: dict[str, object] | None = None,
+) -> ResearchrScraper:
+    source_config: dict[str, object] = {
+        "program_url": "https://conf.researchr.org/program/icse-2026/program-icse-2026/",
+        "context": "icse-2026",
+        "include_tracks": ["Research Track"],
+        "include_event_types": ["Talk"],
+        "require_authors": True,
+    }
+    if source:
+        source_config.update(source)
     venue = VenueConfig(
         id="test",
         name="Test",
-        series="ICSE",
+        series=series,
         scraper="researchr",
-        source={
-            "program_url": "https://conf.researchr.org/program/icse-2026/program-icse-2026/",
-            "context": "icse-2026",
-            "include_tracks": ["Research Track"],
-            "include_event_types": ["Talk"],
-            "require_authors": True,
-        },
+        source=source_config,
     )
     return ResearchrScraper(venue, Fetcher(tmp_path, refresh=False))
 
@@ -105,3 +113,106 @@ def test_modal_response_and_paper_schema(tmp_path):
         "locations",
         "urls",
     }
+
+
+def test_timeline_program_uses_modal_details_for_schema(tmp_path):
+    scraper = make_scraper(
+        tmp_path,
+        series="FSE",
+        source={
+            "program_url": "https://conf.researchr.org/program/fse-2026/program-fse-2026/Detailed-Timeline",
+            "context": "fse-2026",
+            "include_tracks": ["Research Papers"],
+            "include_event_types": [],
+            "default_event_type": "Paper",
+        },
+    )
+    html = (FIXTURES / "researchr_timeline_program.html").read_text(encoding="utf-8")
+    occurrences, modal_config = scraper.parse_program(html)
+
+    assert modal_config is not None
+    assert len(occurrences) == 1
+    occurrence = occurrences[0]
+    assert occurrence.event_id == "timeline-event"
+    assert occurrence.slot_id == "timeline-slot"
+    assert occurrence.title == "Short timeline title"
+    assert occurrence.tracks == ["Research Papers"]
+    assert occurrence.date == "Mon 6 Jul 2026 10:00 - 10:15"
+    assert occurrence.location == "Room A"
+    assert occurrence.authors == []
+    assert scraper.keep_occurrence(occurrence)
+
+    event = scraper.merge_occurrences([occurrence])[0]
+    modal_html = """
+    <div class="modal">
+      <div class="modal-header">
+        <p class="text-muted"><span></span> FSE Research Papers</p>
+        <strong>Mon 6 Jul 2026 10:00 - 10:15 at <a class="room-link">Room A</a></strong>
+        - <a class="navigate" href="/track/fse-2026/research#program">Session Alpha</a>
+      </div>
+      <div class="modal-body">
+        <div class="bg-primary event-title"><h4><strong>Full Modal Paper Title</strong></h4></div>
+        <div class="bg-info event-description">
+          <p>Timeline abstract.</p>
+          <div class="row">
+            <div class="col-sm-6">
+              <a href="https://conf.researchr.org/profile/fse-2026/alice">
+                <div class="media">
+                  <div class="media-body">
+                    <h5 class="media-heading">Alice <span class="name-visual-sep"></span> Example</h5>
+                    <h5 class="media-heading"><span class="text-black">Example University</span></h5>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="https://conf.researchr.org/details/fse-2026/fse-2026-research-papers/1/Full">All Details</a>
+      </div>
+    </div>
+    """
+    detail = scraper.parse_modal_response(
+        json.dumps([{"action": "append", "id": "event-modals", "value": modal_html}])
+    )
+    paper = scraper.to_paper(event, detail)
+
+    assert paper.title == "Full Modal Paper Title"
+    assert paper.abstract == "Timeline abstract."
+    assert paper.authors == ["Alice Example"]
+    assert paper.author_institutions == "Alice Example (Example University)"
+    assert paper.tracks == ["Research Papers"]
+    assert paper.event_type == "Paper"
+    assert paper.session_titles == ["Research Papers", "Session Alpha"]
+    assert paper.dates == ["Mon 6 Jul 2026 10:00 - 10:15"]
+    assert paper.locations == ["Room A"]
+
+
+def test_overview_program_extracts_accepted_papers(tmp_path):
+    scraper = make_scraper(
+        tmp_path,
+        series="OOPSLA",
+        source={
+            "program_url": "https://conf.researchr.org/track/splash-2026/oopsla-2026",
+            "context": "splash-2026",
+            "include_tracks": ["OOPSLA"],
+            "include_event_types": [],
+            "default_event_type": "Paper",
+        },
+    )
+    html = (FIXTURES / "researchr_overview_program.html").read_text(encoding="utf-8")
+    occurrences, modal_config = scraper.parse_program(html)
+
+    assert modal_config is not None
+    assert len(occurrences) == 1
+    occurrence = occurrences[0]
+    assert occurrence.event_id == "overview-event"
+    assert occurrence.title == "Accepted OOPSLA Paper"
+    assert occurrence.event_type == "Paper"
+    assert occurrence.tracks == ["OOPSLA"]
+    assert occurrence.authors == ["Ada Lovelace", "Grace Hopper"]
+    assert occurrence.session_title == "OOPSLA"
+    assert occurrence.date == ""
+    assert occurrence.location == ""
+    assert scraper.keep_occurrence(occurrence)
