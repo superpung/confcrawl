@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-05T14:13:58+00:00",
+  "generatedAt": "2026-06-07T15:21:29+00:00",
   "venues": [
     {
       "category": "EDA & Design Automation",
@@ -8,6 +8,15 @@
       "kind": "conference",
       "name": "DAC 2026",
       "series": "DAC",
+      "year": 2026
+    },
+    {
+      "category": "Software Engineering",
+      "count": 737,
+      "id": "icse2026",
+      "kind": "conference",
+      "name": "ICSE 2026",
+      "series": "ICSE",
       "year": 2026
     }
   ]

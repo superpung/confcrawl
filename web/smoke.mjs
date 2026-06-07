@@ -25,15 +25,17 @@ await page.waitForTimeout(400);
 const cards = await page.locator('.paper-card').count();
 log(cards > 0, `paper cards rendered (${cards})`);
 
-// 2. sidebar venue auto-selected
-log(await page.locator('[data-venue-check]:checked').count() === 1, 'venue auto-selected');
+// 2. sidebar venues auto-selected
+const venueChecks = await page.locator('[data-venue-check]').count();
+const venueChecked = await page.locator('[data-venue-check]:checked').count();
+log(venueChecks > 0 && venueChecked === venueChecks, `venues auto-selected (${venueChecked}/${venueChecks})`);
 
 // 3. summary text
 const summary = await page.locator('#resultSummary').textContent();
 log(/papers/.test(summary), `summary: "${summary?.trim()}"`);
 
 // 4. search filters
-await page.fill('#searchInput', 'security');
+await page.fill('#searchInput', 'AtomGraph');
 await page.waitForTimeout(250);
 const afterSearch = await page.locator('.paper-card').count();
 log(afterSearch > 0 && afterSearch < cards, `search narrows results (${afterSearch})`);

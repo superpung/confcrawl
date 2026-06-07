@@ -10,10 +10,12 @@ from ..config import VenueConfig
 from ..fetcher import Fetcher
 from .base import Scraper
 from .linklings import LinklingsScraper
+from .researchr import ResearchrScraper
 
 
 SCRAPERS: dict[str, type[Scraper]] = {
     LinklingsScraper.name: LinklingsScraper,
+    ResearchrScraper.name: ResearchrScraper,
 }
 
 

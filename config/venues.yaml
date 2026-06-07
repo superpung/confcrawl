@@ -28,6 +28,37 @@ venues:
       prefixes: [RESEARCH]      # presentation-id prefixes to include
       all_presentations: false  # true = every presentation type, not just papers
 
+  - id: icse2026
+    name: ICSE 2026
+    series: ICSE
+    category: Software Engineering
+    kind: conference
+    year: 2026
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://conf.researchr.org/program/icse-2026/program-icse-2026/
+      context: icse-2026
+      require_authors: true
+      include_event_types:
+        - Paper
+        - Poster
+        - Research paper
+        - Talk
+      include_tracks:
+        - Demonstrations
+        - Doctoral Symposium
+        - Future of Software Engineering
+        - Industry Challenge Track
+        - Journal-first Papers
+        - New Ideas and Emerging Results (NIER)
+        - Posters
+        - Research Track
+        - SE In Practice (SEIP)
+        - SE in Society (SEIS)
+        - SRC - ACM Student Research Competition
+        - Software Engineering Education and Training (SEET)
+
   # Example of a second venue on a different platform (disabled until the
   # openreview adapter exists — see "Planned" in AGENTS.md).
   - id: neurips2025

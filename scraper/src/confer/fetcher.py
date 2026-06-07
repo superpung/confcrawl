@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Mapping, Sequence
 from pathlib import Path
+from typing import Any
 
 import requests
 
@@ -37,6 +39,25 @@ class Fetcher:
         if self.delay:
             time.sleep(self.delay)
         response = self.session.get(url, timeout=self.timeout)
+        response.raise_for_status()
+        text = response.text
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        cache_path.write_text(text, encoding="utf-8")
+        return text
+
+    def post_text(
+        self,
+        url: str,
+        cache_key: str,
+        data: Mapping[str, Any] | Sequence[tuple[str, Any]],
+    ) -> str:
+        cache_path = self.cache_dir / cache_key
+        if cache_path.exists() and not self.refresh:
+            return cache_path.read_text(encoding="utf-8", errors="replace")
+
+        if self.delay:
+            time.sleep(self.delay)
+        response = self.session.post(url, data=data, timeout=self.timeout)
         response.raise_for_status()
         text = response.text
         cache_path.parent.mkdir(parents=True, exist_ok=True)
