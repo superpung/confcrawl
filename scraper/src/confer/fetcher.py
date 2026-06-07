@@ -8,7 +8,7 @@ from pathlib import Path
 import requests
 
 
-DEFAULT_USER_AGENT = "confcrawl/0.1 (+https://github.com/superpung/confcrawl)"
+DEFAULT_USER_AGENT = "confer/0.1 (+https://github.com/superpung/confer)"
 
 
 class Fetcher:

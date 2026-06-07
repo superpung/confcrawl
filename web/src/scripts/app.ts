@@ -3,11 +3,11 @@ import { toBibtex, toCsv, type ExportRow } from './export';
 
 // --- constants & storage keys ------------------------------------------
 const BASE = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const K_SELECTED = 'confcrawl.selected';
-const K_FAVS = 'confcrawl.favorites';
-const K_THEME = 'confcrawl.theme';
-const K_SAVED = 'confcrawl.savedSearches';
-const K_SIDEBAR = 'confcrawl.sidebarCollapsed';
+const K_SELECTED = 'confer.selected';
+const K_FAVS = 'confer.favorites';
+const K_THEME = 'confer.theme';
+const K_SAVED = 'confer.savedSearches';
+const K_SIDEBAR = 'confer.sidebarCollapsed';
 const PAGE = 200;
 
 // --- helpers -----------------------------------------------------------
@@ -337,7 +337,7 @@ async function doExport(format: string) {
     catch { toast('Clipboard blocked'); }
   } else if (format === 'csv') {
     const blob = new Blob([toCsv(rows)], { type: 'text/csv' });
-    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'confcrawl-papers.csv' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'confer-papers.csv' });
     a.click(); URL.revokeObjectURL(a.href);
     toast(`Downloaded ${rows.length} rows`);
   }

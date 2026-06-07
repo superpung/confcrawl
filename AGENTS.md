@@ -11,7 +11,7 @@ static, searchable website (Netlify) for browsing papers. Venues are configured 
 shown in a single site with a category **sidebar**. DAC 2026 is the first venue;
 more are added by config + adapter, never by changing the site.
 
-**Stack:** a **monorepo** — a **Python** scraper (`scraper/`, package `confcrawl`) that
+**Stack:** a **monorepo** — a **Python** scraper (`scraper/`, package `confer`) that
 emits unified JSON, consumed by an **Astro** static site (`web/`) that renders a single
 page driven by a client-side script (`scripts/app.ts`) reading the embedded manifest.
 The site builds to static assets deployed on Netlify.
@@ -37,9 +37,9 @@ config/venues.yaml ─▶ scraper (Python) ─▶ unified JSON per venue ─▶ 
 ```
 config/
   venues.yaml          [now] registry of venues to publish; read by config.py
-scraper/               [now] Python project, package `confcrawl`
-  pyproject.toml       [now] console script: `confcrawl`
-  src/confcrawl/
+scraper/               [now] Python project, package `confer`
+  pyproject.toml       [now] console script: `confer`
+  src/confer/
     cli.py             [now] `build [--venue ID] [--refresh] [--limit N]`, `list`
     config.py          [now] load + validate ../config/venues.yaml (PyYAML)
     models.py          [now] unified Paper dataclass + schema
@@ -119,10 +119,10 @@ file in `scrapers/` + one registry entry.** Do not branch on platform anywhere e
 ### How to add a venue
 1. Add an entry to `config/venues.yaml` (see the seed file for fields).
 2. Ensure its `scraper:` matches a registered adapter.
-3. Run `confcrawl build --venue <id>` and check `web/public/data/<id>.json`.
+3. Run `confer build --venue <id>` and check `web/public/data/<id>.json`.
 
 ### How to add a scraper adapter
-1. Create `scraper/src/confcrawl/scrapers/<platform>.py` implementing `Scraper`.
+1. Create `scraper/src/confer/scrapers/<platform>.py` implementing `Scraper`.
 2. Register it in `scrapers/base.py` `SCRAPERS`.
 3. Add a fixture (a cached page) under `scraper/tests/fixtures/` and a parse test.
 4. All output must already be normalized to the `Paper` schema — normalization lives
@@ -132,11 +132,11 @@ file in `scrapers/` + one registry entry.** Do not branch on platform anywhere e
 
 ```bash
 # Scraper (run inside scraper/)
-uv run confcrawl list                       # show configured venues
-uv run confcrawl build                       # all enabled venues → web/public/data/
-uv run confcrawl build --venue dac2026       # a single venue
-uv run confcrawl build --refresh             # ignore cache, refetch over the network
-uv run confcrawl build --venue dac2026 --limit 5   # debug: only a few detail pages
+uv run confer list                       # show configured venues
+uv run confer build                       # all enabled venues → web/public/data/
+uv run confer build --venue dac2026       # a single venue
+uv run confer build --refresh             # ignore cache, refetch over the network
+uv run confer build --venue dac2026 --limit 5   # debug: only a few detail pages
 uv run --extra dev pytest                    # offline parser tests (tests/fixtures/)
 
 # Astro site (run inside web/)
@@ -169,9 +169,9 @@ npm run build                     # static build → web/dist/ (what Netlify pub
 **Done:**
 
 0. **Scaffolding** — AGENTS.md, CLAUDE.md, seed `config/venues.yaml`, untracked cache.
-1. **Scraper monorepo** — `src/dac26` → `scraper/src/confcrawl`; renamed package + console
-   script (`confcrawl`); split into `fetcher/models/config/util/paths/pipeline/export/cli`
-   + `scrapers/{base,linklings}`; reads `config/venues.yaml` via PyYAML; `confcrawl build
+1. **Scraper monorepo** — `src/dac26` → `scraper/src/confer`; renamed package + console
+   script (`confer`); split into `fetcher/models/config/util/paths/pipeline/export/cli`
+   + `scrapers/{base,linklings}`; reads `config/venues.yaml` via PyYAML; `confer build
    --venue dac2026` reproduces 543 papers byte-for-byte; offline pytest from `tests/fixtures/`.
 2. **Export + Astro site** — `export.py` writes `web/public/data/{venues.json,<venue>.json}`;
    the Astro app reads it at build, ported Claude-style CSS. Deploys on **Netlify**

@@ -5,7 +5,7 @@ schema, the scraper-adapter contract, commands, and conventions.
 
 Quick reminders:
 
-- Scrape: `cd scraper && uv run confcrawl build` (use `--venue <id>`, `--refresh`, `--limit N`).
+- Scrape: `cd scraper && uv run confer build` (use `--venue <id>`, `--refresh`, `--limit N`).
 - Preview site: `cd web && npm run dev` (or `npm run build` then serve `web/dist/`).
 - One unified `Paper` schema; adapters normalize, the site stays platform-agnostic.
 - Keep JSON output deterministic (sorted, `sort_keys=True`); never commit `data/cache/`.

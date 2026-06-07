@@ -1,7 +1,7 @@
 """The scraper-adapter contract.
 
 Every platform adapter subclasses :class:`Scraper` and returns unified
-:class:`~confcrawl.models.Paper` records. Adapters are selected by
+:class:`~confer.models.Paper` records. Adapters are selected by
 ``venue.scraper`` via the registry in ``scrapers/__init__.py``.
 """
 

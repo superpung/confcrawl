@@ -1,6 +1,6 @@
 # Venue registry — the list of conferences / journals to scrape and publish.
 #
-# Read by `confcrawl.config` and driven by `confcrawl build`. Each entry selects a
+# Read by `confer.config` and driven by `confer build`. Each entry selects a
 # scraper adapter (`scraper:`) and passes it adapter-specific options under `source:`.
 #
 # Fields:

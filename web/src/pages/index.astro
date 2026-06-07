@@ -9,7 +9,7 @@ const groups = groupByCategory(venues);
 const totalPapers = totalPaperCount(venues);
 
 // Build-time provenance for the sidebar footer.
-const REPO_URL = 'https://github.com/superpung/confcrawl';
+const REPO_URL = 'https://github.com/superpung/confer';
 let commit = process.env.COMMIT_REF ?? '';
 if (!commit) {
   try { commit = execSync('git rev-parse HEAD').toString().trim(); } catch { commit = ''; }
@@ -24,14 +24,14 @@ const updatedLabel = generatedAt
 const year = new Date().getFullYear();
 ---
 
-<Layout title="confcrawl — paper browser">
+<Layout title="confer — paper browser">
   <div class="app" id="app">
     <!-- Embedded manifest for the client app. -->
     <script type="application/json" id="venues-data" set:html={JSON.stringify(venues)} />
 
     <aside class="sidebar" id="sidebar" aria-label="Venue selector">
       <div class="sidebar-head">
-        <a class="brand" href="/">confcrawl</a>
+        <a class="brand" href="/">confer</a>
         <div class="sidebar-head-actions">
           <button class="icon-btn" data-theme-toggle title="Toggle theme" aria-label="Toggle theme">
             <span data-theme-icon>🌙</span>
@@ -104,7 +104,7 @@ const year = new Date().getFullYear();
           {shortHash && (
             <a class="foot-hash" href={commitUrl} target="_blank" rel="noreferrer" title="View this commit">{shortHash}</a>
           )}
-          <span class="foot-copy">© {year} confcrawl</span>
+          <span class="foot-copy">© {year} confer</span>
         </p>
       </footer>
     </aside>

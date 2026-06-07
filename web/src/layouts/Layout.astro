@@ -24,11 +24,11 @@ const { title, description = 'Browse accepted papers across conferences and jour
     <script is:inline>
       (() => {
         try {
-          const saved = localStorage.getItem('confcrawl.theme');
+          const saved = localStorage.getItem('confer.theme');
           const dark = saved ? saved === 'dark'
             : window.matchMedia('(prefers-color-scheme: dark)').matches;
           document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-          if (localStorage.getItem('confcrawl.sidebarCollapsed') === '1') {
+          if (localStorage.getItem('confer.sidebarCollapsed') === '1') {
             document.documentElement.classList.add('is-sidebar-collapsed');
           }
         } catch {

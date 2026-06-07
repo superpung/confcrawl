@@ -1,6 +1,6 @@
 """Scraper-adapter registry.
 
-To add a platform: implement a :class:`~confcrawl.scrapers.base.Scraper`
+To add a platform: implement a :class:`~confer.scrapers.base.Scraper`
 subclass in this package and register it here under its ``venue.scraper`` key.
 """
 

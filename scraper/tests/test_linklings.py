@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from confcrawl.config import VenueConfig
-from confcrawl.fetcher import Fetcher
-from confcrawl.scrapers.linklings import (
+from confer.config import VenueConfig
+from confer.fetcher import Fetcher
+from confer.scrapers.linklings import (
     LinkOccurrence,
     LinklingsScraper,
     natural_key,

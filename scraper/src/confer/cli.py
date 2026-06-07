@@ -1,4 +1,4 @@
-"""Command-line entrypoint: ``confcrawl build`` / ``confcrawl list``."""
+"""Command-line entrypoint: ``confer build`` / ``confer list``."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from .pipeline import build
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="confcrawl",
+        prog="confer",
         description="Scrape configured conference/journal venues into unified site data.",
     )
     parser.add_argument("--config", help="Path to venues.yaml (default: repo config/venues.yaml).")

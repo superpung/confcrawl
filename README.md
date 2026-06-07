@@ -1,4 +1,4 @@
-# confcrawl
+# confer
 
 Scrape academic **conference / journal** programs into one unified schema and publish a
 static, searchable website for browsing papers.
@@ -12,7 +12,7 @@ the scraper-adapter contract, and conventions.
 
 ```
 config/venues.yaml   Registry of venues to scrape and publish.
-scraper/             Python package `confcrawl`: fetch → parse → unified JSON.
+scraper/             Python package `confer`: fetch → parse → unified JSON.
 web/                 Static site (Astro) consuming the JSON.
   public/data/       venues.json (sidebar manifest) + <venue>.json (papers).
   dist/              Astro build output, gitignored (Netlify publishes it).
@@ -26,11 +26,11 @@ Run inside `scraper/` (uses [uv](https://docs.astral.sh/uv/)):
 ```bash
 cd scraper
 
-uv run confcrawl list                    # show configured venues
-uv run confcrawl build                    # build all enabled venues → web/public/data/
-uv run confcrawl build --venue dac2026     # build a single venue
-uv run confcrawl build --refresh           # ignore cache, refetch over the network
-uv run confcrawl build --venue dac2026 --limit 5   # debug: only a few detail pages
+uv run confer list                    # show configured venues
+uv run confer build                    # build all enabled venues → web/public/data/
+uv run confer build --venue dac2026     # build a single venue
+uv run confer build --refresh           # ignore cache, refetch over the network
+uv run confer build --venue dac2026 --limit 5   # debug: only a few detail pages
 ```
 
 Each venue is cached under `data/cache/<venue_id>/`, so re-runs are offline unless you
@@ -47,10 +47,10 @@ uv run --extra dev pytest        # offline, drives parsers from tests/fixtures/
 
 1. Add an entry to `config/venues.yaml` (see the comments there for the fields).
 2. Point `scraper:` at a registered adapter (currently `linklings`).
-3. `uv run confcrawl build --venue <id>` and check `web/public/data/<id>.json`.
+3. `uv run confer build --venue <id>` and check `web/public/data/<id>.json`.
 
 To support a new platform, add an adapter under
-`scraper/src/confcrawl/scrapers/` implementing the `Scraper` interface and register it —
+`scraper/src/confer/scrapers/` implementing the `Scraper` interface and register it —
 see AGENTS.md "How to add a scraper adapter".
 
 ## Website
@@ -66,7 +66,7 @@ npm run dev        # local dev server
 npm run build      # static build → web/dist/
 ```
 
-The site reads `web/public/data/` (produced by `confcrawl build`) at build time and ships
+The site reads `web/public/data/` (produced by `confer build`) at build time and ships
 a single pre-rendered page; all filtering happens client-side. Favorites are stored in
 `localStorage`, so it needs no backend.
 
@@ -78,5 +78,5 @@ runs only the Astro build, not the Python scraper. Build artifacts (`web/dist/`,
 `node_modules/`) are gitignored. Set `SITE_URL` in the Netlify environment for canonical
 URLs once the domain is known.
 
-To refresh the data, run `confcrawl build` locally and commit the updated JSON; Netlify
+To refresh the data, run `confer build` locally and commit the updated JSON; Netlify
 redeploys on push.
