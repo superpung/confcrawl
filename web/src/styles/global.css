@@ -161,8 +161,10 @@ html.is-rail-collapsed { --col-right: 0; }
   display: flex; align-items: center; gap: 7px;
   border: none; background: none; cursor: pointer;
   width: 100%; padding: 7px 8px; border-radius: 8px;
-  color: var(--text); font: inherit; font-size: 12px; font-weight: 600;
-  letter-spacing: 0.04em; text-transform: uppercase; text-align: left;
+  /* Quiet section label (matches the rail's section titles) so the bold series
+     rows below read as the prominent, selectable level. */
+  color: var(--faint); font: inherit; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; text-align: left;
 }
 .venue-cat-head:hover { background: var(--panel-hover); }
 .cat-caret { color: var(--faint); font-size: 10px; transition: transform 0.15s ease; }
@@ -200,7 +202,7 @@ html.is-rail-collapsed { --col-right: 0; }
   flex: 1; min-width: 0; display: flex; align-items: center; gap: 7px;
   border: none; background: none; cursor: pointer;
   padding: 6px 8px; border-radius: 8px;
-  color: var(--text); font: inherit; font-size: 13px; font-weight: 600; text-align: left;
+  color: var(--text); font: inherit; font-size: 13px; font-weight: 500; text-align: left;
 }
 .series-toggle:hover { background: var(--panel-hover); }
 .series-caret { color: var(--faint); font-size: 9px; transition: transform 0.18s ease; }
@@ -211,6 +213,8 @@ html.is-rail-collapsed { --col-right: 0; }
 .venue-series-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.22s ease; }
 .venue-series.is-collapsed .venue-series-body { grid-template-rows: 0fr; }
 .venue-series-inner { display: flex; flex-direction: column; gap: 2px; min-height: 0; overflow: hidden; padding-left: 18px; }
+.year-row { font-size: 12.5px; }
+.year-row .venue-row-name { color: var(--text-soft); }
 
 .sidebar-scrim { display: none; }
 
