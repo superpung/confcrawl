@@ -128,8 +128,9 @@ html.is-rail-collapsed { --col-right: 0; }
 }
 .sidebar-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 0 4px; }
 .sidebar-head-actions { display: flex; align-items: center; gap: 6px; }
-.brand { color: var(--text); font-family: var(--serif); font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+.brand { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-family: var(--serif); font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
 .brand:hover { color: var(--text); }
+.brand-mark { width: 22px; height: 22px; flex: 0 0 auto; border-radius: 6px; }
 /* Collapse button: desktop only (mobile uses the off-canvas drawer). */
 .sidebar-head .sidebar-collapse-btn { display: none; font-size: 18px; }
 .sidebar-stats { margin: 0; padding: 0 6px; color: var(--muted); font-size: 12.5px; }
@@ -207,7 +208,10 @@ html.is-rail-collapsed { --col-right: 0; }
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 .foot-hash:hover { color: var(--accent); }
-.foot-copy { margin-left: auto; }
+.foot-credit { margin: 0; color: var(--muted); }
+.foot-credit a { color: var(--muted); border-bottom: 1px dotted var(--line-strong); }
+.foot-credit a:hover { color: var(--accent); border-bottom-color: currentColor; }
+.foot-copy { margin: 0; }
 
 /* Content -------------------------------------------------------------- */
 .content { min-width: 0; display: flex; flex-direction: column; }
@@ -384,6 +388,9 @@ html.is-rail-collapsed { --col-right: 0; }
 .paper-abstract[open] summary::before { content: "▾ "; }
 .paper-abstract summary:hover { color: var(--accent-dark); }
 .paper-abstract p { margin: 10px 0 0; overflow-wrap: break-word; }
+/* Reveal the disclosure content on expand (native <details> has no animation). */
+@keyframes abs-reveal { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: none; } }
+.paper-abstract[open] > :not(summary) { animation: abs-reveal 0.24s ease; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .chip {
@@ -621,4 +628,5 @@ html.is-rail-collapsed { --col-right: 0; }
 /* Respect reduced-motion: drop the collapse/expand animations. */
 @media (prefers-reduced-motion: reduce) {
   .app, .sidebar, .rail, .venue-cat-body, .facet-collapse, .facets-wrap, .cat-caret, .facet-caret { transition: none; }
+  .paper-abstract[open] > :not(summary) { animation: none; }
 }
