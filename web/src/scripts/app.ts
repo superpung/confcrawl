@@ -759,7 +759,13 @@ function relTime(iso: string): string {
 function reflectBuilt() {
   const el = document.querySelector<HTMLElement>('[data-built]');
   const iso = el?.getAttribute('datetime');
-  if (el && iso) el.textContent = `Built ${relTime(iso)}`;
+  if (!el || !iso) return;
+  el.textContent = `Built ${relTime(iso)}`;
+  // Tooltip: exact time converted to the viewer's local timezone, with the
+  // timezone shown (timeStyle 'long' appends e.g. "GMT+8").
+  try {
+    el.title = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'long' }).format(new Date(iso));
+  } catch { /* keep the server-rendered title */ }
 }
 
 function init() {
