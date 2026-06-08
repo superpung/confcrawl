@@ -52,7 +52,7 @@ configuration. Browse them all from the category sidebar.
 ## How it works
 
 ```
-config/venues.yaml ─▶ scraper (Python) ─▶ unified JSON per venue ─▶ Astro site ─▶ Netlify
+config/venues.yaml ─▶ scraper (Python) ─▶ unified JSON per venue ─▶ Astro site ─▶ static host
 ```
 
 - **Config** lists the venues and which adapter scrapes each one.
@@ -86,8 +86,9 @@ npm run dev        # local dev server
 npm run build      # static build → web/dist/
 ```
 
-The site reads `web/public/data/` at build time. Deployed on Netlify; the committed
-JSON is the build input, so Netlify only runs the Astro build.
+The site reads `web/public/data/` at build time and outputs a static `dist/` you can
+host anywhere. The committed JSON is the build input, so a deploy only runs the Astro
+build — no Python at deploy time.
 
 ## Add a venue
 

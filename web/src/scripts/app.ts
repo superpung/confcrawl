@@ -290,9 +290,14 @@ function cardHtml(p: Paper, v: string): string {
       <span class="meta-item" title="${esc(joinList(p.locations))}"><strong>Location</strong>${esc(shortList(p.locations))}</span>
       <span class="meta-item" title="${esc(joinList(p.sessionTitles))}"><strong>Session</strong>${esc(shortList(p.sessionTitles))}</span>
     </div>` : '';
-  const discInner = (p.abstract ? `<p class="abstract-text">${esc(p.abstract)}</p>` : '') + metaHtml;
+  const discInner = (p.abstract ? `<p class="disc-text">${esc(p.abstract)}</p>` : '') + metaHtml;
+  // Custom disclosure (not <details>) so the card height animates open/closed
+  // via the grid-template-rows 0fr↔1fr trick.
   const disc = discInner
-    ? `<details class="paper-abstract"><summary>${p.abstract ? 'Abstract' : 'Details'}</summary>${discInner}</details>`
+    ? `<div class="paper-disc">
+      <button class="disc-summary" type="button" data-disc-toggle aria-expanded="false"><span class="disc-caret">▾</span>${p.abstract ? 'Abstract' : 'Details'}</button>
+      <div class="disc-collapse"><div class="disc-inner">${discInner}</div></div>
+    </div>`
     : '';
   return `<article class="paper-card${sel ? ' is-selected' : ''}" data-key="${esc(k)}">
     <span class="card-select"><input type="checkbox" data-sel ${sel ? 'checked' : ''} aria-label="Select"></span>
@@ -636,6 +641,13 @@ function wire() {
     const target = e.target as HTMLElement;
     const card = target.closest<HTMLElement>('.paper-card');
     if (!card) return;
+    const discBtn = target.closest<HTMLButtonElement>('[data-disc-toggle]');
+    if (discBtn) {
+      const open = discBtn.getAttribute('aria-expanded') === 'true';
+      discBtn.setAttribute('aria-expanded', String(!open));
+      discBtn.closest('.paper-disc')?.classList.toggle('is-open', !open);
+      return;
+    }
     const k = card.dataset.key ?? '';
     if (target.closest('[data-fav]')) {
       if (state.favs.has(k)) state.favs.delete(k); else state.favs.add(k);

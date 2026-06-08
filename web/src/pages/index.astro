@@ -24,7 +24,7 @@ const updatedLabel = generatedAt
 const year = new Date().getFullYear();
 ---
 
-<Layout title="confer — where research convenes">
+<Layout title="confer - where research convenes">
   <div class="app" id="app">
     <!-- Embedded manifest for the client app. -->
     <script type="application/json" id="venues-data" set:html={JSON.stringify(venues)} />
@@ -108,11 +108,7 @@ const year = new Date().getFullYear();
             <a class="foot-hash" href={commitUrl} target="_blank" rel="noreferrer" title="View this commit">{shortHash}</a>
           )}
         </p>
-        <p class="foot-credit">
-          By <a href="https://github.com/superpung" target="_blank" rel="noreferrer">Super Lee</a>
-          &amp; <a href="https://claude.com/product/claude-code" target="_blank" rel="noreferrer">Claude</a>
-        </p>
-        <p class="foot-copy">© {year} confer</p>
+        <p class="foot-copy">© {year} confer · <a href="https://github.com/superpung" target="_blank" rel="noreferrer">Super Lee</a> &amp; <a href="https://claude.com/product/claude-code" target="_blank" rel="noreferrer">Claude</a></p>
       </footer>
     </aside>
 

@@ -49,7 +49,7 @@ confer 目前汇聚了 EDA 与软件工程领域的会议——
 ## 工作原理
 
 ```
-config/venues.yaml ─▶ 抓取器 (Python) ─▶ 每个会场一份归一化 JSON ─▶ Astro 站点 ─▶ Netlify
+config/venues.yaml ─▶ 抓取器 (Python) ─▶ 每个会场一份归一化 JSON ─▶ Astro 站点 ─▶ 静态托管
 ```
 
 - **配置**列出会场，以及每个会场由哪个适配器抓取。
@@ -81,8 +81,8 @@ npm run dev        # 本地开发服务器
 npm run build      # 静态构建 → web/dist/
 ```
 
-站点在构建时读取 `web/public/data/`。部署在 Netlify 上；已提交的 JSON 即构建输入，
-所以 Netlify 只跑 Astro 构建。
+站点在构建时读取 `web/public/data/`，产出静态的 `dist/`，可托管到任意静态主机。
+已提交的 JSON 即构建输入，所以部署时只跑 Astro 构建——部署阶段不需要 Python。
 
 ## 新增会场
 
