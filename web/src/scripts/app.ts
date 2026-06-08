@@ -489,10 +489,23 @@ function reflectSidebar() {
     cb.checked = state.selected.has(cb.value);
     cb.closest('.venue-row')?.classList.toggle('is-active', cb.checked);
   });
+  // Series "select all" checkbox reflects its years: checked / indeterminate / off.
+  document.querySelectorAll<HTMLElement>('.venue-series').forEach((series) => {
+    const master = series.querySelector<HTMLInputElement>('[data-series-check]');
+    if (!master) return;
+    const checks = series.querySelectorAll<HTMLInputElement>('[data-venue-check]');
+    const sel = [...checks].filter((c) => c.checked).length;
+    master.checked = sel > 0 && sel === checks.length;
+    master.indeterminate = sel > 0 && sel < checks.length;
+  });
 }
 
 function setVenue(id: string, on: boolean) {
-  if (on) state.selected.add(id); else state.selected.delete(id);
+  setVenues([id], on);
+}
+
+function setVenues(ids: string[], on: boolean) {
+  for (const id of ids) { if (on) state.selected.add(id); else state.selected.delete(id); }
   state.shown = PAGE;
   reflectSidebar();
   writeUrl();
@@ -605,11 +618,36 @@ function wire() {
       btn.closest('.venue-cat')?.classList.toggle('is-collapsed', open);
     });
   });
+  // collapse a series (default collapsed) to reveal/hide its year rows
+  document.querySelectorAll<HTMLButtonElement>('[data-series-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'false';
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.closest('.venue-series')?.classList.toggle('is-collapsed', open);
+    });
+  });
+  // series "select all years" checkbox
+  document.querySelectorAll<HTMLInputElement>('[data-series-check]').forEach((master) => {
+    master.addEventListener('change', () => {
+      const series = master.closest('.venue-series');
+      const ids = [...(series?.querySelectorAll<HTMLInputElement>('[data-venue-check]') ?? [])].map((c) => c.value);
+      setVenues(ids, master.checked);
+    });
+  });
   // venue filter in sidebar
   $<HTMLInputElement>('[data-venue-search]').addEventListener('input', (e) => {
     const q = (e.target as HTMLInputElement).value.trim().toLowerCase();
     document.querySelectorAll<HTMLElement>('[data-venue-row]').forEach((row) => {
       row.hidden = q.length > 0 && !(row.dataset.venueName ?? '').includes(q);
+    });
+    // hide series with no matching rows; auto-expand the rest while filtering
+    // (keep the caret's aria-expanded in sync with the collapsed class).
+    document.querySelectorAll<HTMLElement>('.venue-series').forEach((series) => {
+      const hasMatch = !!series.querySelector('[data-venue-row]:not([hidden])');
+      series.hidden = !hasMatch;
+      const collapsed = q.length === 0 ? true : !hasMatch;
+      series.classList.toggle('is-collapsed', collapsed);
+      series.querySelector('[data-series-toggle]')?.setAttribute('aria-expanded', String(!collapsed));
     });
     document.querySelectorAll<HTMLElement>('.venue-cat').forEach((cat) => {
       cat.hidden = !cat.querySelector('[data-venue-row]:not([hidden])');

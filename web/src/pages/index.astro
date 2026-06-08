@@ -70,26 +70,32 @@ const year = new Date().getFullYear();
             </button>
             <div class="venue-cat-body">
               <div class="venue-cat-inner">
-                {[
-                  { label: 'Conferences', items: group.conferences },
-                  { label: 'Journals', items: group.journals },
-                ].filter((s) => s.items.length > 0).map((sub) => (
-                  <div class="venue-sub">
-                    {group.conferences.length > 0 && group.journals.length > 0 && (
-                      <p class="venue-sub-label">{sub.label}</p>
-                    )}
-                    {sub.items.map((venue) => (
-                      <label
-                        class="venue-row"
-                        data-venue-row
-                        data-venue-name={`${venue.name} ${venue.series}`.toLowerCase()}
-                      >
-                        <input class="venue-check" type="checkbox" value={venue.id} data-venue-check />
-                        <span class="venue-row-name">{venue.name}</span>
-                        <span class={`venue-kind kind-${venue.kind}`}>{venue.kind === 'journal' ? 'J' : 'C'}</span>
-                        <span class="venue-row-count">{venue.count.toLocaleString()}</span>
-                      </label>
-                    ))}
+                {group.series.map((s) => (
+                  <div class="venue-series is-collapsed" data-series={s.series}>
+                    <div class="venue-series-head">
+                      <button class="series-toggle" type="button" data-series-toggle aria-expanded="false">
+                        <span class="series-caret">▾</span>
+                        <span class="series-name">{s.series}</span>
+                        {s.kind === 'journal' && <span class="venue-kind kind-journal">J</span>}
+                        <span class="series-count">{s.count.toLocaleString()}</span>
+                      </button>
+                      <input class="series-check" type="checkbox" data-series-check aria-label={`Select all ${s.series}`} />
+                    </div>
+                    <div class="venue-series-body">
+                      <div class="venue-series-inner">
+                        {s.years.map((venue) => (
+                          <label
+                            class="venue-row year-row"
+                            data-venue-row
+                            data-venue-name={`${venue.name} ${venue.series}`.toLowerCase()}
+                          >
+                            <input class="venue-check" type="checkbox" value={venue.id} data-venue-check />
+                            <span class="venue-row-name">{venue.year ?? venue.name}</span>
+                            <span class="venue-row-count">{venue.count.toLocaleString()}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
