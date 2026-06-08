@@ -23,6 +23,7 @@ const ICONS = {
   star: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
   starFilled: '<svg class="ic ic--fill" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
   externalLink: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>',
+  network: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="7" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6.8" y1="6.8" x2="10.4" y2="16.2"/><line x1="17.3" y1="8.4" x2="13.3" y2="16.4"/><line x1="6.9" y1="6.2" x2="17" y2="6.8"/></svg>',
 };
 
 function readJson<T>(key: string, fallback: T): T {
@@ -423,7 +424,7 @@ function clearFilters() {
 // --- right rail: insights for the current view ------------------------
 function barChart(
   title: string, counts: Map<string, number>, kind: string, n: number,
-  opts: { order?: 'count' | 'key'; label?: (k: string) => string } = {},
+  opts: { order?: 'count' | 'key'; label?: (k: string) => string; action?: string } = {},
 ): string {
   const label = opts.label ?? ((k) => k);
   const entries = [...counts.entries()].sort(opts.order === 'key'
@@ -437,7 +438,9 @@ function barChart(
       <span class="bar-top"><span class="bar-label">${esc(label(val))}</span><span class="bar-count">${c}</span></span>
       <span class="bar-track"><span class="bar-fill" style="width:${Math.max(4, Math.round((c / max) * 100))}%"></span></span>
     </button>`).join('');
-  return `<section class="rail-section"><h3 class="rail-section-title">${title}</h3><div class="bar-list">${rows}</div></section>`;
+  return `<section class="rail-section">
+    <div class="rail-section-head"><h3 class="rail-section-title">${title}</h3>${opts.action ?? ''}</div>
+    <div class="bar-list">${rows}</div></section>`;
 }
 
 function renderRail(filtered: { p: Paper; v: string }[]) {
@@ -460,49 +463,53 @@ function renderRail(filtered: { p: Paper; v: string }[]) {
     ${stat(authorCount.size, 'authors')}
     ${stat(instCount.size, 'institutions')}
   </div>`;
+  const netBtn = (mode: string, label: string) =>
+    `<button class="rail-net-btn" data-open-network="${mode}" title="${label}" aria-label="${label}">${ICONS.network}</button>`;
   els.railBody.innerHTML =
     summary +
-    barChart('Top institutions', instCount, 'inst', 8) +
-    barChart('Top authors', authorCount, 'author', 8) +
+    barChart('Top institutions', instCount, 'inst', 8, { action: netBtn('inst', 'Institution network') }) +
+    barChart('Top authors', authorCount, 'author', 8, { action: netBtn('author', 'Co-author network') }) +
     barChart('Top tracks', trackCount, 'track', 6);
 }
 
 // --- author co-authorship network (modal, canvas force layout) --------
-type NetNode = { a: string; papers: number; r: number; x: number; y: number; vx: number; vy: number };
+type NetNode = { key: string; papers: number; r: number; x: number; y: number; vx: number; vy: number };
 type NetEdge = { s: number; t: number; w: number };
 const net: {
   raf: number; nodes: NetNode[]; edges: NetEdge[]; hover: number;
   onMove?: (e: MouseEvent) => void; onClick?: (e: MouseEvent) => void; onResize?: () => void;
 } = { raf: 0, nodes: [], edges: [], hover: -1 };
 
-function buildNetwork(): { nodes: NetNode[]; edges: NetEdge[] } {
+function buildNetwork(mode: 'author' | 'inst'): { nodes: NetNode[]; edges: NetEdge[] } {
   const filtered = state.rows.filter(matches);
+  const itemsOf = (p: Paper) => (mode === 'inst' ? instList(p) : [...new Set(p.authors)]);
   const count = new Map<string, number>();
-  for (const { p } of filtered) for (const a of new Set(p.authors)) count.set(a, (count.get(a) ?? 0) + 1);
+  for (const { p } of filtered) for (const k of itemsOf(p)) count.set(k, (count.get(k) ?? 0) + 1);
   const top = [...count.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 60);
-  const idx = new Map(top.map(([a], i) => [a, i]));
-  const nodes: NetNode[] = top.map(([a, papers], i) => {
+  const idx = new Map(top.map(([k], i) => [k, i]));
+  const nodes: NetNode[] = top.map(([key, papers], i) => {
     const ang = (i / top.length) * Math.PI * 2;
-    return { a, papers, r: 4 + Math.sqrt(papers) * 2.2, x: Math.cos(ang) * 180, y: Math.sin(ang) * 180, vx: 0, vy: 0 };
+    return { key, papers, r: 4 + Math.sqrt(papers) * 2.2, x: Math.cos(ang) * 180, y: Math.sin(ang) * 180, vx: 0, vy: 0 };
   });
   const ew = new Map<string, number>();
   for (const { p } of filtered) {
-    const ids = [...new Set(p.authors)]
-      .map((a) => idx.get(a)).filter((i): i is number => i !== undefined).sort((x, y) => x - y);
+    const ids = [...new Set(itemsOf(p))]
+      .map((k) => idx.get(k)).filter((i): i is number => i !== undefined).sort((x, y) => x - y);
     for (let i = 0; i < ids.length; i++) for (let j = i + 1; j < ids.length; j++) {
-      const k = `${ids[i]}-${ids[j]}`; ew.set(k, (ew.get(k) ?? 0) + 1);
+      const e = `${ids[i]}-${ids[j]}`; ew.set(e, (ew.get(e) ?? 0) + 1);
     }
   }
-  const edges: NetEdge[] = [...ew.entries()].map(([k, w]) => {
-    const [s, t] = k.split('-').map(Number); return { s, t, w };
+  const edges: NetEdge[] = [...ew.entries()].map(([e, w]) => {
+    const [s, t] = e.split('-').map(Number); return { s, t, w };
   });
   return { nodes, edges };
 }
 
-function openNetwork() {
+function openNetwork(mode: 'author' | 'inst') {
   stopNetwork();
   $('#networkModal').hidden = false;
-  const { nodes, edges } = buildNetwork();
+  $('#networkTitle').textContent = mode === 'inst' ? 'Institution network' : 'Co-author network';
+  const { nodes, edges } = buildNetwork(mode);
   net.nodes = nodes; net.edges = edges; net.hover = -1;
   const canvas = $<HTMLCanvasElement>('#networkCanvas');
   $('#networkEmpty').hidden = nodes.length >= 2;
@@ -548,7 +555,7 @@ function openNetwork() {
     const labeled = new Set<number>(
       [...net.nodes.keys()].sort((a, b) => net.nodes[b].papers - net.nodes[a].papers).slice(0, 10));
     if (net.hover >= 0) labeled.add(net.hover);
-    for (const i of labeled) { const n = net.nodes[i]; ctx.fillText(n.a, n.x, n.y - n.r - 3); }
+    for (const i of labeled) { const n = net.nodes[i]; ctx.fillText(n.key, n.x, n.y - n.r - 3); }
   };
   const tick = () => {
     const ns = net.nodes;
@@ -586,7 +593,7 @@ function openNetwork() {
   net.onClick = (ev) => {
     const rect = canvas.getBoundingClientRect();
     const i = nodeAt(ev.clientX - rect.left, ev.clientY - rect.top);
-    if (i >= 0) { const a = net.nodes[i].a; closeModals(); setQuery(`author:"${a}"`); }
+    if (i >= 0) { const key = net.nodes[i].key; closeModals(); setQuery(`${mode}:"${key}"`); }
   };
   net.onResize = resize;
   canvas.addEventListener('mousemove', net.onMove);
@@ -939,7 +946,6 @@ function wire() {
   });
 
   // saved searches
-  $('[data-open-network]').addEventListener('click', openNetwork);
   $('[data-open-saved]').addEventListener('click', () => { renderSaved(); $('#savedModal').hidden = false; });
   $('[data-save-current]').addEventListener('click', () => { saveCurrentSearch(); renderSaved(); });
 
@@ -975,6 +981,8 @@ function wire() {
   });
   $('#railScrim').addEventListener('click', () => $('#app').classList.remove('rail-open'));
   els.railBody.addEventListener('click', (e) => {
+    const netBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-open-network]');
+    if (netBtn) { openNetwork(netBtn.dataset.openNetwork === 'inst' ? 'inst' : 'author'); return; }
     const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-chart]');
     if (!btn) return;
     const kind = btn.dataset.chart!;
