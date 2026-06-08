@@ -217,10 +217,21 @@
       "Chun Yong Chong",
       "Yuming Zhou"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798251",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "0bd3abb7-7930-427f-8d93-6af5f51cc4af",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "1403-1431",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -232,9 +243,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798251",
       "https://2026.splashcon.org/details/oopsla-2026/51/Beyond-Coverage-Automatic-Test-Suite-Augmentation-for-Enhanced-Effectiveness-Using-L",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Probabilistic programming languages (PPLs) are an expressive and intuitive means of representing complex probability distributions. In that realm, languages like Dice target an important class of probabilistic programs: those whose probability distributions are discrete. Discrete distributions are common in many fields, including text analysis, network verification, artificial intelligence, and graph analysis. Another important feature in the world of probabilistic modeling are nondeterministic choices as are, for instance, found in Markov Decision Processes (MDPs) which play a major role in reinforcement learning. Modern PPLs usually lack support for nondeterminism. We address this gap with the introduction of noDice, which extends the discrete probabilistic program inference engine Dice. noDice performs inference on loop-free programs by constructing an MDP so that the distributions modeled by the program correspond to schedulers in the MDP. Furthermore, decision diagrams are used as an intermediate step to exploit the program structure and drastically reduce the state space of the MDP, which can speed up inference.",
@@ -325,11 +338,21 @@
       "Tobias Wrigstad",
       "Eva Darulova"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
     "doi": "10.1145/3798203",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "1731932d-de84-4b57-8c09-3350dc912b25",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "86-113",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -341,11 +364,12 @@
       "OOPSLA"
     ],
     "urls": [
-      "https://2026.splashcon.org/details/oopsla-2026/4/Floating-Point-Usage-on-GitHub-a-Large-Scale-Study-of-Statically-Typed-Languages",
       "https://doi.org/10.1145/3798203",
+      "https://2026.splashcon.org/details/oopsla-2026/4/Floating-Point-Usage-on-GitHub-a-Large-Scale-Study-of-Statically-Typed-Languages",
       "https://arxiv.org/pdf/2509.04936",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Efficient concurrent data structures are important building blocks for accelerating applications on GPUs. With ever-increasing memory footprint of GPU workloads, data structures used by kernels can exceed global memory capacity. Using the unified virtual memory (UVM) model is a popular approach for kernels to oversubscribe GPU memory without the need for explicit memory management by a programmer. However, data structures executing with UVM can suffer from performance degradation due to the high overheads associated with data migration and thrashing under irregular access patterns. In this paper, we propose hash table and skip list designs to handle use cases where the data structure significantly oversubscribes GPU memory. We propose two-level hierarchical designs for both data structures that aim to maximize access locality. The outer-level container enables efficient jumps to desired regions of the data structure, while the inner container allows operating on the data. The inner container is sized to facilitate efficient data transfers between the CPU and the GPU. In addition, we also propose several optimizations to overcome bottlenecks in the state-of-the-art skip list algorithm for GPUs. Our experimental results show that our custom data structure designs substantially improve performance over optimized UVM baselines while supporting high degree of GPU memory oversubscription.",
@@ -396,10 +420,21 @@
       "Angelica Moreira",
       "Fernando Magno Quintão Pereira"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798247",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "1b42543f-06bb-40b9-87aa-64d1a2df4616",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "1295-1320",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -411,9 +446,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798247",
       "https://2026.splashcon.org/details/oopsla-2026/47/Automatic-Propagation-of-Profile-Information-through-the-Optimization-Pipeline",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Large language models (LLMs) for code editing have achieved remarkable progress, yet recent empirical studies reveal a fundamental disconnect between technical accuracy and developer productivity. Despite their strong benchmark performance, developers complete tasks 19% slower when using AI assistance, with over 68.81% of recommendations disrupting their mental flow. This misalignment stems from the use of static commit snapshots that lack temporal information, causing models to optimize for end results rather than the incremental, context-sensitive steps that align with developers’ natural reasoning process. To bridge this gap, we present EditFlow, a comprehensive framework for benchmarking and optimizing subsequent code edit recommendation systems through the reconstruction of developer editing flows. EditFlow addresses three key challenges. First, collecting edit-order data is inherently difficult: manual annotation introduces prohibitive overhead, while development logs capture only single trajectories instead of all plausible editing flows. Second, benchmarking recommendation performance during developers’ ongoing editing requires a digital-twin-like simulation that can faithfully reproduce editing behaviors and interoperate with heterogeneous recommendation systems. Third, existing systems vary drastically in scale and architecture, posing challenges for developing a unified optimization strategy that endows all models with mental-flow awareness regardless of design or capability. To overcome these challenges, EditFlow integrates three tightly coupled components: (1) a prompt auto- tuning mechanism that learns to infer the relative order between two edits from a small annotated dataset, (2) a digital twin environment that replays reconstructed edit sequences to simulate developers’ original editing process, and (3) a unified optimization strategy (EditFlow) that evaluates flow coherence between user edits and recommendations, filtering out flow-breaking suggestions. Evaluations on 100 annotated and 500 industry commits show that EditFlow improves order reconstruction accuracy by 63.81%, reduces flow violations by over 75%, and boosts recommendation precision by 90.70%. A user study with 32 developers further demonstrates 25.11% faster task completion and significantly higher perceived recommendation quality. To our knowledge, EditFlow is the first framework to evaluate and optimize code edit recommendation systems from the perspective of developers’ mental flow, establishing flow-awareness as a new dimension for advancing human-AI code collaboration",
@@ -428,10 +465,21 @@
       "Zhiyong Huang",
       "Jin Song Dong"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798249",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "1b5fe3db-e5e3-450f-a1ce-594aa67260df",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "1348-1375",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -443,9 +491,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798249",
       "https://2026.splashcon.org/details/oopsla-2026/49/EditFlow-Benchmarking-and-Optimizing-Code-Edit-Recommendation-Systems-via-Reconstruc",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Control problems for embedded systems like cars and trains can be modeled by two-player hybrid games. Control envelopes, which are families of safe control solutions, correspond to nondeterministic policies that ensure a player following them will not lose. Each deterministic, finite specialization of the nondeterministic policy is a control solution. This paper synthesizes control envelopes for hybrid games that are as permissive as possible. It introduces subvalue maps, a compositional representation of such policies that enables verification and synthesis along the structure of the game. An inductive logical characterization in differential game logic (dGL) checks whether a subvalue map induces a sound control envelope which ensures that the player never loses, no matter what actions the opponent plays. The maximal subvalue map, which allows the most action options while still winning, is shown to exist and satisfy a logical characterization. An inductive subvalue map synthesis framework is obtained from the soundness characterization. An evaluation of the framework uses the significant expressivity of dGL to model and solve a broad range of control challenges.",
@@ -641,11 +691,21 @@
       "Zhijie Xu",
       "Fei He"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
     "doi": "10.1145/3798200",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "2bc0e8f2-2202-403e-8b05-c7c392e9c858",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "1-28",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -657,10 +717,11 @@
       "OOPSLA"
     ],
     "urls": [
-      "https://2026.splashcon.org/details/oopsla-2026/1/Learning-Symmetric-Invariants-from-Symmetric-Samples",
       "https://doi.org/10.1145/3798200",
+      "https://2026.splashcon.org/details/oopsla-2026/1/Learning-Symmetric-Invariants-from-Symmetric-Samples",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Access control in DBMSs is critical for ensuring data security and integrity. However, the increasing complexity of its implementation often introduces broken access control (BAC) vulnerabilities. These vulnerabilities can lead to severe consequences, including privilege escalation, unauthorized data access, or even full compromise of the DBMS. Existing manual testing for BAC vulnerabilities is time-consuming and incomplete. Automated methods like static analysis also struggle in DBMSs, as static rules are difficult to apply to multi-level and dynamically changing privileges. In this paper, we propose Beacon, which detects BAC vulnerabilities by validating the consistency between SQL operations and system catalogs. Our key insight is that the visibility of objects in the system catalogs is consistent with the user’s access control: if an object is invisible to a user in the system catalogs, the user should not have any access privileges on that. Any inconsistency suggests that a user is exceeding their privileges, indicating a potential BAC vulnerability. We used Beacon to test eight popular DBMSs (e.g., MySQL and MariaDB), uncovering 39 previously unknown BAC vulnerabilities. Among them, 19 result in privilege escalation, and 20 lead to unauthorized information disclosure. Moreover, 7 of them have existed in DBMSs for more than 6 years, with the longest-persisting one lasting 13 years. DBMS vendors took these issues seriously and have already confirmed all of these vulnerabilities. Many vendors provided positive feedback, recognizing the importance of addressing these vulnerabilities. For instance, OceanBase awarded bounties for reported vulnerabilities, underscoring Beacon’s role in improving DBMS access control.",
@@ -786,11 +847,21 @@
       "J. Ryan Stinnett",
       "Stephen Kell"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
     "doi": "10.1145/3798213",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "33b68160-dd37-4bc9-a7c6-57d9798918ad",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "373-399",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -802,11 +873,12 @@
       "OOPSLA"
     ],
     "urls": [
-      "https://2026.splashcon.org/details/oopsla-2026/14/Debugging-Debugging-Information-Using-Dynamic-Call-Trees",
       "https://doi.org/10.1145/3798213",
+      "https://2026.splashcon.org/details/oopsla-2026/14/Debugging-Debugging-Information-Using-Dynamic-Call-Trees",
       "https://convolv.es/papers/2026/OOPSLA/debug-info-consistency-concrete.pdf",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Verilog simulators and synthesizers play a critical role in chip design and verification. However, due to the complexity of simulation and synthesis processes, they easily introduce various types of bugs. Among them, Behavioral Deviation Bugs (BDBs) are particularly severe, as they can cause incorrect results by introducing subtle semantic deviations that make the chip behave differently from its intended design, potentially enabling hardware backdoors. In this work, we propose VeriEQ, an automated framework based on the idea of metamorphic testing, which detects BDBs by generating semantically equivalent Verilog programs. First, to increase the likelihood of triggering BDB, we analyze the structural patterns of historical BDB and design a Verilog code template. Second, we generate semantically equivalent variants by applying equivalence circuit transformation rules. These rules include constraints on bit-width and signedness to ensure logical consistency before and after the transformation. Finally, we design an inlined deviation checking mechanism that embeds multiple equivalent modules within a single testbench to improve testing efficiency. We implement and evaluate VeriEQ on four mainstream Verilog simulators and synthesizer. Experimental results show that VeriEQ achieves a 138.1% to 4161.9% speedup over state-of-the-art tools. In total, VeriEQ successfully detects 33 previously unknown bugs, including 29 BDBs, along with 4 hang bugs as additional findings. All discovered bugs have been confirmed, with 27 already fixed. In contrast, the other tools are able to detect only 1 to 7 bugs.",
@@ -932,11 +1004,21 @@
       "Philipp Ruemmer",
       "Tjark Weber"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
     "doi": "10.1145/3798228",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "42bcf861-a78e-4cd9-8def-195c671dc9e5",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "794-822",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -948,12 +1030,13 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798228",
       "https://2026.splashcon.org/details/oopsla-2026/29/Sound-and-Complete-Invariant-Based-Heap-Encodings",
       "https://dl.acm.org/doi/10.1145/3798228",
-      "https://doi.org/10.1145/3798228",
       "https://arxiv.org/pdf/2504.15844",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Symbolic execution faces the challenge of generating valid inputs when analyzing the program with complex input formats. Token-based symbolic execution can partially tackle this challenge but is still doomed by the difficulty of passing input checking and failing to analyze the code after input checking. We propose \\lase, an online input grammar synthesis aided symbolic execution method, to generate valid inputs for improving the effectiveness of symbolic execution. Inside \\lase, we propose an input grammar-oriented search strategy and a token-level grammar synthesis method. The search strategy selects the paths to cover more syntax rules in priority. The token-level grammar synthesis improves the synthesized grammar’s precision and completeness while ensuring efficiency. The experimental results on real-world parsing programs with complex input grammars demonstrate that \\lase\\ can improve the coverage of parsing code and generate more valid inputs to improve the coverage of functionality code significantly. Furthermore, compared with the state-of-the-art grammar synthesis methods, the grammars learned by \\lase\\ have better precision and recall on most benchmark programs.",
@@ -966,10 +1049,21 @@
       "Yufeng Zhang",
       "Ji Wang"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798243",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "463dc58a-50d9-4bb8-9b00-4cd9026405f9",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "1180-1207",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -981,9 +1075,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798243",
       "https://2026.splashcon.org/details/oopsla-2026/43/Online-Input-Grammar-Synthesis-Aided-Symbolic-Execution",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Static analysis of JavaScript remains notoriously difficult due to the language’s dynamically typed nature, unconventional scoping rules, and pervasive side effects. Unlike mature infrastructures such as LLVM for C/C++ or Soot for Java, comparable frameworks for JavaScript are fragmented and limited in scope. In this paper, we introduce IRIDIUM, a first-of-its-kind framework to statically optimize JavaScript programs. IRIDIUM systematically lowers JavaScript into a structured intermediate representation (called IRI) that models bindings, environments, and control flow explicitly. The resultant expressiveness enables more predictable analyses and transformations, ranging from dataflow tracking to optimization passes to executable code generation for existing runtimes, that are otherwise hindered by the language’s complexity. By bridging the gap between JavaScript’s surface syntax and the requirements of static analysis, IRIDIUM, thus, lays the foundation for a new generation of tools that can reason effectively about modern JavaScript applications.",
@@ -1286,10 +1382,21 @@
       "Thomas Haas",
       "Roland Meyer"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798208",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "5777d1de-9d6e-4c64-a796-e6643d6bf777",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "231-259",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -1301,9 +1408,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798208",
       "https://2026.splashcon.org/details/oopsla-2026/9/RAT-CAT-SAT-Model-Checking-Memory-Consistency-Models",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Dynamic Symbolic Execution (DSE) suffers from the path explosion problem when the target program has many conditional branches. The classical approach for managing the path explosion problem is dynamic state merging. Dynamic state merging combines similar symbolic program states to avoid the exponential growth in the number of states during DSE. However, state merging still requires solver invocations at each program branch, even when both paths of the branch are feasible. Moreover, the best path search strategy for DSE may not create the best state merging opportunities. Some drawbacks of state merging can be mitigated by compile-time state merging (i.e., branch elimination by converting control-flow into data flow). In this paper, we propose a non-semantics-preserving but failure-preserving compiler transformation for removing expensive symbolic branches in a program to improve the scalability of DSE. We have developed a framework for detecting spurious bugs that our transformation can insert. Finally, we show that our transformation can significantly improve the performance of DSE on various benchmark programs and help improve the performance of coverage and bug discovery of large real-world programs.",
@@ -1315,10 +1424,21 @@
       "Milind Kulkarni",
       "Kirshanthan Sundararajah"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798202",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "57927234-a47f-419a-abe8-85de9c33830d",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "59-85",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -1330,9 +1450,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798202",
       "https://2026.splashcon.org/details/oopsla-2026/3/Taming-the-Hydra-Targeted-Control-Flow-Transformations-for-Dynamic-Symbolic-Executio",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Infrastructure-as-Code (IaC) engines, such as Terraform, OpenTofu, and Pulumi, automate the provisioning and management of cloud resources. They parse IaC specifications and orchestrate the required actions, making them the backbone of modern clouds, and critical to the reliability of both the underlying infrastructure and the software that depends on it. Despite this importance, this class of systems has received little attention: prior work largely targets the correctness of IaC programs rather than the IaC engines themselves. Existing test suites rely on manually written oracles and struggle to expose faults that manifest across multiple executions, leaving a significant reliability gap. We present EMIaC, a metamorphic testing framework for IaC engines. EMIaC defines metamorphic relations as graph-based transformations of IaC programs and checks invariants across executions of the original and transformed programs. A central novelty is our use of \\emph{e-graphs} in software testing, as both a test-input generator and an equivalence oracle. E-graphs compactly represent program equivalences, enabling the systematic generation of large spaces of equivalent IaC programs. To ground these relations, we analyze 43,593 real-world Terraform programs and show that IaC dependency graphs are typically small and sparse, making e-graphs a natural fit. Evaluating EMIaC on Pulumi, Terraform, and OpenTofu, we show that it complements existing test suites by exercising engine-critical code paths and covering 98 previously untested statements in Terraform and 1,313 in Pulumi. EMIaC also uncovers previously unknown issues in all three test suites, improving their adequacy. Three test cases have been merged into Terraform’s main branch, and Pulumi has merged a specification fix.",
@@ -1345,10 +1467,21 @@
       "Roland Meier",
       "Guido Salvaneschi"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798226",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "5d39c1f7-26a2-430c-a98e-dd430ff6a3aa",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "737-765",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -1360,10 +1493,12 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798226",
       "https://2026.splashcon.org/details/oopsla-2026/27/Metamorphic-Testing-for-Infrastructure-as-Code-Engines",
       "https://programming-group.com/assets/pdf/papers/2026_Metamorphic-Testing-for-IaC-Engines.pdf",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Sparse Value-Flow Analysis (SVFA) is essential for detecting software bugs such as null pointer dereference and memory leak. However, SVFA heavily relies on path-sensitive pointer analysis, which faces significant scalability challenges when analyzing industrial-scale projects, notably the summary-explosion problem. To address this issue, we propose Hermes, which symbolizes memory side effects and constructs an incomplete Sparse Value-Flow Graph (SVFG) called Lazy Symbolic Expression Graph (LSEG). Leveraging this structure, Hermes builds inter-procedural value flows relevant to bug detection only when necessary, significantly reducing the overhead of pointer analysis and streamlining the bug-search paths. Evaluations on large-scale real-world projects demonstrate that, compared to the state-of-the-art, Hermes achieves average speedups of at least 9.84× and 4.79× for pointer analysis and bug search, respectively, without sacrificing the effectiveness of bug detection.",
@@ -1376,10 +1511,21 @@
       "Huaxun Huang",
       "Rongxin Wu"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798211",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "5e3e1974-e833-4632-b158-4e8d211486ee",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "314-342",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -1391,9 +1537,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798211",
       "https://2026.splashcon.org/details/oopsla-2026/12/Hermes-Making-Path-Sensitive-Pointer-Analysis-Scalable-for-Sparse-Value-Flow-Analysi",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Just-in-time (JIT) compilers are key components for many popular programming languages with managed runtimes (e.g., Java and JavaScript). JIT compilers perform optimizations and generate native code at runtime based on dynamic profiling data, to improve the execution performance of the running application. Like other software systems, JIT compilers might have software bugs, and prior work has developed a number of automated techniques for detecting correctness bugs (i.e., generated native code does not semantically match that of the original code). However, no prior work has targeted JIT compiler performance bugs, which can cause significant performance degradation in a running application. These performance bugs are challenging to detect due to the complexity and dynamic nature of JIT compilers. In this paper, we present the first work on demystifying JIT compiler performance bugs. First, we perform an empirical study across four widely used JIT compilers for the Java and JavaScript languages. Our manual analysis of 191 bug reports uncovers common patterns in how performance bugs manifest, their symptoms, and their root causes. Second, informed by these insights, we propose a lightweight technique, which we call tiered differential performance testing, to automatically detect JIT compiler performance bugs. We further introduce practical optimizations such as test prioritization, which reduces testing time by 92.4% without compromising bug-detection capability, and automatic false-positive and duplicate filtering, which substantially reduce manual inspection effort. Our work discovered 12 previously unknown performance bugs in the Oracle HotSpot and Graal JIT compilers, with 11 confirmed or fixed by developers.",
@@ -1404,10 +1552,21 @@
       "August Shi",
       "Milos Gligoric"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798245",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "65d92932-293b-408e-a61d-d2e162479534",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "1237-1265",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -1419,9 +1578,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798245",
       "https://2026.splashcon.org/details/oopsla-2026/45/Understanding-and-Finding-JIT-Compiler-Performance-Bugs",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Application profiling is an indispensable technique for many software development tasks, such as code and memory layout optimizations, where optimization decisions are tailored to specific program profiles. Unfortunately, modern application codebases exhibit highly variant behavior across different inputs, creating challenges for conventional profiling approaches that rely on a single representative execution instance. In this paper, we propose \\textbf{Phaedrus}, a new \\textit{compiler-assisted deep learning framework} designed to predict dynamic program behaviors across varied execution instances, specifically focusing on dynamic function call prediction.Such predicted call sequences are then used for producing optimized code pertinent to a given input. Traditional profile-guided optimization methods struggle with the input-dependent variability of modern applications, where profiling on different inputs yields divergent application behaviors. To address this, Phaedrus proposes two new approaches: \\textit{Application Behavior Synthesis}, a profile-less approach where Large Language Models (LLMs) directly infer dynamic functions based on source code & static compiler analysis, bypassing the need for traditional profiling, and \\textit{Application Profile Generalization}, which uses generative models trained on compressed and augmented \\textit{Whole Program Path} (WPP) based function profiles to predict application behavior under unseen inputs. Our experiments show that \\textit{Phaedrus} can achieve upto $10^7X$ reduction in WPP function profile sizes, can predict most frequently executed functions that cover upto 85-99% of the execution time, along with an average of 13.19% (upto 65%) reduction in application binary size, and an average of 6.08% (upto 20%) performance improvement over the traditional profile-guided optimization, without any execution.",
@@ -1431,10 +1592,21 @@
       "Neeraj Jadhav",
       "Santosh Pande"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798225",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "6e1d415a-ec67-4758-8696-8bb9f02f5438",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "707-736",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -1446,9 +1618,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798225",
       "https://2026.splashcon.org/details/oopsla-2026/26/Phaedrus-Predicting-Dynamic-Application-Behavior-with-Lightweight-Generative-Models-",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Mutational greybox fuzzing (MGF) is a powerful software testing technique. Initial seeds are critical for MGF since they define the space of possible inputs and fundamentally shape the effectiveness of MGF. Nevertheless, having more initial seeds is not always better. A bloated initial seed set can inhibit throughput, thereby degrading the effectiveness of MGF. To avoid bloating, modern fuzzing practices recommend performing seed selection to maintain golden seeds (i.e., those identified as beneficial for MGF) while minimizing the size of the set. Typically, seed selection favors seeds that execute unique code regions and discards those that contribute stale coverage. This coverage-based strategy is straightforward and useful, and is widely adopted by the fuzzing community. However, coverage-based seed selection (CSS) is not flawless and has a notable blind spot: it fails to identify golden seeds suppressed by unpassed coverage guards, even if these seeds contain valuable data that can benefit MGF. As a result, this blind spot prevents suppressed golden seeds from realizing their true values, which can ultimately degrade the effectiveness of downstream MGF. In this paper, we propose a novel technique named PoCo to address the blind spot of traditional CSS. The basic idea behind PoCo is to manifest the true strengths of the suppressed golden seeds by gradually disabling obstacle conditional guards. To this end, we develop a lightweight program transformation to enable flexible disabling of guards and devise a novel guard hierarchy analysis to identify obstacle ones. An iterative seed selection algorithm is constructed to stepwise select suppressed golden seeds. We prototype PoCo on top of the AFL++ utilities (version 4.10c) and compare it to seven baselines, including two state-of-the-art tools afl-cmin and OptiMin. Compared to afl-cmin, PoCo selects 3–40 additional seeds within a practical time budget of two hours. To evaluate how effective the studied techniques are in seeding fuzzing, we further conduct extensive fuzzing (over 17,280 CPU hours) with eight different targets from a mature benchmark named Magma, adopting the most representative fuzzer AFL++ for MGF. The results show that the additional seeds selected by PoCo yield modest improvements in both code coverage and bug discovery. Although our evaluation reveals limitations of PoCo, it also demonstrates the presence and value of suppressed golden seeds. Based on the evaluation results, we distill lessons and insights that may inspire the fuzzing community.",
@@ -1460,10 +1634,21 @@
       "Youxin Fu",
       "Zhenyu Chen"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798205",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "89ee878e-7b8c-43d5-b2c2-926ede5deb8a",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "143-169",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -1475,9 +1660,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798205",
       "https://2026.splashcon.org/details/oopsla-2026/6/Peeling-off-the-Cocoon-Unveiling-Suppressed-Golden-Seeds-for-Mutational-Greybox-Fuzz",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Actor languages such as Erlang and Elixir are widely used for implementing scalable and reliable distributed applications, but the informally-specified nature of actor communication patterns leaves systems vulnerable to costly errors such as communication mismatches and deadlocks. \\emph{Multiparty session types} (MPSTs) rule out communication errors early in the development process, but until now, the nature of actor communication has made it difficult for actor languages to benefit from session types. This paper introduces Maty, the first actor language design supporting both \\emph{static} multiparty session typing and the full power of actors taking part in \\emph{multiple sessions}. Our main insight is to enforce session typing through a flow-sensitive type-and-effect system, combined with an event-driven programming style and first-class message handlers. Using MPSTs allows us to guarantee communication safety: a process will never send or receive an unexpected message, nor will it ever get stuck waiting for a message that will never arrive. We extend Maty to support Erlang-style supervision and cascading failure, and show that this preserves Maty’s strong metatheory. We implement Maty in Scala using an API generation approach, and evaluate our implementation on a series of microbenchmarks, a factory scenario, and a chat server.",
@@ -2053,10 +2240,21 @@
       "Jie Lu",
       "Lian Li"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798270",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "b51ce816-3462-4e83-8ed2-c1174de58d2d",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "1932-1960",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -2068,9 +2266,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798270",
       "https://2026.splashcon.org/details/oopsla-2026/69/Context-Free-Language-Reachability-via-Efficient-Relation-Chaining",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "We present Prunario, a novel technique for effectively testing autonomous driving systems (ADS). Ensuring the safety of ADS is critical, as their failures can lead to severe casualties. While ADS testing methods have advanced in recent years, they remain unsatisfactory in generating diverse test scenarios that induce distinct driving behaviors-a key requirement for thoroughly evaluating ADS across different situations. To address this, Prunario employs a novel simulation prediction technique to estimate ADS runtime behavior and prune redundant test scenarios that yield similar driving records. Experimental results demonstrate Prunario’s effectiveness: it uncovered 23 previously undetected bugs in an industrial-strength ADS and outperformed three state-of-the-art testing techniques.",
@@ -2319,11 +2519,21 @@
       "Yong Qi Foo",
       "Michael D. Adams"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
     "doi": "10.1145/3798227",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "ca89454a-ee3a-4e6b-b7b1-4b1700228745",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "766-793",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -2335,12 +2545,13 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798227",
       "https://2026.splashcon.org/details/oopsla-2026/28/Class-Dictionary-Specialization-With-Rank-2-Polymorphic-Functions",
       "https://dl.acm.org/doi/10.1145/3798227",
-      "https://doi.org/10.1145/3798227",
       "https://yongqi.foo/papers/syb.pdf",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "GPUs play an increasingly important role in modern software. However, the heterogeneous host-device execution model and expanding software stack make GPU programs prone to memory-safety and concurrency bugs that evade static analyses. While fuzz-testing, combined with dynamic error checking tools, offers a plausible solution, it remains underutilized for GPUs. In this work, we identify three main obstacles limiting prior GPU fuzzing efforts: (1) kernel-level fuzzing leading to false positives, (2) lack of device-side coverage-guided feedback, and (3) incompatibility between coverage and sanitization tools. We present cuFuzz, the first CUDA-oriented fuzzer that makes GPU fuzzing practical by addressing these obstacles. cuFuzz uses whole program fuzzing to avoid false positives from independently fuzzing device-side kernels. It leverages NVBit to instrument device-side instructions and merges the resultant coverage with compiler-based host coverage. Finally, cuFuzz decouples sanitization from coverage collection by executing host- and device-side sanitizers in separate processes. cuFuzz uncovers 43 previously unknown bugs (19 in commercial libraries) across 14 CUDA programs—including illegal memory accesses, uninitialized reads, and data races. cuFuzz achieves significantly more discovered edges and unique inputs compared to baseline approaches especially on closed-source targets. Moreover, we quantify the run time overheads of the different cuFuzz components and add persistent-mode support to improve the overall fuzzing throughput. Our results demonstrate that cuFuzz is an effective and deployable addition to the GPU testing toolbox. cuFuzz is publicly available at https://github.com/NVlabs/cuFuzz .",
@@ -2568,10 +2779,21 @@
       "Wenyao Chen",
       "Jingling Xue"
     ],
+    "container": "Proceedings of the ACM on Programming Languages",
     "dates": [],
+    "doi": "10.1145/3798266",
     "eventType": "Paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "dc20a988-bb9b-474b-a0b8-b6abfadbeae3",
+    "issue": "OOPSLA1",
     "locations": [],
+    "pages": "1817-1845",
+    "publicationDate": "2026-04-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "OOPSLA"
     ],
@@ -2583,9 +2805,11 @@
       "OOPSLA"
     ],
     "urls": [
+      "https://doi.org/10.1145/3798266",
       "https://2026.splashcon.org/details/oopsla-2026/66/From-Raw-Pointers-to-Memory-Safety-A-Modular-Demand-Driven-Typestate-Analysis-for-Ru",
       "https://conf.researchr.org/track/splash-2026/oopsla-2026"
-    ]
+    ],
+    "volume": "10"
   },
   {
     "abstract": "Syntactic sugar enhances the usability of a core language by providing intuitive syntax in a surface language; however, its interaction with the core-language type checker often results in error messages that are unclear to surface programmers. Existing techniques, such as type lifting, can automatically infer typing rules for syntactic sugar, but they do not consider localizing type errors directly in the surface syntax. This paper studies the problem of localizing and reporting type errors for syntactic sugar, addressing two key challenges: precisely localizing errors and ensuring that they are fixable. Inspired by the recently proposed marked lambda calculus (MLC), we develop ℓMLC as our core language which tracks error provenance and locations via type annotations. Building on this, we propose the Stellar framework, which automatically lifts the core language’s typing rules to the surface language while enabling error localization in the surface syntax. Stellar also ensures that the reported errors are fixable by incorporating extra premises into the lifted typing rules. We implement Stellar and evaluate it across various surface languages with different type structures, demonstrating that our approach precisely localizes errors and avoids unhelpful references to core-language constructs. Our evaluation suggests that Stellar can help surface programmers address type errors more effectively, enhancing the practicality of syntactic sugar in language engineering.",

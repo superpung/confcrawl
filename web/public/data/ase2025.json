@@ -275,14 +275,24 @@
       "Tegawendé F. Bissyandé",
       "Jacques Klein"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:00 - 16:10"
     ],
+    "doi": "10.1109/ase63991.2025.00351",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "048a8e26-e62f-4783-9985-60c60b22c6f6",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "3963-3967",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 7"
     ],
@@ -294,6 +304,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00351",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/36/RAML-Toward-Retrieval-Augmented-Localization-of-Malicious-Payloads-in-Android-Apps",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -355,14 +366,24 @@
       "Lili Quan",
       "Qiang Hu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00375",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "04aadc0a-36a6-455d-9357-e9078d9e4936",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "4062-4065",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - Code and Model"
     ],
@@ -374,6 +395,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00375",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/24/DSBox-A-Data-Selection-Framework-for-Efficient-Deep-Code-Learning",
       "https://sites.google.com/view/dsbox2025",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -469,14 +491,24 @@
       "Michelantonio Trizio",
       "Claudio Bartolini"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 14:00 - 14:10"
     ],
+    "doi": "10.1109/ase63991.2025.00198",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "06ff5d4b-01e2-475d-9cff-6b883a1ea084",
     "locations": [
       "Vista"
     ],
+    "pages": "2401-2413",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Test Generation, Selection & Prioritization 2"
     ],
@@ -488,6 +520,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00198",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/246/LLMs-for-Automated-Unit-Test-Generation-and-Assessment-in-Java-The-AgoneTest-Framewo",
       "https://arxiv.org/abs/2511.20403",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -503,14 +536,24 @@
       "Fuyuan Zhang",
       "Jianjun Zhao"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:00 - 16:10"
     ],
+    "doi": "10.1109/ase63991.2025.00324",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "07a3ae1c-311d-4f74-a026-383760304493",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "3824-3828",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Quantum Software Engineering"
     ],
@@ -522,6 +565,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00324",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/9/Is-Measurement-Enough-Rethinking-Output-Validation-in-Quantum-Program-Testing",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -536,14 +580,24 @@
       "Yang Liu",
       "Zhi Jin"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:00 - 16:10"
     ],
+    "doi": "10.1109/ase63991.2025.00334",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "081b0f65-1c24-4483-b323-a32945a81c97",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "3876-3880",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Requirement Engineering"
     ],
@@ -555,6 +609,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00334",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/19/Envisioning-Intelligent-Requirements-Engineering-via-Knowledge-Guided-Multi-Agent-Col",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -569,14 +624,24 @@
       "Yuheng Huang",
       "Lei Ma"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00380",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "085b54e5-641d-4319-b9a7-2d8ab33bc4aa",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "4082-4085",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - LLMs and Agents"
     ],
@@ -588,6 +653,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00380",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/29/TRUSTVIS-A-Multi-Dimensional-Trustworthiness-Evaluation-Framework-for-Large-Language",
       "https://youtu.be/k1TrBqNVg8g",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -603,14 +669,24 @@
       "Federica Sarro",
       "Sergey Mechtaev"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:00 - 11:10"
     ],
+    "doi": "10.1109/ase63991.2025.00038",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "08634c6e-6ee9-4ec4-85cc-ad27f809f053",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "367-379",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Program Repair 3"
     ],
@@ -622,6 +698,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00038",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/129/Automated-Repair-of-Ambiguous-Problem-Descriptions-for-LLM-Based-Code-Generation",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -1084,14 +1161,24 @@
       "Yuanyi Li",
       "Yu Jiang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:10 - 14:20"
     ],
+    "doi": "10.1109/ase63991.2025.00069",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "0f781cb4-e738-4241-85ba-4a5d80ab365c",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "765-777",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Fuzzing 1"
     ],
@@ -1103,6 +1190,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00069",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/26/DualFuzz-Detecting-Vulnerability-in-Wi-Fi-NICs-through-Dual-Directional-Fuzzing",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -1243,14 +1331,24 @@
       "Semih Çağlar",
       "Eray Tüzün"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:00 - 11:10"
     ],
+    "doi": "10.1109/ase63991.2025.00088",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "12546c03-ed3e-4c84-b565-539ec01b90fa",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "1008-1019",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Maintenance & Evolution 3"
     ],
@@ -1262,6 +1360,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00088",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/36/Automated-Inline-Comment-Smell-Detection-and-Repair-with-Large-Language-Models",
       "https://www.researchgate.net/publication/395359325_Automated_Inline_Comment_Smell_Detection_and_Repair_with_Large_Language_Models",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -1321,14 +1420,24 @@
       "Gerardo Canfora",
       "Corrado A. Visaggio"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 16:00 - 16:10"
     ],
+    "doi": "10.1109/ase63991.2025.00325",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "142ac992-edce-4e07-9521-e5e4efe48c0f",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "3829-3833",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Human and Social Aspects 2"
     ],
@@ -1340,6 +1449,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00325",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/10/The-Future-of-Software-Transparency-Bridging-Understanding-Measurement-and-Practic",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -1494,14 +1604,24 @@
       "Yuan Zhang",
       "Min Yang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:00 - 14:10"
     ],
+    "doi": "10.1109/ase63991.2025.00082",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "198dfd0a-fd72-48b3-b5ac-aacea4bd21ac",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "932-944",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Program Analysis 1"
     ],
@@ -1513,6 +1633,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00082",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/156/Exploring-Static-Taint-Analysis-in-LLMs-A-Dynamic-Benchmarking-Framework-for-Measure",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -1526,14 +1647,24 @@
       "Weiyi Shang",
       "Jinqiu Yang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 11:00 - 11:10"
     ],
+    "doi": "10.1109/ase63991.2025.00143",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "1a533c48-e767-4356-875a-9ba61ee7510d",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "1705-1717",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Autonomous Driving & VR"
     ],
@@ -1545,6 +1676,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00143",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/182/ADPerf-Investigating-and-Testing-Performance-in-Autonomous-Driving-Systems",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -1654,14 +1786,24 @@
       "Mohamed Wiem Mkaouer",
       "Foyzul Hassan"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 11:10 - 11:20"
     ],
+    "doi": "10.1109/ase63991.2025.00163",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "1bd389a3-d90a-4dbd-99dc-13706295a0f9",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "1956-1968",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Autonomous Driving & VR"
     ],
@@ -1673,6 +1815,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00163",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/195/VRTestSniffer-Test-Smell-Detector-for-Virtual-Reality-VR-Software-Projects",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -1731,14 +1874,24 @@
       "Shaowei Cai",
       "Chunming Hu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 11:00 - 11:10"
     ],
+    "doi": "10.1109/ase63991.2025.00109",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "1c1ea604-f7ae-4640-a48b-75c2146ee6b5",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "1273-1285",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Formal Method & Verification 2"
     ],
@@ -1750,6 +1903,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00109",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/47/SMTgazer-Learning-to-Schedule-SMT-Algorithms-via-Bayesian-Optimization",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -1810,14 +1964,24 @@
       "Tianyi Ma",
       "Bin Cao"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:00 - 16:10"
     ],
+    "doi": "10.1109/ase63991.2025.00315",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "1d52847d-9705-407c-bd8c-bad676e7042c",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "3778-3783",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Review & Process"
     ],
@@ -1829,6 +1993,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00315",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/61/SGCR-A-Specification-Grounded-Framework-for-Trustworthy-LLM-Code-Review",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -2375,14 +2540,24 @@
       "Minwoo Jeong",
       "Ming Wu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:10 - 16:20"
     ],
+    "doi": "10.1109/ase63991.2025.00312",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "27290a5f-3281-48cd-b152-913efdf3a953",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "3760-3765",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Review & Process"
     ],
@@ -2394,6 +2569,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00312",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/58/What-Types-of-Code-Review-Comments-Do-Developers-Most-Frequently-Resolve-",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -2533,14 +2709,24 @@
       "Xiaokang Qin",
       "Tianyin Xu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 14:20 - 14:30"
     ],
+    "doi": "10.1109/ase63991.2025.00040",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "2bcf177c-b942-4fad-b32f-c6aa7200cdf7",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "393-405",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Human & Social Aspects 1"
     ],
@@ -2552,6 +2738,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00040",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/16/Democratizing-the-Cryptocurrency-Ecosystem-by-Just-In-Time-Transformation-of-Mining-P",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -2643,14 +2830,24 @@
       "Hang Du",
       "James Jones"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:10 - 11:20"
     ],
+    "doi": "10.1109/ase63991.2025.00108",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "2d45715c-e9d4-4322-81f7-cc0e2b40be97",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "1260-1272",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Maintenance & Evolution 3"
     ],
@@ -2662,6 +2859,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00108",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/168/What-s-DAT-Smell-Untangling-and-Weaving-the-Disjoint-Assertion-Tangle-Test-Smell",
       "https://superhangdu.com/publications/ase-25/#:~:text=1%20min%20read-,PDF,-A%20real-world",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -2894,14 +3092,24 @@
       "Sanghyun Hong",
       "Hyoungshick Kim"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:00 - 11:10"
     ],
+    "doi": "10.1109/ase63991.2025.00243",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "30d914ae-bdc3-4c56-a0b2-0d8f290bb689",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "2957-2969",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 4"
     ],
@@ -2913,6 +3121,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00243",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/241/When-Does-Wasm-Malware-Detection-Fail-A-Systematic-Analysis-of-Their-Robustness-to-E",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -3020,14 +3229,24 @@
       "Changqing Shi",
       "Yuzhi Zhang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:10 - 11:20"
     ],
+    "doi": "10.1109/ase63991.2025.00144",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "3142eb3c-af48-44ae-9168-64a343d6c75d",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "1718-1730",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Program Repair 3"
     ],
@@ -3039,6 +3258,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00144",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/183/Fixing-Broken-Graphs-LLM-Powered-Automatic-Code-Optimization-for-DNN-Programs",
       "https://anonymous.4open.science/r/GraphGlue-5163/",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -3219,14 +3439,24 @@
       "Jürgen Cito",
       "Lars Grunske"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 11:30 - 11:40"
     ],
+    "doi": "10.1109/ase63991.2025.00162",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "3335927d-6f43-42f2-9d3c-c54606a4ed96",
     "locations": [
       "Vista"
     ],
+    "pages": "1943-1955",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "SE4AI & AI4SE 1"
     ],
@@ -3238,6 +3468,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00162",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/194/Efficient-Understanding-of-Machine-Learning-Model-Mispredictions",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -3258,14 +3489,24 @@
       "Jie Xu",
       "Zheng Wang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 16:50 - 17:00"
     ],
+    "doi": "10.1109/ase63991.2025.00295",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "34388c93-6d14-40e6-8ba4-1c5751212fce",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "3569-3580",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 3"
     ],
@@ -3277,6 +3518,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00295",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/41/Tuning-LLM-based-Code-Optimization-via-Meta-Prompting-An-Industrial-Perspective",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -3393,14 +3635,24 @@
       "Haiming Chen",
       "Wei Huo"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 11:00 - 11:10"
     ],
+    "doi": "10.1109/ase63991.2025.00244",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "355e7321-ed69-4230-9b71-dd4acb78e714",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "2970-2982",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 1"
     ],
@@ -3412,6 +3664,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00244",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/106/Vulnerability-Affected-Versions-Identification-How-Far-Are-We-",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -3865,15 +4118,27 @@
       "Kashumi Madampe",
       "Omar Haggag"
     ],
+    "container": "Automated Software Engineering",
     "dates": [
       "Wed 19 Nov 2025 14:00 - 14:10"
     ],
     "doi": "10.1007/s10515-025-00547-z",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "3967edc9-1625-4ace-afd8-7a5daa4855e0",
+    "issue": "2",
     "locations": [
       "Grand Hall 3"
     ],
+    "pdfUrls": [
+      "https://link.springer.com/content/pdf/10.1007/s10515-025-00547-z.pdf"
+    ],
+    "publicationDate": "2025-11-01",
+    "publisher": "Springer Science and Business Media LLC",
     "sessionTitles": [
       "Web & Mobile Systems 2"
     ],
@@ -3885,11 +4150,12 @@
       "Journal-First"
     ],
     "urls": [
+      "https://doi.org/10.1007/s10515-025-00547-z",
       "https://conf.researchr.org/details/ase-2025/ase-2025-journal-first-track/31/Adaptive-and-accessible-user-interfaces-for-seniors-through-model-driven-engineering",
       "https://link.springer.com/article/10.1007/s10515-025-00547-z",
-      "https://doi.org/10.1007/s10515-025-00547-z",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
-    ]
+    ],
+    "volume": "32"
   },
   {
     "abstract": "Reading code is a fundamental activity in both software engineering and computer science education. Understanding the cognitive processes involved in reading code is crucial for identifying effective cognitive strategies, which can inform teaching methods and tooling support for developers. However, collecting large human subject eye tracking datasets, especially for programming tasks, is often costly and time-consuming, limiting its scalability and applicability. To address this issue, we present CodeACT-R, the first cognitive simulation framework tailored for code reading, based on the well-established Adaptive Control of Thought—Rational (ACT-R) architecture from cognitive science. CodeACT-R simulates how humans read code and requires only a small, manageable amount of human data to initiate the simulator design, offering a cost-effective and scalable alternative to traditional data collection methods like eye tracking. Specifically, we first collected real human visual attention data from 48 programmers reading code using eye tracking. These data were then used to develop CodeACT-R, enabling the simulation of human-like code reading behaviors. Our evaluation demonstrates that CodeACT-R is capable of simulating visual attention patterns (i.e., scanpaths) that closely resemble real-world human attention patterns, also accounting for up to 87% of observed pattern variations.",
@@ -4038,14 +4304,24 @@
       "Xin Wang",
       "Yangfan Zhou"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:00 - 16:10"
     ],
+    "doi": "10.1109/ase63991.2025.00270",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "3bf1fcb3-f41b-470c-803b-156ae5e0797f",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "3274-3286",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 4"
     ],
@@ -4057,6 +4333,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00270",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/15/Minuku-Detecting-Diverse-Display-Issues-in-Mobile-Apps-with-Small-scale-Dataset",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -4167,14 +4444,24 @@
       "Nan Jia",
       "Anita Raja"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:10 - 14:20"
     ],
+    "doi": "10.1109/ase63991.2025.00068",
     "eventType": "Research paper",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "3d148724-4d15-4242-b201-cc8646931b9b",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "752-764",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Maintenance & Evolution 1"
     ],
@@ -4186,6 +4473,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00068",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/25/Speculative-Automated-Refactoring-of-Imperative-Deep-Learning-Programs-to-Graph-Execu",
       "http://academicworks.cuny.edu/hc_pubs/877",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -4240,14 +4528,24 @@
     "authors": [
       "Omar I. Al-Bataineh"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:10 - 16:20"
     ],
+    "doi": "10.1109/ase63991.2025.00320",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "3e17b11b-8250-4edc-9a05-8c5f61cc5258",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "3804-3808",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Bug Understanding 2"
     ],
@@ -4259,6 +4557,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00320",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/5/Debugging-the-Undebuggable-Why-Multi-Fault-Programs-Break-Debugging-and-Repair-Tools",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -4870,14 +5169,24 @@
       "Shangqing Liu",
       "Lei Bu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:10 - 14:20"
     ],
+    "doi": "10.1109/ase63991.2025.00242",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "4499d610-6dca-4a02-8d69-06dd5e2b0904",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "2945-2956",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Program Analysis 1"
     ],
@@ -4889,6 +5198,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00242",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/240/EPSO-A-Caching-Based-Efficient-Superoptimizer-for-BPF-Bytecode",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -4951,14 +5261,24 @@
       "Pengfei Yu",
       "Yanchao Zhao"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:00 - 14:10"
     ],
+    "doi": "10.1109/ase63991.2025.00177",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "484375a4-f1c8-45b2-8d62-0c751c91195b",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "2134-2145",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 2"
     ],
@@ -4970,6 +5290,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00177",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/82/Towards-Generalizable-Instruction-Vulnerability-Prediction-via-LLM-Enhanced-Code-Repr",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -5714,14 +6035,24 @@
       "Marc Miltenberger",
       "Steven Arzt"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00354",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "4ed468ac-1f50-4ce4-80e1-1f6de438269f",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "3977-3980",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - Testing & Analysis"
     ],
@@ -5733,6 +6064,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00354",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/2/VUSC-An-Extensible-Research-Platform-for-Java-Based-Static-Analysis",
       "https://youtu.be/o3l_mmmjDeo",
       "https://github.com/Fraunhofer-SIT/ASE2025-StaticAnalysisInfrastructure/",
@@ -5749,14 +6081,24 @@
       "Ildar Akhmetov",
       "Sarah Nadi"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:20 - 14:30"
     ],
+    "doi": "10.1109/ase63991.2025.00077",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "4fcecd48-ef37-47f2-91bf-3ecc37986d1c",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "867-879",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Maintenance & Evolution 1"
     ],
@@ -5768,6 +6110,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00077",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/30/An-Empirical-Study-of-Python-Library-Migration-Using-Large-Language-Models",
       "https://arxiv.org/abs/2504.13272",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -5866,14 +6209,24 @@
       "Bhavain Shah",
       "Rrezarta Krasniqi"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 14:20 - 14:30"
     ],
+    "doi": "10.1109/ase63991.2025.00195",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "50b5f005-1185-4325-aac6-594189807b2b",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "2363-2375",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Translation"
     ],
@@ -5885,6 +6238,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00195",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/89/Polyglot-An-Extensible-Framework-to-Benchmark-Code-Translation-with-LLMs",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -5967,14 +6321,24 @@
       "Yuan Zhang",
       "Min Yang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:20 - 14:30"
     ],
+    "doi": "10.1109/ase63991.2025.00053",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "511739de-fca8-4bfd-bfc0-1656bdaaaf60",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "559-570",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 2"
     ],
@@ -5986,6 +6350,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00053",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/19/Security-Debt-in-LLM-Agent-Applications-A-Measurement-Study-of-Vulnerabilities-and-M",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -5999,14 +6364,24 @@
       "Xiaohui Hu",
       "Haoyu Wang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:00 - 16:10"
     ],
+    "doi": "10.1109/ase63991.2025.00303",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "5184164a-e6ad-4a1a-9581-016b4c3a6b3e",
     "locations": [
       "Vista"
     ],
+    "pages": "3661-3671",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 6"
     ],
@@ -6018,6 +6393,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00303",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/49/The-Gold-Digger-in-the-Dark-Forest-Industrial-Scale-MEV-Analysis-in-Ethereum",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -6207,14 +6583,24 @@
       "Yuta Yamauchi",
       "Hideo Takahashi"
     ],
+    "container": "Journal of Systems and Software",
     "dates": [
       "Mon 17 Nov 2025 14:30 - 14:40"
     ],
+    "doi": "10.1016/j.jss.2024.112328",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "52e83d3f-571f-4ba9-8ae9-714e1d973c53",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "112328",
+    "publicationDate": "2025-04-01",
+    "publisher": "Elsevier BV",
     "sessionTitles": [
       "Software Process"
     ],
@@ -6226,9 +6612,11 @@
       "Journal-First"
     ],
     "urls": [
+      "https://doi.org/10.1016/j.jss.2024.112328",
       "https://conf.researchr.org/details/ase-2025/ase-2025-journal-first-track/19/Managing-the-variability-of-a-logistics-robotic-system",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
-    ]
+    ],
+    "volume": "222"
   },
   {
     "abstract": "REST (Representational State Transfer) is an architectural style that provides guidelines for building web services, commonly referred to as REST APIs or RESTful APIs. Nowadays, REST APIs have been widely adopted in industry, especially in developing large-scale enterprise microservices architectures. Due to its importance and widespread adoption in industry, the validation and verification of REST APIs has attracted major interest from the research community. A lot of automated testing approaches for REST APIs have been proposed in recent years. Although existing fuzzers have demonstrated effectiveness in code coverage and fault detection, several open research challenges remain that hinder further improvements. For example, benefiting from the OpenAPI Specification (OAS) as a standard for defining schemas, most approaches use OAS as input to generate tests. However, faults or under-specified schemas may exist, representing one of the major issues for black-box fuzzers. In addition, web API commonly interacts with databases. Under-specified constraints may also exist in the database schema, which can hinder the preparation of necessary test data. Without access to source code, such under-specified API schemas and constraints cannot be addressed. But, in the literature, most of the approaches focus on black-box fuzzing. EvoMaster is the only existing open-source fuzzer that supports white-box fuzzing of REST APIs. In this paper, building on EvoMaster, we employed white-box techniques (e.g., method replacement and taint analysis) and proposed a series of novel white-box heuristics to tackle three main challenges: (1) Under-specified schemas in OAS, particularly when HTTP query parameters and header information are missing. If these headers and parameters are not included in API requests during fuzzing, then the code responsible for handling them and their associated functionalities would never be tested. (2) Under-specified constraints in SQL database schemas, especially when the tested API relies on the Java Persistence API (JPA) to access databases. Depending on the state of the databases the API interacts with, the same request may exercise different code paths and correspond to different business scenarios, e.g., happy-path' or exceptional scenarios. As such, invalid data inserted into a SQL database can hamper the testing process for code coverage, e.g., the API may crash when such data is read. (3) \\emph{Flag} problem in common library calls. Function calls that return boolean values or raise exceptions on invalid inputs can create fitness plateaus'' in the search space, resulting in no effective guidance for the evolutionary process of generating high-coverage test cases. To assess the effectiveness of our approach, we carried out an empirical study on 14 open-source, JVM REST APIs currently part of the EMB corpus. To better generalize our results, we also included one industrial API from one of our industrial partners. The results of our empirical study demonstrate clear improvements achieved by our approach on several of these APIs in terms of both code coverage and fault detection. This study enables us to push forward the boundaries of scientific research in white-box fuzzing of Web APIs. Nevertheless, there are still several challenges left, which will require further research on developing more advanced white-box heuristics to solve these further issues. Our novel heuristics have been integrated as part of our open-source fuzzer EvoMaster. In this presentation, we will explain how our approach tackles major challenges in REST API fuzzing and include a live demo of EvoMaster. However, these novel techniques are independent of EvoMaster. They can be integrated and evaluated in any white-box fuzzer for REST APIs.",
@@ -6405,14 +6793,24 @@
       "Xavier Devroey",
       "Fabian Gilson"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00367",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "542da810-5ea8-45fe-a437-e9dcae4c7302",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "4029-4032",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - Testing & Analysis"
     ],
@@ -6424,6 +6822,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00367",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/15/FETT-Fault-Injection-as-an-Educational-and-Training-Tool-in-Cybersecurity",
       "https://snail.info.unamur.be/publication/debaets-2025/",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -6821,14 +7220,24 @@
       "Donghwan Shin",
       "Jihun Park"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:30 - 16:40"
     ],
+    "doi": "10.1109/ase63991.2025.00332",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "59ef3ad1-cfb7-4824-b9d1-c152e30181f8",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "3866-3870",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Autonomous Systems"
     ],
@@ -6840,6 +7249,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00332",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/17/Unseen-Data-Detection-using-Routing-Entropy-in-Mixture-of-Experts-for-Autonomous-Vehi",
       "https://drive.google.com/file/d/1Zd-y9s3hILR-3F5sqb-bXdgbWqTqC11r/view?usp=sharing",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -6919,14 +7329,24 @@
       "Shangzhou Xia",
       "Jianjun Zhao"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:20 - 16:30"
     ],
+    "doi": "10.1109/ase63991.2025.00335",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "5ac8b9a7-cb70-41e7-9428-1ea97efc083c",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "3881-3885",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Quantum Software Engineering"
     ],
@@ -6938,6 +7358,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00335",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/20/NovaQ-Improving-Quantum-Program-Testing-through-Diversity-Guided-Test-Case-Generatio",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -7063,14 +7484,24 @@
       "Ruida Hu",
       "Cuiyun Gao"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 11:30 - 11:40"
     ],
+    "doi": "10.1109/ase63991.2025.00200",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "5c775a1e-dc3f-4830-87da-80894a5f4bb7",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "2427-2439",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 2"
     ],
@@ -7082,6 +7513,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00200",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/91/An-Agent-based-Evaluation-Framework-for-Complex-Code-Generation",
       "https://anonymous.4open.science/r/CodeVisionary",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -7140,14 +7572,24 @@
       "Alexander Maedche",
       "Simone Paolo Ponzetto"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00373",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "5d940b72-c5f6-437d-b0ec-170b57b021ff",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "4053-4056",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - LLMs and Agents"
     ],
@@ -7159,6 +7601,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00373",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/22/GUI-ReRank-Enhancing-GUI-Retrieval-with-Multi-Modal-LLM-based-Reranking",
       "https://arxiv.org/abs/2508.03298",
       "https://youtu.be/_7x9UCh82ug",
@@ -7471,14 +7914,24 @@
       "Yi Li",
       "Ning Liu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:40 - 11:50"
     ],
+    "doi": "10.1109/ase63991.2025.00149",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "64c5d959-e182-461d-9140-445165d2bbc7",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "1781-1793",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 4"
     ],
@@ -7490,6 +7943,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00149",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/187/Detecting-Various-DeFi-Price-Manipulations-with-LLM-Reasoning",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -7550,14 +8004,24 @@
       "Weiming Zhang",
       "Nenghai Yu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 11:40 - 11:50"
     ],
+    "doi": "10.1109/ase63991.2025.00075",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "6676bcb9-e4fa-47ea-b09c-112d050352b1",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "841-853",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 2"
     ],
@@ -7569,6 +8033,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00075",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/152/PseudoFix-Refactoring-Distorted-Structures-in-Decompiled-C-Pseudocode",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -7580,14 +8045,24 @@
       "Jens Dietrich",
       "Behnaz Hassanshahi"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 16:20 - 16:30"
     ],
+    "doi": "10.1109/ase63991.2025.00300",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "684ef316-e648-43db-99e9-c5e8eb74ecb7",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "3628-3638",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 3"
     ],
@@ -7599,6 +8074,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00300",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/46/DALEQ-Explainable-Equivalence-for-Java-Bytecode",
       "https://github.com/binaryeq/daleq/",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -7709,14 +8185,24 @@
       "Rui Rua",
       "Karim Ali"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00370",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "6ae9d0fa-072d-4d56-b73c-05a5434648d0",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "4041-4044",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - Code and Model"
     ],
@@ -7728,6 +8214,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00370",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/18/BuilDroid-A-Self-Correcting-LLM-Agent-for-Automated-Android-Builds",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -7827,14 +8314,24 @@
       "Nazareno Aguirre",
       "Alessandra Gorla"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:20 - 14:30"
     ],
+    "doi": "10.1109/ase63991.2025.00222",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "6cac78cf-fa8f-4962-9ed8-1311a8a78652",
     "locations": [
       "Vista"
     ],
+    "pages": "2707-2719",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 2"
     ],
@@ -7846,6 +8343,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00222",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/227/State-Field-Coverage-A-Metric-for-Oracle-Quality",
       "https://arxiv.org/abs/2510.03071",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -8181,14 +8679,24 @@
       "Zhenchang Xing",
       "Xiaoyu Sun"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:50 - 12:00"
     ],
+    "doi": "10.1109/ase63991.2025.00063",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "7312553f-efff-4527-baac-fb10a8123ddb",
     "locations": [
       "Vista"
     ],
+    "pages": "687-699",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Test Generation, Selection & Prioritization 1"
     ],
@@ -8200,6 +8708,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00063",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/146/Navigating-the-Labyrinth-Path-Sensitive-Unit-Test-Generation-with-Large-Language-Mod",
       "https://arxiv.org/pdf/2509.23812",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -8256,14 +8765,24 @@
       "Sonia Haiduc",
       "Preetha Chatterjee"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 11:30 - 11:40"
     ],
+    "doi": "10.1109/ase63991.2025.00122",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "73ebb166-d78b-44ca-a189-f3ee63112f6b",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "1440-1452",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Program Repair 1"
     ],
@@ -8275,6 +8794,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00122",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/56/Hierarchical-Knowledge-Injection-for-Improving-LLM-based-Program-Repair",
       "https://arxiv.org/abs/2506.24015",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -8551,14 +9071,24 @@
       "Raheem Beyah",
       "Shouling Ji"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:30 - 14:40"
     ],
+    "doi": "10.1109/ase63991.2025.00091",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "77567fb1-14fd-41df-960f-ebc0954781db",
     "locations": [
       "Grand Hall 6"
     ],
+    "pages": "1044-1056",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Smart Contracts"
     ],
@@ -8570,6 +9100,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00091",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/158/PROMFUZZ-Leveraging-LLM-Driven-and-Bug-Oriented-Composite-Analysis-for-Detecting-Fun",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -8771,14 +9302,24 @@
       "Javier Luis Cánovas Izquierdo",
       "Jordi Cabot"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:40 - 16:50"
     ],
+    "doi": "10.1109/ase63991.2025.00337",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "79e09916-dd28-41cf-8be0-1937d2a93d1f",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "3891-3895",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Review & Process"
     ],
@@ -8790,6 +9331,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00337",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/22/Towards-Automated-Governance-A-DSL-for-Human-Agent-Collaboration-in-Software-Project",
       "https://arxiv.org/abs/2510.14465",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -8857,14 +9399,24 @@
       "Yuetang Deng",
       "Tao Xie"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:20 - 16:30"
     ],
+    "doi": "10.1109/ase63991.2025.00258",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "7a432a31-1b35-4b0b-97ec-33387624967b",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "3145-3156",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 3"
     ],
@@ -8876,6 +9428,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00258",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/3/Practical-Escape-of-Exploration-Tarpits-for-Mini-Game-Testing-in-an-Industrial-Settin",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -9166,14 +9719,24 @@
       "Sangharatna Godboley",
       "Lucas C. Cordeiro"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:40 - 14:50"
     ],
+    "doi": "10.1109/ase63991.2025.00120",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "8063fea5-06ea-4b67-9b58-cca053f69c95",
     "locations": [
       "Grand Hall 6"
     ],
+    "pages": "1415-1426",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Smart Contracts"
     ],
@@ -9185,6 +9748,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00120",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/172/VeriExploit-Automatic-Bug-Reproduction-in-Smart-Contracts-via-LLMs-and-Formal-Method",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -9247,14 +9811,24 @@
       "Jingling Xue",
       "Jingyi Wang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:30 - 16:40"
     ],
+    "doi": "10.1109/ase63991.2025.00305",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "8129d3b6-575e-4d5d-bb1b-9755389bef75",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "3684-3694",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 4"
     ],
@@ -9266,6 +9840,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00305",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/51/Securing-Millions-of-Decentralized-Identities-in-Alipay-Super-App-with-End-to-End-For",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -9317,14 +9892,24 @@
       "Guojun Ma",
       "Xiaohu Yang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 12:00 - 12:10"
     ],
+    "doi": "10.1109/ase63991.2025.00058",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "832628af-83f8-48be-8a31-74257772f471",
     "locations": [
       "Vista"
     ],
+    "pages": "623-635",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Test Generation, Selection & Prioritization 1"
     ],
@@ -9336,6 +9921,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00058",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/144/Enhancing-LLM-s-Ability-to-Generate-More-Repository-Aware-Unit-Tests-Through-Precise-",
       "https://vinci-grape.github.io/papers/Enhancing_LLM_s_Ability_to_Generate_More_Repository_Aware_Unit_Tests_Through_Precise_Context_Injection.pdf",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -9350,14 +9936,24 @@
       "Linghan Meng",
       "Kui Liu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:50 - 17:00"
     ],
+    "doi": "10.1109/ase63991.2025.00264",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "835afeed-eedb-4f92-b3aa-8b6b6ac79d4f",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "3204-3215",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Review & Process"
     ],
@@ -9369,6 +9965,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00264",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/9/iCodeReviewer-Improving-Secure-Code-Review-with-Mixture-of-Prompts",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -9425,14 +10022,24 @@
       "Jiexin Wang",
       "Yi Cai"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 14:30 - 14:40"
     ],
+    "doi": "10.1109/ase63991.2025.00186",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "84d4e879-0364-44d6-bc55-3f220c0902a1",
     "locations": [
       "Vista"
     ],
+    "pages": "2248-2260",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 1"
     ],
@@ -9444,6 +10051,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00186",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/205/Mixture-of-Experts-Low-Rank-Adaptation-for-Multilingual-Code-Summarization",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -9527,14 +10135,25 @@
       "Ulf Nilsson",
       "Daniel Varro"
     ],
+    "container": "IEEE Transactions on Software Engineering",
     "dates": [
       "Mon 17 Nov 2025 11:30 - 11:40"
     ],
+    "doi": "10.1109/tse.2025.3574500",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "87bf3880-6453-4009-85eb-ff8ccea09745",
+    "issue": "7",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "2181-2196",
+    "publicationDate": "2025-07-01",
+    "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
     "sessionTitles": [
       "Bug Understanding 1"
     ],
@@ -9546,9 +10165,11 @@
       "Journal-First"
     ],
     "urls": [
+      "https://doi.org/10.1109/tse.2025.3574500",
       "https://conf.researchr.org/details/ase-2025/ase-2025-journal-first-track/12/Why-Do-Machine-Learning-Notebooks-Crash-An-Empirical-Study-on-Public-Python-Jupyter-",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
-    ]
+    ],
+    "volume": "51"
   },
   {
     "abstract": "As Android apps become increasingly prevalent in daily life, a common issue in the development process is the configuration of UI colors, leading to color-related accessibility issues that make the text or images on the app’s UI difficult to see due to low color contrast. Such color-related accessibility issues are among the top issues in apps, having a negative impact on vision and user experience. However, state-of-the-art approaches are based on predefined rules and lack an understanding of strategies for alternative colors, therefore failing to generate patches acceptable to both app users and developers. To address this research gap, we first conducted an empirical study to explore common strategies used by app developers when fixing real-world color-related accessibility issues. Based on these findings, we proposed DroidPalette, an automated approach for repairing color-related accessibility issues in Android apps. DroidPalette encodes the common strategies used by app developers for selecting issue-fixing colors, as identified in our empirical study, and combines this with the candidate issue-fixing attributes identified from the Android framework and third-party libraries to generate patches. We evaluated DroidPalette on 316 color-related accessibility issues across 105 real-world Android apps, achieving a success rate of 67.72%. Encouragingly, out of 13 patches submitted to GitHub repositories, 8 have received positive feedback from app developers.",
@@ -9557,14 +10178,24 @@
       "Jiahao Gu",
       "Huaxun Huang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:20 - 11:30"
     ],
+    "doi": "10.1109/ase63991.2025.00169",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "8923779a-4982-4674-bb29-15a14b1dbd05",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "2033-2045",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Web & Mobile Systems 1"
     ],
@@ -9576,6 +10207,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00169",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/196/Characterizing-and-Repairing-Color-Related-Accessibility-Issues-in-Android-Apps",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -9623,14 +10255,24 @@
       "Yuxia Zhang",
       "Hui Liu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 11:40 - 11:50"
     ],
+    "doi": "10.1109/ase63991.2025.00023",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "8a78b1c6-6642-4dd3-a39e-572eb7694fb4",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "178-190",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Maintenance & Evolution 3"
     ],
@@ -9642,6 +10284,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00023",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/123/Wired-for-Reuse-Automating-Context-Aware-Code-Adaptation-in-IDEs-via-LLM-Based-Agent",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -9661,14 +10304,24 @@
       "Limin Sun",
       "Hongsong Zhu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:40 - 14:50"
     ],
+    "doi": "10.1109/ase63991.2025.00081",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "8bd6d0c8-5402-4e1d-a718-9dabf288bb0a",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "919-931",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 2"
     ],
@@ -9680,6 +10333,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00081",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/155/Lares-LLM-driven-Code-Slice-Semantic-Search-for-Patch-Presence-Testing",
       "https://anonymous.4open.science/r/Lares-DDDA",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -9854,14 +10508,24 @@
       "Junjie Wang",
       "Jianjun Chen"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:00 - 15:10"
     ],
+    "doi": "10.1109/ase63991.2025.00174",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "8e75653a-cb9e-4956-af5b-3cb0c17a906d",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "2096-2108",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Translation"
     ],
@@ -9873,6 +10537,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00174",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/198/SPEC2CODE-Mapping-Software-Specification-to-Function-Level-Code-Implementation",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -9931,15 +10596,25 @@
       "Fuyuki Ishikawa",
       "Jianjun Zhao"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Tue 18 Nov 2025 11:30 - 11:40"
     ],
     "doi": "10.1145/3705307",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "91711ebb-85fc-487f-ac79-a56dfb827c83",
+    "issue": "4",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "1-35",
+    "publicationDate": "2025-05-31",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Fault Localization"
     ],
@@ -9951,11 +10626,12 @@
       "Journal-First"
     ],
     "urls": [
+      "https://doi.org/10.1145/3705307",
       "https://conf.researchr.org/details/ase-2025/ase-2025-journal-first-track/16/SpectAcle-Fault-Localisation-of-AI-Enabled-CPS-by-Exploiting-Sequences-of-DNN-Contro",
       "https://dl.acm.org/doi/10.1145/3705307",
-      "https://doi.org/10.1145/3705307",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
-    ]
+    ],
+    "volume": "34"
   },
   {
     "abstract": "Training-as-a-service platforms facilitate users to deploy pre-configured Generative AI training jobs as batch workloads. The immutability of configuration offers minimal flexibility to dynamically adapt to training progress. Existing approaches invariably involve manually monitoring training progress on a dashboard, and the stop-reconfigure-restart of training does not scale well with number of experiments. Relying on pre-configuration, wastes computational resources and makes debugging of training jobs difficult. We address this gap through our training-control-as-code paradigm, which allows users to run user-defined code to analyze the training state and intervene to flag anomalies and save resource wastage. Our framework TrAC offers a declarative interface to allow for declaring desired control and for reusing it at scale. Using real-world open-source data and models we provide estimates on the savings in time and resource due to TrAC . We also provide demo video: https://youtu.be/RmhBfFjd1oA and code: https://github.com/foundation-model-stack/fms-hf-tuning/blob/main/examples/trainercontroller_configs/Readme.md",
@@ -9967,14 +10643,24 @@
       "Ashok Pon Kumar",
       "Dushyant Behl"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00384",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "9191e634-a359-4126-929a-0014d3bc79f0",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "4098-4101",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - Testing & Analysis"
     ],
@@ -9986,6 +10672,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00384",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/33/Training-Control-as-Code-Towards-a-declarative-solution-to-control-training",
       "https://youtu.be/RmhBfFjd1oA",
       "https://github.com/foundation-model-stack/fms-hf-tuning/blob/main/examples/trainercontroller_configs/Readme.md",
@@ -10177,14 +10864,24 @@
       "Ge Wen",
       "Hai Jin"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:50 - 15:00"
     ],
+    "doi": "10.1109/ase63991.2025.00138",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "96e70cad-545c-496d-94ce-68c4f19169d1",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "1642-1654",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Maintenance & Evolution 1"
     ],
@@ -10196,6 +10893,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00138",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/180/Fact-Aligned-and-Template-Constrained-Static-Analyzer-Rule-Enhancement-with-LLMs",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -10413,14 +11111,24 @@
       "Ezio Bartocci",
       "Domenico Bianculli"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:30 - 16:40"
     ],
+    "doi": "10.1109/ase63991.2025.00326",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "99fa4666-3d7b-43ce-bfd1-0914c82bc477",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "3834-3839",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Bug Understanding 2"
     ],
@@ -10432,6 +11140,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00326",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/11/Fault-Injection-for-Simulink-based-CPS-Models-Insights-and-Future-Directions",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -10805,14 +11514,24 @@
       "Lizhi Liao",
       "Weiyi Shang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 14:40 - 14:50"
     ],
+    "doi": "10.1109/ase63991.2025.00251",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "9de3562f-2aee-43ca-9f12-a724a6e9e603",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "3058-3070",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Web & Mobile Systems 2"
     ],
@@ -10824,6 +11543,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00251",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/243/Who-s-to-Blame-Rethinking-the-Brittleness-of-Automated-Web-GUI-Testing-from-a-Pragma",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -10834,14 +11554,24 @@
     "authors": [
       "Fanny Febriani Susilo"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Thu 20 Nov 2025 10:30 - 11:15"
     ],
+    "doi": "10.1109/ase63991.2025.00395",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "9e28d7db-4804-4f97-ae9b-235e3ad39119",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "4137-4140",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Doctoral Symposium 2"
     ],
@@ -10853,6 +11583,7 @@
       "Doctoral Symposium"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00395",
       "https://conf.researchr.org/details/ase-2025/ase-2025-doctoral-symposium/1/Human-Centered-Evaluation-of-REST-API-Fuzzing-Tools-Bridging-Academia-and-Industry",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -10866,14 +11597,24 @@
       "Yaniv Harel",
       "David Lo"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 15:10 - 15:20"
     ],
+    "doi": "10.1109/ase63991.2025.00102",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "9e4b24a9-073f-4b12-bef7-1055b3a89064",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "1182-1194",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 5"
     ],
@@ -10885,6 +11626,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00102",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/163/Backdoors-in-Code-Summarizers-How-Bad-Is-It-",
       "https://arxiv.org/abs/2506.01825",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -11036,14 +11778,24 @@
       "Hai Yu",
       "Zhiliang Zhu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 12:10 - 12:20"
     ],
+    "doi": "10.1109/ase63991.2025.00158",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "a08d216c-b80f-426b-bb60-beb495ca11b2",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "1894-1905",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Efficiency & Fairness 1"
     ],
@@ -11055,6 +11807,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00158",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/73/Diplomatist-What-Do-Cross-language-Dependencies-Reflect-Software-Ecosystem-Health-",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -11387,14 +12140,24 @@
       "Shengyi Pan",
       "Zhongxin Liu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:00 - 15:10"
     ],
+    "doi": "10.1109/ase63991.2025.00206",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "a393e625-2472-4fa5-ab1b-cd1c87428b24",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "2504-2515",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 1"
     ],
@@ -11406,6 +12169,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00206",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/217/Unit-Test-Update-through-LLM-Driven-Context-Collection-and-Error-Type-Aware-Refinemen",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -11505,14 +12269,24 @@
       "Jie Liang",
       "Minghao Zhao"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:40 - 16:50"
     ],
+    "doi": "10.1109/ase63991.2025.00322",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "a4ebbe6b-7e9f-4172-98f5-d009c9d7b5de",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "3814-3818",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 4"
     ],
@@ -11524,6 +12298,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00322",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/7/LLM-based-Dynamic-Differential-Testing-for-Database-Connectors-with-Reinforcement-Lea",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -11672,14 +12447,24 @@
       "Bruno Lima",
       "João Pascoal Faria"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:30 - 16:40"
     ],
+    "doi": "10.1109/ase63991.2025.00273",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "a5d2580f-685f-4dba-8ed6-95bb64ac7e18",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "3311-3321",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 3"
     ],
@@ -11691,6 +12476,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00273",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/18/Streamlining-Acceptance-Test-Generation-for-Mobile-Applications-Through-Large-Languag",
       "http://arxiv.org/abs/2510.18861",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -11790,14 +12576,24 @@
       "Hongchen Cao",
       "Jingzhu He"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:30 - 16:40"
     ],
+    "doi": "10.1109/ase63991.2025.00347",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "a88a3287-71c2-43b9-91b8-368c986a2d2a",
     "locations": [
       "Vista"
     ],
+    "pages": "3943-3947",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 6"
     ],
@@ -11809,6 +12605,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00347",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/32/STaint-Detecting-Second-Order-Vulnerabilities-in-PHP-Applications-with-LLM-Assisted-",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -11988,14 +12785,24 @@
       "Baowen Xu",
       "Qingkai Shi"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:40 - 14:50"
     ],
+    "doi": "10.1109/ase63991.2025.00107",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "ab82f2fe-dc34-4f2e-a849-41e253914ced",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "1247-1259",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Program Analysis 1"
     ],
@@ -12007,6 +12814,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00107",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/167/Protecting-Source-Code-Privacy-When-Hunting-Memory-Bugs",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -12357,14 +13165,24 @@
       "Yanjie Zhao",
       "Haoyu Wang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 12:00 - 12:10"
     ],
+    "doi": "10.1109/ase63991.2025.00142",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "af725b97-3649-448a-811a-040343fe65e1",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "1693-1704",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 1"
     ],
@@ -12376,6 +13194,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00142",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/67/Demystifying-Cookie-Sharing-Risks-in-WebView-based-Mobile-App-in-app-Ecosystems",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -12387,14 +13206,24 @@
       "Juan Diego Yepes-Parra",
       "Camilo Escobar-Velásquez"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00374",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "afdacfa4-6145-48b4-a3f6-7507b9927652",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "4057-4061",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - LLMs and Agents"
     ],
@@ -12406,6 +13235,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00374",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/23/EyeNav-Accessible-Webpage-Interaction-and-Testing-using-Eye-tracking-and-NLP",
       "https://thesoftwaredesignlab.github.io/EyeNav/",
       "https://thesoftwaredesignlab.github.io/EyeNav/video.html",
@@ -12801,14 +13631,24 @@
       "Weizhe Zhang",
       "Zibin Zheng"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 12:00 - 12:10"
     ],
+    "doi": "10.1109/ase63991.2025.00054",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "b298dbc1-03e9-4ab5-9474-2c0449157613",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "571-583",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Bug Understanding 1"
     ],
@@ -12820,6 +13660,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00054",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/140/SSR-Safeguarding-Staking-Rewards-by-Defining-and-Detecting-Logical-Defects-in-DeFi-S",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -12833,14 +13674,24 @@
       "Dung Nguyen",
       "Emery D. Berger"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 11:40 - 11:50"
     ],
+    "doi": "10.1109/ase63991.2025.00131",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "b29d09e7-6831-4c1d-9fa3-9b4f50688637",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "1553-1565",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Efficiency & Fairness 1"
     ],
@@ -12852,6 +13703,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00131",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/178/It-s-Not-Easy-Being-Green-On-the-Energy-Efficiency-of-Programming-Languages",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -12896,14 +13748,24 @@
       "Sungmin Park",
       "Jihyeok Park"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 15:10 - 15:20"
     ],
+    "doi": "10.1109/ase63991.2025.00015",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "b3242a0a-cf28-4c72-a227-600ba5ba8ee5",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "78-90",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Web & Mobile Systems 2"
     ],
@@ -12915,6 +13777,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00015",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/3/Debun-Detecting-Bundled-JavaScript-Libraries-on-Web-using-Property-Order-Graphs",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -13098,14 +13961,24 @@
       "Yeting Li",
       "Wei Huo"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 15:00 - 15:10"
     ],
+    "doi": "10.1109/ase63991.2025.00220",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "b898bdb0-1dd1-498c-b58e-1c0f0d4f0934",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "2682-2694",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 2"
     ],
@@ -13117,6 +13990,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00220",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/98/Understanding-Resource-Injection-Vulnerabilities-in-Kubernetes-Ecosystems",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -13131,14 +14005,24 @@
       "Zhenyu Wu",
       "Jinping Wang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 11:50 - 12:00"
     ],
+    "doi": "10.1109/ase63991.2025.00041",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "b9c843a2-9e83-4735-996c-a238aa504190",
     "locations": [
       "Vista"
     ],
+    "pages": "406-418",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "SE4AI & AI4SE 2"
     ],
@@ -13150,6 +14034,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00041",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/130/From-Sparse-to-Structured-A-Diffusion-Enhanced-and-Feature-Aligned-Framework-for-Coi",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -13355,14 +14240,24 @@
       "Chi Zhang",
       "Yu Jiang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:40 - 14:50"
     ],
+    "doi": "10.1109/ase63991.2025.00151",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "c0e30f15-0757-49cc-bfac-2298d5146243",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "1807-1818",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Fuzzing 1"
     ],
@@ -13374,6 +14269,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00151",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/70/ARG-Testing-Query-Rewriters-via-Abstract-Rule-Guided-Fuzzing",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -13472,14 +14368,24 @@
       "Jürgen Cito",
       "Martina Lindorfer"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 12:00 - 12:10"
     ],
+    "doi": "10.1109/ase63991.2025.00080",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "c36e019f-499c-4453-8969-2d2cfcd00aea",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "906-918",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Web & Mobile Systems 1"
     ],
@@ -13491,6 +14397,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00080",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/31/Profile-Coverage-Using-Android-Compilation-Profiles-to-Evaluate-Dynamic-Testing",
       "https://themoep.at/research/2025-profile-coverage.pdf",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -13505,14 +14412,24 @@
       "Johannes Dorn",
       "Norbert Siegmund"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 12:00 - 12:10"
     ],
+    "doi": "10.1109/ase63991.2025.00207",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "c3aca517-f7c9-467f-8b31-210939e27132",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "2516-2528",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Log & Dependency 1"
     ],
@@ -13524,6 +14441,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00207",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/93/On-Automating-Configuration-Dependency-Validation-via-Retrieval-Augmented-Generation",
       "https://sws.informatik.uni-leipzig.de/wp-content/uploads/2025/09/DEP_RAG_ASE_2025.pdf",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -13629,14 +14547,24 @@
       "Tegawendé F. Bissyandé",
       "Jacques Klein"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:30 - 16:40"
     ],
+    "doi": "10.1109/ase63991.2025.00343",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "c59bca83-d555-4491-8e55-fc45f1a2dd5c",
     "locations": [
       "Grand Hall 6"
     ],
+    "pages": "3922-3926",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 4"
     ],
@@ -13648,6 +14576,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00343",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/28/Measuring-LLM-Code-Generation-Stability-via-Structural-Entropy",
       "https://arxiv.org/pdf/2508.14288",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -13749,14 +14678,24 @@
       "Donglai Zhu",
       "Min Yang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 14:50 - 15:00"
     ],
+    "doi": "10.1109/ase63991.2025.00253",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "c86d5036-494a-46b2-99e2-4bec720265a3",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "3083-3094",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Fuzzing 1"
     ],
@@ -13768,6 +14707,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00253",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/113/Algernon-A-Flag-Guided-Hybrid-Fuzzer-for-Unlocking-Hidden-Program-Paths",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -13785,14 +14725,24 @@
       "Shuai Wang",
       "Michael Lyu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:10 - 15:20"
     ],
+    "doi": "10.1109/ase63991.2025.00239",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "c99fa665-13b2-4cbb-b70f-f8eed0d574b4",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "2906-2918",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 1"
     ],
@@ -13804,6 +14754,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00239",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/105/Metamorphic-Testing-for-Audio-Content-Moderation-Software",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -13949,14 +14900,24 @@
       "Massimiliano Di Penta",
       "Fiorella Zampetti"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 15:30 - 18:00"
     ],
+    "doi": "10.1109/ase63991.2025.00358",
     "eventType": "Demonstration",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "ca69e6e0-b216-4b37-982d-8ff580a697c4",
     "locations": [
       "Walker Hall (Demo)"
     ],
+    "pages": "3993-3996",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Tools - Code and Model"
     ],
@@ -13968,6 +14929,7 @@
       "Tool Demonstration Track"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00358",
       "https://conf.researchr.org/details/ase-2025/ase-2025-tool-demonstration-track/6/CodeGenLink-A-Tool-to-Find-the-Likely-Origin-and-License-of-Automatically-Generated-",
       "https://arxiv.org/abs/2510.01077",
       "https://github.com/danielebifolco/CodeGenLink",
@@ -13986,14 +14948,24 @@
       "Chao Ni",
       "Yuan Luo"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 15:00 - 15:10"
     ],
+    "doi": "10.1109/ase63991.2025.00034",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "cb307ccc-035e-41e9-be34-101e02ed8622",
     "locations": [
       "Grand Hall 6"
     ],
+    "pages": "317-329",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Smart Contracts"
     ],
@@ -14005,6 +14977,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00034",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/12/PrefGen-A-Preference-Driven-Methodology-for-Secure-Yet-Gas-Efficient-Smart-Contract-",
       "https://arxiv.org/pdf/2506.03006v3",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -14963,14 +15936,24 @@
       "Xiaohong Su",
       "Tiantian Wang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 12:10 - 12:20"
     ],
+    "doi": "10.1109/ase63991.2025.00191",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "dc51398e-c19a-4017-868e-86e77c928637",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "2312-2324",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 2"
     ],
@@ -14982,6 +15965,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00191",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/208/Effective-Code-Membership-Inference-for-Code-Completion-Models-via-Adversarial-Prompt",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -15089,14 +16073,24 @@
       "Zuchao Ma",
       "Xiapu Luo"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 15:10 - 15:20"
     ],
+    "doi": "10.1109/ase63991.2025.00209",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "dedf8f3b-c240-4fb7-9f97-a8d32631f773",
     "locations": [
       "Grand Hall 6"
     ],
+    "pages": "2542-2554",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Smart Contracts"
     ],
@@ -15108,6 +16102,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00209",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/218/Soleker-Uncovering-Vulnerabilities-in-Solana-Smart-Contracts",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -15167,14 +16162,25 @@
       "Junjie Chen",
       "Heming Cui"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Mon 17 Nov 2025 14:50 - 15:00"
     ],
+    "doi": "10.1145/3724117",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "dfa74d55-56f0-4a39-977a-95303e9c7383",
+    "issue": "1",
     "locations": [
       "Vista"
     ],
+    "pages": "1-31",
+    "publicationDate": "2026-01-31",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Code Generation 1"
     ],
@@ -15186,9 +16192,11 @@
       "Journal-First"
     ],
     "urls": [
+      "https://doi.org/10.1145/3724117",
       "https://conf.researchr.org/details/ase-2025/ase-2025-journal-first-track/20/Bias-Testing-and-Mitigation-in-LLM-based-Code-Generation",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
-    ]
+    ],
+    "volume": "35"
   },
   {
     "abstract": "Blockchain transactions are often interpreted by off-chain systems through call traces, event logs, and storage modifications. However, these artifacts can diverge from the actual on-chain execution due to semantic mismatches caused by reverts or misleading logs. Existing tools largely assume consistency between observable effects and final state, overlooking semantic mismatches. We present a semantic framework for smart contract security analysis that models and leverages transaction-level semantics to detect vulnerabilities, synthesize attacks, and explain off-chain inconsistencies. Our approach identifies mismatches between real execution effects and intent-oblivious interpretations by off-chain systems. We plan to implement three tools: \\textit{PEventCatcher} for detecting log forgery vulnerabilities, \\textit{RollGain} for synthesizing rollback-based state-reverting attacks, and \\textit{DeepTx} for real-time intent detection.",
@@ -15284,14 +16292,24 @@
       "Gunel Gulmammadova",
       "Joey Chua"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:40 - 16:50"
     ],
+    "doi": "10.1109/ase63991.2025.00279",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "e2676dcb-c2a4-4b58-9ab8-47a9333f1313",
     "locations": [
       "Vista"
     ],
+    "pages": "3381-3391",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 6"
     ],
@@ -15303,6 +16321,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00279",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/24/AdaptiveGuard-Towards-Adaptive-Runtime-Safety-for-LLM-Powered-Software",
       "https://github.com/awsm-research/AdaptiveGuard",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -15362,14 +16381,24 @@
       "Jia Li",
       "Lin Shi"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:00 - 15:10"
     ],
+    "doi": "10.1109/ase63991.2025.00190",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "e43e3806-0d6a-465c-9860-7b04ee0866df",
     "locations": [
       "Vista"
     ],
+    "pages": "2299-2311",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 1"
     ],
@@ -15381,6 +16410,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00190",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/207/FastCoder-Accelerating-Repository-level-Code-Generation-via-Efficient-Retrieval-and-",
       "https://arxiv.org/pdf/2502.17139",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -15489,14 +16519,24 @@
       "Yang Liu",
       "Wei Huo"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 12:10 - 12:20"
     ],
+    "doi": "10.1109/ase63991.2025.00093",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "e6bc1af2-013d-41ee-b0c9-f5d3b3eb46ac",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "1070-1082",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 4"
     ],
@@ -15508,6 +16548,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00093",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/41/A-Large-Scale-Study-of-AI-based-Binary-Function-Similarity-Detection-Techniques-for-S",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -15910,14 +16951,24 @@
       "Ying Li",
       "Gang Huang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 12:00 - 12:10"
     ],
+    "doi": "10.1109/ase63991.2025.00061",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "ea7a0d8c-a18e-4d96-ac20-390d7ff05647",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "661-673",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Efficiency & Fairness 1"
     ],
@@ -15929,6 +16980,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00061",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/21/United-We-Stand-Towards-End-to-End-Log-based-Fault-Diagnosis-via-Interactive-Multi-T",
       "https://chimera4log.github.io/",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
@@ -15981,14 +17033,24 @@
       "Wei Yang",
       "Tao Xie"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:50 - 17:00"
     ],
+    "doi": "10.1109/ase63991.2025.00296",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "ec0c072b-1060-4427-a082-126316ffb556",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "3581-3592",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Testing & Analysis 3"
     ],
@@ -16000,6 +17062,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00296",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/42/Element-Aware-Fine-Tuning-of-Vision-Language-Models-for-Cost-Efficient-GUI-Testing-in",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -16013,14 +17076,25 @@
       "Paola Inverardi",
       "Patrizio Pelliccione"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Mon 17 Nov 2025 15:10 - 15:20"
     ],
+    "doi": "10.1145/3712006",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "ec5db114-3e81-41d6-ac7a-7fdb095fae61",
+    "issue": "5",
     "locations": [
       "Grand Hall 4"
     ],
+    "pages": "1-33",
+    "publicationDate": "2025-06-30",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Human & Social Aspects 1"
     ],
@@ -16032,9 +17106,11 @@
       "Journal-First"
     ],
     "urls": [
+      "https://doi.org/10.1145/3712006",
       "https://conf.researchr.org/details/ase-2025/ase-2025-journal-first-track/2/Engineering-Digital-Systems-for-Humanity-a-Research-Roadmap",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
-    ]
+    ],
+    "volume": "34"
   },
   {
     "abstract": "Robots often need to be reconfigurable—to customize, calibrate, or optimize robots operating in varying environments with different hardware. A particular challenge in robotics is the automated and dynamic reconfiguration to load and unload software components, as well as parameterizing them. Over the last decades, a large variety of software reconfiguration techniques has been presented in the literature, many specifically for robotics systems. Also many robotics frameworks support reconfiguration. Unfortunately, there is a lack of empirical data on the actual use of reconfiguration techniques in real robotics projects and on their realization in robotics frameworks. To advance reconfiguration techniques and support their adoption, we need to improve our empirical understanding of them in practice. We present a study of automated reconfiguration at runtime in the robotics domain. We determine the state-of-the art by reviewing 78 relevant publications on reconfiguration. We determine the state-of-practice by analyzing how four major robotics frameworks support reconfiguration, and how reconfiguration is realized in 48 robotics (sub-)systems. We contribute a detailed analysis of the design space of reconfiguration techniques. We identify trends and research gaps. Our results show a significant discrepancy between the state-of-the-art and the state-of-practice. While the scientific community focuses on complex structural reconfiguration, only parameter reconfiguration is widely used in practice. Our results support practitioners to realize reconfiguration in robotics systems, as well as they support researchers and tool builders to create more effective reconfiguration techniques that are adopted in practice.",
@@ -16090,14 +17166,24 @@
     "authors": [
       "Jianjun Zhao"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:40 - 16:50"
     ],
+    "doi": "10.1109/ase63991.2025.00336",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "ed29d28b-6359-4f5c-b881-b66cabe465d3",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "3886-3890",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Quantum Software Engineering"
     ],
@@ -16109,6 +17195,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00336",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/21/When-Abstraction-Breaks-Physics-Rethinking-Modular-Design-in-Quantum-Software",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -16122,14 +17209,24 @@
       "Ziyao He",
       "Sam Malek"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 12:20 - 12:30"
     ],
+    "doi": "10.1109/ase63991.2025.00159",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "edd4a7fb-8162-47ce-a03c-23987d540ae4",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "1906-1918",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Web & Mobile Systems 1"
     ],
@@ -16141,6 +17238,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00159",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/192/Automated-Detection-of-Web-Application-Navigation-Barriers-for-Screen-Reader-Users",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -16154,14 +17252,24 @@
       "Arie van Deursen",
       "Mali Izadi"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 16:40 - 16:50"
     ],
+    "doi": "10.1109/ase63991.2025.00290",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "ee6d5d79-12da-46f8-a501-0ed39e8ff63e",
     "locations": [
       "Grand Hall 6"
     ],
+    "pages": "3510-3521",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 4"
     ],
@@ -16173,6 +17281,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00290",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/35/TreeRanker-Fast-and-Model-agnostic-Ranking-System-for-Code-Suggestions-in-IDEs",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -16317,14 +17426,24 @@
       "Shi Chang",
       "Ahmed E. Hassan"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 16:40 - 16:50"
     ],
+    "doi": "10.1109/ase63991.2025.00271",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "f1da5da1-d2de-4146-979a-e61cb9e2589c",
     "locations": [
       "Grand Hall 6"
     ],
+    "pages": "3287-3298",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Efficiency & Fairness 2"
     ],
@@ -16336,6 +17455,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00271",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/16/Context-Aware-CodeLLM-Eviction-for-AI-assisted-Coding",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -16526,14 +17646,24 @@
       "Linlong Tang",
       "Rongxin Wu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:20 - 15:30"
     ],
+    "doi": "10.1109/ase63991.2025.00076",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "f5dddfb4-7146-48d8-b69a-d26cdbdd9eec",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "854-866",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Translation"
     ],
@@ -16545,6 +17675,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00076",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/29/DLBENCH-A-Comprehensive-Benchmark-for-SQL-Translation-with-Large-Language-Models",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -16701,14 +17832,24 @@
       "Li Li",
       "Shing-Chi Cheung"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 15:20 - 15:30"
     ],
+    "doi": "10.1109/ase63991.2025.00146",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "f6e83c93-967f-491f-80e1-e5a603347262",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "1744-1755",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Maintenance & Evolution 1"
     ],
@@ -16720,6 +17861,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00146",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/185/CROSS2OH-Enabling-Seamless-Porting-of-C-C-Software-Libraries-to-OpenHarmony",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -16777,14 +17919,24 @@
       "Shin Wonho",
       "Sukyoung Ryu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Wed 19 Nov 2025 15:20 - 15:30"
     ],
+    "doi": "10.1109/ase63991.2025.00119",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "f882f575-4ba3-468c-8b2e-caee29d00f8f",
     "locations": [
       "Vista"
     ],
+    "pages": "1403-1414",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Test Generation, Selection & Prioritization 2"
     ],
@@ -16796,6 +17948,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00119",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/54/WEST-Specification-Based-Test-Generation-for-WebAssembly",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -16851,14 +18004,24 @@
       "Maxime Lamothe",
       "Foutse Khomh"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 16:40 - 16:50"
     ],
+    "doi": "10.1109/ase63991.2025.00286",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "f93cc597-ac14-4773-b317-dbc2eeb22d21",
     "locations": [
       "Grand Hall 6"
     ],
+    "pages": "3462-3474",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Log & Dependency 2"
     ],
@@ -16870,6 +18033,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00286",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/31/From-Technical-Excellence-to-Practical-Adoption-Lessons-Learned-Building-an-ML-Enhan",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -17125,14 +18289,24 @@
       "Fuchen Ma",
       "Heyuan Shi"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 16:50 - 17:00"
     ],
+    "doi": "10.1109/ase63991.2025.00260",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "fb4a9040-c932-44a6-9a19-6149f9e6bbd3",
     "locations": [
       "Grand Hall 2"
     ],
+    "pages": "3157-3167",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Security 3"
     ],
@@ -17144,6 +18318,7 @@
       "Industry Showcase"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00260",
       "https://conf.researchr.org/details/ase-2025/ase-2025-industry-showcase/5/Industry-Practice-of-LLM-Assisted-Protocol-Fuzzing-for-Commercial-Communication-Modul",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -17267,14 +18442,24 @@
       "Mehant Kammakomati",
       "Srikanth G. Tamilselvam"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 16:40 - 16:50"
     ],
+    "doi": "10.1109/ase63991.2025.00344",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "fce345f8-2cdc-4883-ac35-9855c3ba5c77",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "3927-3931",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 3"
     ],
@@ -17286,6 +18471,7 @@
       "NIER"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00344",
       "https://conf.researchr.org/details/ase-2025/ase-2025-nier-track/29/Multiple-Schema-Conformant-Declarative-Code-Generation",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -17302,14 +18488,24 @@
       "Jing Sun",
       "Jin Song Dong"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 15:20 - 15:30"
     ],
+    "doi": "10.1109/ase63991.2025.00176",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "fd206b0b-2168-4176-9370-af8324b9ed75",
     "locations": [
       "Grand Hall 3"
     ],
+    "pages": "2122-2133",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Formal Method & Verification 1"
     ],
@@ -17321,6 +18517,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00176",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/200/PAT-Agent-Autoformalization-for-Model-Checking",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -17341,14 +18538,24 @@
       "Ying Li",
       "Gang Huang"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Mon 17 Nov 2025 12:10 - 12:20"
     ],
+    "doi": "10.1109/ase63991.2025.00097",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "fd26b07b-da05-4a27-9eab-d05961efb563",
     "locations": [
       "Grand Hall 5"
     ],
+    "pages": "1119-1131",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Log & Dependency 1"
     ],
@@ -17360,6 +18567,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00097",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/160/CollaborLog-Efficient-Generalizable-Log-Anomaly-Detection-via-Large-Small-Model-Coll",
       "https://conf.researchr.org/program/ase-2025/program-ase-2025/"
     ]
@@ -17374,14 +18582,24 @@
       "Beijun Shen",
       "Xiaodong Gu"
     ],
+    "container": "2025 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)",
     "dates": [
       "Tue 18 Nov 2025 12:20 - 12:30"
     ],
+    "doi": "10.1109/ase63991.2025.00020",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "fdd730e5-b3a1-45ed-9b5f-87e92e3fb7d4",
     "locations": [
       "Grand Hall 1"
     ],
+    "pages": "141-153",
+    "publicationDate": "2025-11-16",
+    "publisher": "IEEE",
     "sessionTitles": [
       "Code Generation 2"
     ],
@@ -17393,6 +18611,7 @@
       "Research Papers"
     ],
     "urls": [
+      "https://doi.org/10.1109/ase63991.2025.00020",
       "https://conf.researchr.org/details/ase-2025/ase-2025-papers/121/LongCodeZip-Compress-Long-Context-for-Code-Language-Models",
       "https://arxiv.org/abs/2510.00446",
       "https://github.com/YerbaPage/LongCodeZip",

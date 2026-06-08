@@ -9192,14 +9192,25 @@
       "Sebastian Krieter",
       "Gunter Saake"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Fri 17 Apr 2026 14:30 - 14:45"
     ],
+    "doi": "10.1145/3764666",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "658f0111-b56f-4da7-b334-066b6780aeae",
+    "issue": "3",
     "locations": [
       "Oceania I"
     ],
+    "pages": "1-4",
+    "publicationDate": "2026-03-31",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Analytics 4"
     ],
@@ -9211,10 +9222,12 @@
       "Journal-first Papers"
     ],
     "urls": [
+      "https://doi.org/10.1145/3764666",
       "https://conf.researchr.org/details/icse-2026/icse-2026-journal-first-papers/34/How-Configurable-is-the-Linux-Kernel-Analyzing-Two-Decades-of-Feature-Model-History",
       "https://raw.githubusercontent.com/SoftVarE-Group/Papers/main/2025/2025-TOSEM-Kuiter.pdf",
       "https://conf.researchr.org/program/icse-2026/program-icse-2026/"
-    ]
+    ],
+    "volume": "35"
   },
   {
     "abstract": "Static analysis for vulnerability detection in JavaScript is an extensively studied research area. However, state-of-the-art approaches ignore bundling, an emerging development practice, akin to compilation, which allows developers to merge code from different providers, while also applying optimizations to reduce code size. A typical bundle heavily reuses single-letter identifiers and extensively relies on dynamic JavaScript features to emulate code dependencies, thus, hindering static analysis. In this work, we propose a reverse engineering approach that relies on domain-specific code transformations to unpack bundles and replace reidentified libraries with their source code. Our technique applies lightweight static analysis to dissect bundles into individual components, machine learning to identify libraries, and dynamic analysis to verify that libraries were correctly identified. We implement this approach in a tool called D-Bundlr, and evaluate it by comparing the output of CodeQL (a popular static analysis tool) before and after debundling. For a JavaScript code benchmark with known vulnerabilities, our approach allows CodeQL to recover 89% of the vulnerabilities and 83% of all alerts that were also detected in the source code, but were dormant in bundles. Similarly, for real-world bundles where we can retrieve the source code, D-Bundlr recovered 33% of the original alerts. When applied to bundles extracted from the 100,000 most popular websites, D-Bundlr identifies 34,445 instances corresponding to 63 unique libraries, and causes CodeQL to produce around 3.2K more security alerts than on packed bundles. We additionally illustrate how attackers can exploit some of our zero-day findings, causing unwanted security effects such as advertisement space hijacking.",
@@ -13146,11 +13159,19 @@
     "dates": [
       "Fri 17 Apr 2026 16:30 - 16:45"
     ],
+    "doi": "10.2139/ssrn.6047814",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "8bd99f31-6da3-4b8e-8e61-987b1c4e1bb9",
     "locations": [
       "Oceania VI"
     ],
+    "publicationDate": "2026-01-01",
+    "publisher": "Elsevier BV",
     "sessionTitles": [
       "Education 9"
     ],
@@ -13162,6 +13183,7 @@
       "Software Engineering Education and Training (SEET)"
     ],
     "urls": [
+      "https://doi.org/10.2139/ssrn.6047814",
       "https://conf.researchr.org/details/icse-2026/icse-2026-software-engineering-education-and-training--seet-/20/From-Struggle-to-Success-Unveiling-Students-Emotional-Journeys-during-Capstone-Proj",
       "https://conf.researchr.org/program/icse-2026/program-icse-2026/"
     ]
@@ -13441,14 +13463,25 @@
       "Alexander Koller",
       "Andreas Zeller"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Fri 17 Apr 2026 16:00 - 16:15"
     ],
+    "doi": "10.1145/3748720",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "8dd6cb19-6d2c-481c-aa60-c778d5b93d09",
+    "issue": "5",
     "locations": [
       "Oceania IX"
     ],
+    "pages": "1-45",
+    "publicationDate": "2026-05-31",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "AI for Software Engineering 29"
     ],
@@ -13460,9 +13493,11 @@
       "Journal-first Papers"
     ],
     "urls": [
+      "https://doi.org/10.1145/3748720",
       "https://conf.researchr.org/details/icse-2026/icse-2026-journal-first-papers/41/Learning-Program-Behavioral-Models-from-Synthesized-Input-Output-Pairs",
       "https://conf.researchr.org/program/icse-2026/program-icse-2026/"
-    ]
+    ],
+    "volume": "35"
   },
   {
     "abstract": "Automated assessment of student modeling tasks is difficult to scale because UML diagrams are open-ended, graphical, and highly contextual. This paper presents a production-ready extension of Athena, an open-source feedback system that integrates directly with the learning platform Artemis to provide human-in-the-loop support for modeling exercises. The approach introduces ApollonUML, a domain-specific textual representation that improves LLM interpretability while preserving precise links to diagram elements. Combined with rubric-style grading instructions, the system generates contextualized, pedagogically aligned feedback suggestions that human graders can review, adapt, or reject within their existing grading workflow. A large-scale retrospective observational validation study on authentic student submissions shows that LLM-based feedback can approximate human grading, with characteristic deviations such as generosity toward weaker work, harshness toward stronger work, and failure cases tied to prompt context and model complexity. The analysis further reveals inconsistencies in human grading that LLMs may help surface. These findings indicate that LLM-based assessment is capable of reducing human grader workload while maintaining oversight in modeling education.",
@@ -13835,15 +13870,23 @@
       "Foutse Khomh",
       "Fuyuki Ishikawa"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Thu 16 Apr 2026 14:45 - 15:00"
     ],
     "doi": "10.1145/3766890",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "915e9df3-ce28-42e1-9951-c229eab14228",
     "locations": [
       "Oceania VII"
     ],
+    "publicationDate": "2025-09-10",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Software Engineering for AI 5"
     ],
@@ -13855,9 +13898,9 @@
       "Journal-first Papers"
     ],
     "urls": [
+      "https://doi.org/10.1145/3766890",
       "https://conf.researchr.org/details/icse-2026/icse-2026-journal-first-papers/56/FairFLRep-Fairness-aware-fault-localization-and-repair-of-Deep-Neural-Networks",
       "https://dl.acm.org/doi/abs/10.1145/3766890",
-      "https://doi.org/10.1145/3766890",
       "https://conf.researchr.org/program/icse-2026/program-icse-2026/"
     ]
   },
@@ -14440,14 +14483,25 @@
       "Eric Bodden",
       "Shiyi Wei"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Fri 17 Apr 2026 11:30 - 11:45"
     ],
+    "doi": "10.1145/3718346",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "99c8094b-3ce2-4a79-8407-ed920ce51c96",
+    "issue": "3",
     "locations": [
       "Oceania IX"
     ],
+    "pages": "1-27",
+    "publicationDate": "2026-03-31",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Testing and Analysis 15"
     ],
@@ -14459,9 +14513,11 @@
       "Journal-first Papers"
     ],
     "urls": [
+      "https://doi.org/10.1145/3718346",
       "https://conf.researchr.org/details/icse-2026/icse-2026-journal-first-papers/64/Visualization-Task-Taxonomy-to-Understand-the-Fuzzing-Internals",
       "https://conf.researchr.org/program/icse-2026/program-icse-2026/"
-    ]
+    ],
+    "volume": "35"
   },
   {
     "abstract": "Compiler bugs can silently introduce bugs into their compiled code. Although compiler bugs are critical in the development of OS kernels, most studies on compiler bugs analyze the characteristics of only compiler bugs themselves. Their findings are less interesting to outsiders, \\emph{e.g.}, the OS community. Although two recent papers have started to analyze how compiler bugs affect the development of other projects, no study has been conducted to explore how such bugs affect OS kernels. As a result, many questions are still open. For instance, in the development of OS kernels, are most compiler bugs identified by OS programmers themselves? When bypassing compiler bugs, what is the relationship between compiler-bug symptoms and modified OS components? The answers to the above questions are useful for both compiler and OS programmers. To answer the above questions, we conducted the first empirical study on how compiler bugs affect OS kernels. We collected 494 workarounds of compiler bugs from the revision histories of 7 popular OS kernels. We analyzed these workarounds and explored the answers to these research questions. We have summarized some findings according to our early result. For instance, we found that in most workarounds, compiler bugs are not reported by OS programmers.",
@@ -15536,14 +15592,25 @@
     "authors": [
       "Anil Koyuncu"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Fri 17 Apr 2026 14:00 - 14:15"
     ],
+    "doi": "10.1145/3736408",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "a263baee-1304-4d96-a8af-7d0ae32ed8f7",
+    "issue": "3",
     "locations": [
       "Asia IV"
     ],
+    "pages": "1-47",
+    "publicationDate": "2026-03-31",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "AI for Software Engineering 24"
     ],
@@ -15555,9 +15622,11 @@
       "Journal-first Papers"
     ],
     "urls": [
+      "https://doi.org/10.1145/3736408",
       "https://conf.researchr.org/details/icse-2026/icse-2026-journal-first-papers/18/Exploring-Fine-Grained-Bug-Report-Categorization-with-Large-Language-Models-and-Promp",
       "https://conf.researchr.org/program/icse-2026/program-icse-2026/"
-    ]
+    ],
+    "volume": "35"
   },
   {
     "abstract": "The deployment of AI-powered applications on resource-constrained edge devices presents a significant software engineering challenge. While Pruning and Neural Architecture Search (NAS) have shown promise in optimizing model efficiency, their application in edge device deployment is often limited by low levels of automation. In this paper, we introduce LLM-based Adaptive Model Generation (LAMDA), a novel framework that tackle the challenge of adaptive AI deployment as an automated model generation problem. LAMDA empowers an LLM to perform end-to-end design, refinement, and optimization of DNNs to meet the specific hardware constraints. Our approach makes two primary contributions. First, we introduce a serialization technique that transforms complex DNN computation graphs into a structured textual representation that makes model architectures comprehensible and manipulable by an LLM. Further, to ground the generation process in real-world hardware constraints, we integrate a feedback-driven optimization loop. This loop leverages an empirical performance model, trained to correlate architectural patterns with on-device latency, enabling the LLM to reason about and optimize for non-functional requirements. To mitigate architectural ``hallucinations'', we incorporate context management and validation to ensure valid generation. We evaluate LAMDA through extensive experiments on public benchmarks and real-world edge devices. The results demonstrate that our framework can autonomously generate and adapt DNNs that satisfy deployment-specific accuracy and latency constraints, significantly advancing the state-of-the-art in automated software adaptation for the AI-enabled edge devices.",
@@ -20930,15 +20999,25 @@
       "Saad Ezzini",
       "Ismail Berrada"
     ],
+    "container": "ACM Transactions on Software Engineering and Methodology",
     "dates": [
       "Fri 17 Apr 2026 11:45 - 12:00"
     ],
     "doi": "10.1145/3746226",
     "eventType": "Talk",
+    "extra": {
+      "metadataSources": [
+        "crossref"
+      ]
+    },
     "id": "d62608f0-aa5f-42c3-be2e-203109c8a083",
+    "issue": "4",
     "locations": [
       "Asia I"
     ],
+    "pages": "1-27",
+    "publicationDate": "2026-04-30",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "AI for Software Engineering 20"
     ],
@@ -20950,12 +21029,13 @@
       "Journal-first Papers"
     ],
     "urls": [
+      "https://doi.org/10.1145/3746226",
       "https://conf.researchr.org/details/icse-2026/icse-2026-journal-first-papers/81/Towards-Automating-Domain-Specific-Data-Generation-for-Text-to-SQL-A-Comprehensive-A",
       "https://dl.acm.org/doi/10.1145/3746226",
-      "https://doi.org/10.1145/3746226",
       "https://dl.acm.org/doi/epdf/10.1145/3746226",
       "https://conf.researchr.org/program/icse-2026/program-icse-2026/"
-    ]
+    ],
+    "volume": "35"
   },
   {
     "abstract": "We present the design and evaluation of an Enterprise Marketplace that unifies web-based access to multi-cloud and enterprise products within a large banking infrastructure. Building such a platform poses significant technical and organizational challenges, including the generalization of diverse APIs and the accommodation of heterogeneous user profiles. Our solution enables autonomous product publishing via a no-code interface, enforces multi-layered governance to ensure security and compliance, and integrates disparate providers through a standardized API. We demonstrate how this approach enhances product quality, producer autonomy, and user experience, supported by adoption metrics and operational data from a real-world deployment. Finally, we reflect on key lessons learned and persistent challenges after a decade of production use, serving over 200,000 users.",

@@ -136,6 +136,7 @@
       "Yuxiong He",
       "Samyam Rajbhandari"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 8:30 – 10:35 AM EDT"
     ],
@@ -143,6 +144,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -166,7 +168,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790219"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 1A: LLM Serving: Throughput Optimization"
     ],
@@ -306,6 +309,7 @@
       "Zeke Wang",
       "Bo Zhao"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 8:30 – 10:35 AM EDT"
     ],
@@ -313,6 +317,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -339,7 +344,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790131"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 1B: LLM Serving: Latency & Scheduling"
     ],
@@ -832,6 +838,7 @@
       "Amanda Xu",
       "Swamit Tannu"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 8:30 – 10:35 AM EDT"
     ],
@@ -839,6 +846,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -868,7 +876,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790210"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 1C: Quantum Computing: Compilation"
     ],
@@ -895,6 +904,7 @@
       "Michal Friedman",
       "Ori Lahav"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 8:30 – 10:35 AM EDT"
     ],
@@ -902,6 +912,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -922,7 +933,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790121"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 1D: CXL & Memory Fabric"
     ],
@@ -1516,6 +1528,7 @@
       "Li Jiang",
       "Haibing Guan"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -1523,6 +1536,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1551,7 +1565,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790155"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 2B: Speculative Decoding"
     ],
@@ -1580,6 +1595,7 @@
       "Yu Wang",
       "Guohao Dai"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -1587,6 +1603,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1610,7 +1627,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790224"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 2B: Speculative Decoding"
     ],
@@ -1704,6 +1722,7 @@
       "Xin Liu",
       "Henry Hoffmann"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -1711,6 +1730,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1739,7 +1759,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790246"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 2B: Speculative Decoding"
     ],
@@ -1879,6 +1900,7 @@
       "Joel Emer",
       "Saman Amarasinghe"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -1886,6 +1908,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1914,7 +1937,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790176"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 2C: GPU Systems & Scheduling"
     ],
@@ -1951,6 +1975,7 @@
       "Sreevatsa Anantharamu",
       "Jithin Jose"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -1958,6 +1983,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1984,7 +2010,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790188"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 2C: GPU Systems & Scheduling"
     ],
@@ -2014,6 +2041,7 @@
       "Jiansong zhang",
       "Jie Wu"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -2021,6 +2049,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -2047,7 +2076,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790168"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 2C: GPU Systems & Scheduling"
     ],
@@ -3036,6 +3066,7 @@
       "Jinyang Li",
       "Aurojit Panda"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 3:55 – 6:00 PM EDT"
     ],
@@ -3043,6 +3074,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -3071,7 +3103,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790140"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 3C: 3D Gaussian Splatting & Rendering"
     ],
@@ -3348,6 +3381,7 @@
       "Bokdeuk Jeong",
       "Taesoo Kim"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 1: Tuesday, March 24, 2026 3:55 – 6:00 PM EDT"
     ],
@@ -3355,6 +3389,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -3383,7 +3418,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790152"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 3D: Trusted Execution Environments"
     ],
@@ -4199,7 +4235,7 @@
     ]
   },
   {
-    "abstract": "Artifact for paper \"AlphaSyndrome: Tackling the Syndrome Measurement Circuit Scheduling Problem for QEC Codes\"",
+    "abstract": "Quantum error correction (QEC) is essential for scalable quantum computing, yet repeated syndrome-measurement cycles dominate its spacetime and hardware cost. Although stabilizers commute and admit many valid execution orders, different schedules induce distinct error-propagation paths under realistic noise, leading to large variations in logical error rate. Outside of surface codes, effective syndrome-measurement scheduling remains largely unexplored. We present AlphaSyndrome, an automated synthesis framework for scheduling syndrome-measurement circuits in general commuting-stabilizer codes under minimal assumptions: mutually commuting stabilizers and a heuristic decoder. AlphaSyndrome formulates scheduling as an optimization problem that shapes error propagation to (i) avoid patterns close to logical operators and (ii) remain within the decoder's correctable region. The framework uses Monte Carlo Tree Search (MCTS) to explore ordering and parallelism, guided by code structure and decoder feedback. Across diverse code families, sizes, and decoders, AlphaSyndrome reduces logical error rates by 80.6% on average (up to 96.2%) relative to depth-optimal baselines, matches Google's hand-crafted surface-code schedules, and outperforms IBM's schedule for the Bivariate Bicycle code.",
     "authorInstitutions": "Yuhao Liu (University of Pennsylvania); Shuohao Ping (University of Pennsylvania); Junyu Zhou (University of Pennsylvania); Ethan Decker (University of Pennsylvania); Justin Kalloor (University of California, Berkeley); Mathias Weiden (University of California, Berkeley); Kean Chen (University of Pennsylvania); Yunong Shi (Amazon Quantum Technologies); Ali Javadi-Abhari (IBM Research); Costin Iancu (Lawrence Berkeley National Laboratory); Gushu Li (University of Pennsylvania)",
     "authors": [
       "Yuhao Liu",
@@ -4214,37 +4250,38 @@
       "Costin Iancu",
       "Gushu Li"
     ],
-    "container": "Zenodo (CERN European Organization for Nuclear Research)",
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 8:30 – 10:35 AM EDT"
     ],
-    "doi": "10.5281/zenodo.17918402",
+    "doi": "10.1145/3779212.3790123",
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
-        "is_oa": true,
-        "oa_status": "green",
-        "oa_url": "https://doi.org/10.5281/zenodo.17918402"
+        "is_oa": false,
+        "oa_status": "closed"
       },
       "sessionTrack": "Quantum Error Correction"
     },
     "id": "4C-AlphaSyndrome_Tackling_the_Syndrome_Measurement_Circuit_Scheduling_Problem_for_Q",
     "keywords": [
       "Scheduling (production processes)",
-      "Job shop scheduling",
-      "Dynamic priority scheduling"
+      "Error detection and correction",
+      "Scalability",
+      "Schedule",
+      "Heuristic",
+      "Job shop scheduling"
     ],
     "locations": [
       "Allegheny"
     ],
-    "pdfUrls": [
-      "https://doi.org/10.5281/zenodo.17918402"
-    ],
-    "publicationDate": "2026-01-18",
-    "publisher": "European Organization for Nuclear Research",
+    "pages": "77-93",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 4C: Quantum Error Correction"
     ],
@@ -4256,9 +4293,9 @@
       "Main Conference"
     ],
     "urls": [
-      "https://doi.org/10.5281/zenodo.17918402",
+      "https://doi.org/10.1145/3779212.3790123",
       "https://www.asplos-conference.org/asplos2026/program/index.html",
-      "https://openalex.org/W7115068461"
+      "https://openalex.org/W7134900777"
     ]
   },
   {
@@ -4268,6 +4305,7 @@
       "Scott Jones",
       "Prakash Murali"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 8:30 – 10:35 AM EDT"
     ],
@@ -4275,6 +4313,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -4302,7 +4341,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790128"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 4C: Quantum Error Correction"
     ],
@@ -4527,6 +4567,7 @@
       "Chang Hyun Park",
       "David Black-Schaffer"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 8:30 – 10:35 AM EDT"
     ],
@@ -4534,6 +4575,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -4557,7 +4599,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790142"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 4D: Processing-in-Memory"
     ],
@@ -4785,6 +4828,7 @@
       "Haibin Lin",
       "Aurojit Panda"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -4792,6 +4836,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -4819,7 +4864,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790178"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 5A: Generative Model Serving"
     ],
@@ -4909,6 +4955,7 @@
       "Ang Chen",
       "Mosharaf Chowdhury"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -4916,6 +4963,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -4940,7 +4988,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790233"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 5A: Generative Model Serving"
     ],
@@ -5192,6 +5241,7 @@
       "Emre Ozer",
       "Vijay Janapa Reddi"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 1:30 – 3:35 PM EDT"
     ],
@@ -5199,6 +5249,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -5226,7 +5277,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790182"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 5B: On-Device & Edge AI"
     ],
@@ -5721,7 +5773,7 @@
     ]
   },
   {
-    "abstract": "Modern storage systems predominantly use flash-based SSDs as a cache layer due to their favorable performance and cost efficiency. However, in tiny-object workloads, existing flash cache designs still suffer from high write amplification. Even when deploying advanced log-structured flash devices (e.g., Zoned Namespace SSDs and Flexible Data Placement SSDs) with low device-level write amplification, application-level write amplification still dominates. This work proposes Nemo, which enhances set-associative cache design by increasing hash collision probability to improve set fill rate, thereby reducing application-level write amplification. To satisfy caching requirements, including high memory efficiency and low miss ratio, we introduce a bloom filter-based indexing mechanism that significantly reduces memory overhead, and adopt a hybrid hotness tracking to achieve low miss ratio without losing memory efficiency. Experimental results show that Nemo simultaneously achieves three key objectives for flash cache: low write amplification, high memory efficiency, and low miss ratio.",
+    "abstract": "Modern storage systems predominantly use flash-based SSDs as a cache layer due to their favorable performance and cost efficiency. However, in tiny-object workloads, existing flash cache designs still suffer from high write amplification. Even when deploying advanced log-structured flash devices (e.g., Zoned Namespace SSDs and Flexible Data Placement SSDs) with low device-level write amplification, application-level write amplification still dominates. This work proposes Nemo, which enhances set-associative cache design by increasing hash collision probability to improve set fill rate, thereby reducing application-level write amplification. To satisfy caching requirements, including high memory efficiency and low miss ratio, we introduce a Bloom filter-based indexing mechanism that significantly reduces memory overhead, and adopt a hybrid hotness tracking to achieve low miss ratio without losing memory efficiency. Experimental results show that Nemo simultaneously achieves three key objectives for flash cache: low write amplification, high memory efficiency, and low miss ratio.",
     "authorInstitutions": "Xufeng Yang (Xiamen University); Tingting Tan (Xiamen University); Jingxin Hu (Chongqing University of Posts and Telecommunications); Congming Gao (Xiamen University); Mingyang Liu (Xiamen University); Tianyang Jiang (Huawei Technologies Co., Ltd.); Jian Chen (Tsinghua University); Linbo Long (Chongqing University of Posts and Telecommunications); Yina Lv (Xiamen University); Jiwu Shu (Xiamen University)",
     "authors": [
       "Xufeng Yang",
@@ -5735,20 +5787,21 @@
       "Yina Lv",
       "Jiwu Shu"
     ],
-    "container": "arXiv (Cornell University)",
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 1:30 – 3:35 PM EDT"
     ],
-    "doi": "None",
+    "doi": "10.1145/3779212.3790191",
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
         "is_oa": true,
-        "oa_status": "green",
-        "oa_url": "https://arxiv.org/pdf/2603.09605"
+        "oa_status": "gold",
+        "oa_url": "https://doi.org/10.1145/3779212.3790191"
       },
       "sessionTrack": "Storage & Caching"
     },
@@ -5767,11 +5820,12 @@
     "locations": [
       "Ohio & Monogahela"
     ],
+    "pages": "1251-1267",
     "pdfUrls": [
-      "https://arxiv.org/pdf/2603.09605"
+      "https://doi.org/10.1145/3779212.3790191"
     ],
-    "publicationDate": "2026-03-10",
-    "publisher": "Cornell University",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 5D: Storage & Caching"
     ],
@@ -5783,10 +5837,9 @@
       "Main Conference"
     ],
     "urls": [
-      "https://doi.org/None",
+      "https://doi.org/10.1145/3779212.3790191",
       "https://www.asplos-conference.org/asplos2026/program/index.html",
-      "http://arxiv.org/abs/2603.09605",
-      "https://openalex.org/W7134992191"
+      "https://openalex.org/W7134986760"
     ]
   },
   {
@@ -6455,6 +6508,7 @@
       "Yi Liu",
       "Depei Qian"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 3:55 – 6:00 PM EDT"
     ],
@@ -6462,6 +6516,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -6488,7 +6543,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790157"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 6C: Graph & Sparse Computing"
     ],
@@ -6849,6 +6905,7 @@
       "Ryan Stutsman",
       "Vijay Nagarajan"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 2: Wednesday, March 25, 2026 3:55 – 6:00 PM EDT"
     ],
@@ -6856,6 +6913,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -6882,7 +6940,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790156"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 6D: Disaggregated Memory Systems"
     ],
@@ -7029,6 +7088,7 @@
       "Xueyu Wu",
       "Lei Ju"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 3: Thursday, March 26, 2026 8:30 – 10:10 AM EDT"
     ],
@@ -7036,6 +7096,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -7063,7 +7124,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790120"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 7A: Fully Homomorphic Encryption"
     ],
@@ -7223,6 +7285,7 @@
       "Dan Meng",
       "Rui Hou"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 3: Thursday, March 26, 2026 8:30 – 10:10 AM EDT"
     ],
@@ -7230,6 +7293,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -7256,7 +7320,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790186"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 7A: Fully Homomorphic Encryption"
     ],
@@ -7311,7 +7376,7 @@
     ]
   },
   {
-    "abstract": "Zero-knowledge proofs (ZKPs) are the cornerstone of programmable cryptography. They enable (1) privacy-preserving and verifiable computation across blockchains, and (2) an expanding range of off-chain applications such as credential schemes. Zero-knowledge virtual machines (zkVMs) lower the barrier by turning ZKPs into a drop-in backend for standard compilation pipelines. This lets developers write proof-generating programs in conventional languages (e.g., Rust or C++) instead of hand-crafting arithmetic circuits. However, these VMs inherit compiler infrastructures tuned for traditional architectures rather than for proof systems. In particular, standard compiler optimizations assume features that are absent in zkVMs, including cache locality, branch prediction, or instruction-level parallelism. Therefore, their impact on proof generation is questionable. We present the first systematic study of the impact of compiler optimizations on zkVMs. We evaluate 64 LLVM passes, six standard optimization levels, and an unoptimized baseline across 58 benchmarks on two RISC-V-based zkVMs (RISC Zero and SP1). While standard LLVM optimization levels do improve zkVM performance (over 40%), their impact is far smaller than on traditional CPUs, since their decisions rely on hardware features rather than proof constraints. Guided by a performance impact analysis, we slightly refine a small set of LLVM passes to be zkVM-aware, improving zkVM execution time by up to 45% (average +4.6% on RISC Zero, +1% on SP1) and achieving consistent proving-time gains. Our work highlights the potential of compiler-level optimizations for zkVM performance and opens new directions for zkVM-specific passes, backends, and superoptimizers.",
+    "abstract": "Zero-knowledge proofs (ZKPs) are the cornerstone of programmable cryptography. They enable (1) privacy-preserving and verifiable computation across blockchains, and (2) an expanding range of off-chain applications such as credential schemes. Zero-knowledge virtual machines (zkVMs) lower the barrier by turning ZKPs into a drop-in backend for standard compilation pipelines. This lets developers write proof-generating programs in conventional languages (e.g., Rust or C++) instead of hand-crafting arithmetic circuits. However, these VMs inherit compiler infrastructures tuned for traditional architectures rather than for proof systems. In particular, standard compiler optimizations assume features that are absent in zkVMs, including cache locality, branch prediction, or instruction-level parallelism. Therefore, their impact on proof generation is questionable.",
     "authorInstitutions": "Thomas Gassmann (ETH Zurich); Stefanos Chaliasos (Imperial College London & zkSecurity); Thodoris Sotiropoulos (ETH Zurich); Zhendong Su (ETH Zurich)",
     "authors": [
       "Thomas Gassmann",
@@ -7319,20 +7384,21 @@
       "Thodoris Sotiropoulos",
       "Zhendong Su"
     ],
-    "container": "Repository for Publications and Research Data (ETH Zurich)",
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 3: Thursday, March 26, 2026 8:30 – 10:10 AM EDT"
     ],
-    "doi": "10.3929/ethz-c-000799601",
+    "doi": "10.1145/3779212.3790159",
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
         "is_oa": true,
-        "oa_status": "green",
-        "oa_url": "http://hdl.handle.net/20.500.11850/799601"
+        "oa_status": "gold",
+        "oa_url": "https://doi.org/10.1145/3779212.3790159"
       },
       "sessionTrack": "Compilers & Code Generation"
     },
@@ -7343,19 +7409,20 @@
       "Bootstrapping (finance)",
       "Mathematical proof",
       "Set (abstract data type)",
+      "Compiler correctness",
       "Instruction set",
       "Cache",
-      "Compiler correctness",
-      "Credential"
+      "Reduced instruction set computing"
     ],
     "locations": [
       "West End & Fort Duquesne"
     ],
+    "pages": "697-714",
     "pdfUrls": [
-      "http://hdl.handle.net/20.500.11850/799601"
+      "https://doi.org/10.1145/3779212.3790159"
     ],
-    "publicationDate": "2026-01-01",
-    "publisher": "ETH Zurich",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 7B: Compilers & Code Generation"
     ],
@@ -7367,10 +7434,9 @@
       "Main Conference"
     ],
     "urls": [
-      "https://doi.org/10.3929/ethz-c-000799601",
+      "https://doi.org/10.1145/3779212.3790159",
       "https://www.asplos-conference.org/asplos2026/program/index.html",
-      "http://hdl.handle.net/20.500.11850/799601",
-      "https://openalex.org/W7160394361"
+      "https://openalex.org/W7125546693"
     ]
   },
   {
@@ -7383,6 +7449,7 @@
       "Yuyang Zou",
       "Yun Liang"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 3: Thursday, March 26, 2026 8:30 – 10:10 AM EDT"
     ],
@@ -7390,6 +7457,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -7415,7 +7483,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790162"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 7B: Compilers & Code Generation"
     ],
@@ -7445,6 +7514,7 @@
       "Sheng Cheng",
       "Ming Cai"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 3: Thursday, March 26, 2026 8:30 – 10:10 AM EDT"
     ],
@@ -7452,6 +7522,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -7476,7 +7547,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790183"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 7B: Compilers & Code Generation"
     ],
@@ -7849,6 +7921,7 @@
       "Lieven Eeckhout",
       "Magnus Jahre"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 3: Thursday, March 26, 2026 8:30 – 10:10 AM EDT"
     ],
@@ -7856,6 +7929,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -7879,7 +7953,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790139"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 7D: Processor Microarchitecture"
     ],
@@ -8233,6 +8308,7 @@
       "Ming Liu",
       "Arvind Krishnamurthy"
     ],
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 3: Thursday, March 26, 2026 1:30 – 3:10 PM EDT"
     ],
@@ -8240,6 +8316,7 @@
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -8266,7 +8343,8 @@
     "pdfUrls": [
       "https://doi.org/10.1145/3779212.3790218"
     ],
-    "publicationDate": "2026-03-10",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 8B: Serverless & Cloud Networking"
     ],
@@ -8895,7 +8973,7 @@
     ]
   },
   {
-    "abstract": "Existing low-bit Microscaling (MX) formats, such as MXFP4, often suffer from substantial accuracy degradation due to the use of a shared scaling factor with the Power-of-Two format. In this work, we explore strategies that introduce minimal metadata to recover accuracy lost during quantization while maintaining high bit efficiency across a wide range of large language models. We propose a complete algorithm-hardware co-design based on flexible metadata, featuring an online quantization with simple encoding. To support the proposed method efficiently, we implement a lightweight hardware unit and integrate it into the accelerator. Evaluation results demonstrate that our method substantially narrows the accuracy gap, achieving on average a 70.63% reduction in accuracy loss compared to MXFP4 and a 37.30% reduction relative to the latest NVFP4 on LLM benchmarks. Furthermore, our design delivers up to 1.91$\\times$ speedup and 1.75$\\times$ energy savings over state-of-the-art accelerators. Our code is available at https://github.com/SJTU-ReArch-Group/M2XFP_ASPLOS26.",
+    "abstract": "Existing low-bit Microscaling (MX) formats, such as MXFP4, often suffer from substantial accuracy degradation due to the use of a shared scaling factor with the Power-of-Two format. In this work, we explore strategies that introduce minimal metadata to recover accuracy lost during quantization while maintaining high bit efficiency across a wide range of large language models. We propose a complete algorithm-hardware co-design based on flexible metadata, featuring an online quantization with simple encoding. To support the proposed method efficiently, we implement a lightweight hardware unit and integrate it into the accelerator. Evaluation results demonstrate that our method substantially narrows the accuracy gap, achieving on average a 70.63% reduction in accuracy loss compared to MXFP4 and a 37.30% reduction relative to the latest NVFP4 on LLM benchmarks. Furthermore, our design delivers up to 1.91× speedup and 1.75× energy savings over state-of-the-art accelerators.",
     "authorInstitutions": "Weiming Hu (Shanghai Jiao Tong University); Zihan Zhang (Shanghai Jiao Tong University); Haoyan Zhang (Shanghai Jiao Tong University); Chen Zhang (Shanghai Jiao Tong University); Cong Guo (Shanghai Jiao Tong University); Yu Feng (Shanghai Jiao Tong University); Tianchi Hu (Computing Product Line, Huawei); Guanglin Li (Computing Product Line, Huawei); Guipeng Hu (Computing Product Line, Huawei); Junsong Wang (Computing Product Line, Huawei); Jingwen Leng (Shanghai Jiao Tong University)",
     "authors": [
       "Weiming Hu",
@@ -8910,20 +8988,21 @@
       "Junsong Wang",
       "Jingwen Leng"
     ],
-    "container": "ArXiv.org",
+    "container": "Proceedings of the 31st ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2",
     "dates": [
       "Day 3: Thursday, March 26, 2026 3:30 – 5:10 PM EDT"
     ],
-    "doi": "None",
+    "doi": "10.1145/3779212.3790185",
     "eventType": "Paper",
     "extra": {
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
         "is_oa": true,
-        "oa_status": "green",
-        "oa_url": "https://arxiv.org/pdf/2601.19213"
+        "oa_status": "gold",
+        "oa_url": "https://doi.org/10.1145/3779212.3790185"
       },
       "sessionTrack": "Systems Profiling & Optimization"
     },
@@ -8931,19 +9010,21 @@
     "keywords": [
       "Quantization (signal processing)",
       "Speedup",
-      "Metadata",
       "Scaling",
+      "Metadata",
       "Reduction (mathematics)",
-      "Code (set theory)",
+      "Data reduction",
       "Efficient energy use"
     ],
     "locations": [
       "Fort Pitt"
     ],
+    "pages": "1151-1167",
     "pdfUrls": [
-      "https://arxiv.org/pdf/2601.19213"
+      "https://doi.org/10.1145/3779212.3790185"
     ],
-    "publicationDate": "2026-01-01",
+    "publicationDate": "2026-03-22",
+    "publisher": "ACM",
     "sessionTitles": [
       "Session 9A: Systems Profiling & Optimization"
     ],
@@ -8955,10 +9036,9 @@
       "Main Conference"
     ],
     "urls": [
-      "https://doi.org/None",
+      "https://doi.org/10.1145/3779212.3790185",
       "https://www.asplos-conference.org/asplos2026/program/index.html",
-      "http://arxiv.org/abs/2601.19213",
-      "https://openalex.org/W7126122957"
+      "https://openalex.org/W7134907250"
     ]
   },
   {

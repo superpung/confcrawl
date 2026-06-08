@@ -1243,6 +1243,7 @@
       "dblpKey": "journals/tosem/GuoC26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1262,7 +1263,7 @@
     "locations": [],
     "pages": "99:1-99:46",
     "publicationDate": "2026-04-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 4, April 2026"
     ],
@@ -1300,6 +1301,7 @@
       "dblpKey": "journals/tosem/GuoFLZFC26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1327,7 +1329,7 @@
       "https://dl.acm.org/doi/pdf/10.1145/3725810"
     ],
     "publicationDate": "2026-01-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 1, January 2026"
     ],
@@ -1425,6 +1427,7 @@
       "dblpKey": "journals/tosem/HarzeviliWMPW26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1446,7 +1449,7 @@
     "locations": [],
     "pages": "34:1-34:34",
     "publicationDate": "2026-02-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 2, February 2026"
     ],
@@ -1547,6 +1550,7 @@
       "dblpKey": "journals/tosem/HuLLLXWL26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1571,7 +1575,7 @@
       "https://dl.acm.org/doi/pdf/10.1145/3725212"
     ],
     "publicationDate": "2026-01-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 1, January 2026"
     ],
@@ -1608,6 +1612,7 @@
       "dblpKey": "journals/tosem/HuangSHJM26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1624,7 +1629,7 @@
     "locations": [],
     "pages": "60:1-60:30",
     "publicationDate": "2026-03-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 3, March 2026"
     ],
@@ -1662,6 +1667,7 @@
       "dblpKey": "journals/tosem/HuangZBXCC26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1684,7 +1690,7 @@
       "https://doi.org/10.1145/3724117"
     ],
     "publicationDate": "2026-01-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 1, January 2026"
     ],
@@ -1837,6 +1843,7 @@
       "dblpKey": "journals/tosem/JinSZSHL26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -1861,7 +1868,7 @@
     "locations": [],
     "pages": "111:1-111:39",
     "publicationDate": "2026-04-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 4, April 2026"
     ],
@@ -2164,7 +2171,7 @@
     "volume": "35"
   },
   {
-    "abstract": "Today, the operating system Linux is widely used in diverse environments, as its kernel can be configured flexibly. In many configurable systems, managing such variability can be facilitated in all development phases with product-line analyses. These analyses often require knowledge about the system’s features and their dependencies, which are documented in a feature model. Despite their potential, product-line analyses are rarely applied to the Linux kernel in practice, as its feature model still challenges scalability and accuracy of analyses. Unfortunately, these challenges also severely limit our knowledge about two fundamental metrics of the kernel’s configurability, namely its number of features and configurations. We identify four key limitations in the literature related to the scalability, accuracy, and influence factors of these metrics, and, by extension, other product-line analyses: (1) Analysis results for the Linux kernel are not comparable, because relevant information is not reported; (2) there is no consensus on how to define features in Linux, which leads to flawed analysis results; (3) only few versions of the Linux kernel have ever been analyzed, none of which are recent; and (4) the kernel is perceived as complex, although we lack empirical evidence that supports this claim. In this article, we address these limitations with a comprehensive, empirical study of the Linux kernel’s configurability, which spans its feature model’s entire history from 2002 to 2024. We address the above limitations as follows: (1) We characterize parameters that are relevant when reporting analysis results; (2) we propose and evaluate a novel definition of features in Linux as a standardization effort; (3) we contribute torte , a tool that analyzes arbitrary versions of the Linux kernel’s feature model; and (4) we investigate the current and possible future configurability of the kernel on more than 3,000 feature-model versions. Based on our results, we highlight 11 major insights into the Linux kernel’s configurability and make 7 actionable recommendations for researchers and practitioners.",
+    "abstract": "This is the RCR report accompanying our TOSEM’25 paper How Configurable Is the Linux Kernel? Analyzing Two Decades of Feature-Model History . In this report, we bundle all data relevant to our paper for the purpose of reproducibility and long-term archival. This includes the feature-model extraction tool torte , as well as a comprehensive feature-model dataset and experimental results.",
     "authorInstitutions": "",
     "authors": [
       "Elias Kuiter",
@@ -2184,6 +2191,7 @@
       "dblpKey": "journals/tosem/KuiterSTHKS26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -2204,7 +2212,7 @@
     "locations": [],
     "pages": "27:1-27:48",
     "publicationDate": "2026-01-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 1, January 2026"
     ],
@@ -2217,6 +2225,7 @@
       "https://doi.org/10.1145/3729423",
       "https://dblp.org/db/journals/tosem/tosem35.html#KuiterSTHKS26",
       "https://dblp.org/db/journals/tosem/tosem35.xml",
+      "https://doi.org/10.1145/3764666",
       "https://openalex.org/W4409475865"
     ],
     "volume": "35"
@@ -2424,6 +2433,7 @@
       "dblpKey": "journals/tosem/LiCHTM26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -2446,7 +2456,7 @@
     "locations": [],
     "pages": "77:1-77:37",
     "publicationDate": "2026-03-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 3, March 2026"
     ],
@@ -3442,6 +3452,7 @@
       "dblpKey": "journals/tosem/MengLCMZX26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -3464,7 +3475,7 @@
     "locations": [],
     "pages": "32:1-32:36",
     "publicationDate": "2026-02-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 2, February 2026"
     ],
@@ -3741,6 +3752,7 @@
       "dblpKey": "journals/tosem/PrasetyaDPVDKMSA26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -3762,7 +3774,7 @@
       "http://urn.kb.se/resolve?urn=urn:nbn:se:umu:diva-251519"
     ],
     "publicationDate": "2026-03-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 3, March 2026"
     ],
@@ -3799,6 +3811,7 @@
       "dblpKey": "journals/tosem/RenMLGJ26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -3819,7 +3832,7 @@
     "locations": [],
     "pages": "46:1-46:36",
     "publicationDate": "2026-02-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 2, February 2026"
     ],
@@ -3918,6 +3931,7 @@
       "dblpKey": "journals/tosem/SamhiJEBK26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -3945,7 +3959,7 @@
       "https://orbilu.uni.lu/handle/10993/64806"
     ],
     "publicationDate": "2026-02-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 2, February 2026"
     ],
@@ -4274,6 +4288,7 @@
       "dblpKey": "journals/tosem/ShresthaSM26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -4292,7 +4307,7 @@
     "locations": [],
     "pages": "78:1-78:21",
     "publicationDate": "2026-03-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 3, March 2026"
     ],
@@ -4573,6 +4588,7 @@
       "dblpKey": "journals/tosem/TangJZNL26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -4592,7 +4608,7 @@
     "locations": [],
     "pages": "84:1-84:33",
     "publicationDate": "2026-03-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 3, March 2026"
     ],
@@ -5771,6 +5787,7 @@
       "dblpKey": "journals/tosem/YitagesuXZFBHL26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -5797,7 +5814,7 @@
     "locations": [],
     "pages": "95:1-95:52",
     "publicationDate": "2026-04-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 4, April 2026"
     ],
@@ -5833,6 +5850,7 @@
       "dblpKey": "journals/tosem/YuFLC26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -5855,7 +5873,7 @@
     "locations": [],
     "pages": "18:1-18:30",
     "publicationDate": "2026-01-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 1, January 2026"
     ],
@@ -6307,6 +6325,7 @@
       "dblpKey": "journals/tosem/ZhangPZ26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -6333,7 +6352,7 @@
       "https://orbilu.uni.lu/bitstream/10993/65283/1/3734866.pdf"
     ],
     "publicationDate": "2026-03-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 3, March 2026"
     ],
@@ -6729,6 +6748,7 @@
       "dblpKey": "journals/tosem/ZhuSWCC26",
       "dblpSource": "https://dblp.org/db/journals/tosem/tosem35.xml",
       "metadataSources": [
+        "crossref",
         "openalex"
       ],
       "openAccess": {
@@ -6758,7 +6778,7 @@
       "https://ink.library.smu.edu.sg/sis_research/10290"
     ],
     "publicationDate": "2026-03-01",
-    "publisher": "Association for Computing Machinery",
+    "publisher": "Association for Computing Machinery (ACM)",
     "sessionTitles": [
       "Volume 35, Number 3, March 2026"
     ],
