@@ -927,9 +927,13 @@ function openPop(anchor: HTMLElement, render: () => string, onPick: (t: HTMLElem
   popAnchor = anchor; popRender = render; popOnPick = onPick;
   paintPop();
   positionPop(anchor);
+  // (Re)trigger the entrance animation now that the menu is placed.
+  popEl.classList.remove('is-in');
+  void popEl.offsetWidth;
+  popEl.classList.add('is-in');
 }
 function closePop() {
-  popEl.hidden = true; popEl.innerHTML = '';
+  popEl.hidden = true; popEl.innerHTML = ''; popEl.classList.remove('is-in');
   popAnchor = null; popRender = null; popOnPick = null;
 }
 popEl.addEventListener('click', (e) => { if (popOnPick) popOnPick(e.target as HTMLElement); });
@@ -965,14 +969,6 @@ function settlePrompt(value: string | null) {
   promptResolver = null;
   $('#promptModal').hidden = true;
   resolve(value);
-}
-
-// Brief "pop" feedback when a toggle button is clicked.
-function animatePop(el: HTMLElement) {
-  el.classList.remove('is-pop');
-  void el.offsetWidth; // restart the animation
-  el.classList.add('is-pop');
-  el.addEventListener('animationend', () => el.classList.remove('is-pop'), { once: true });
 }
 
 // Collection picker for a paper key.
@@ -1157,7 +1153,7 @@ function renderSettings() {
             <button class="set-mini set-mini-del" data-group-del="${g.id}" type="button">Delete</button>
           </div>
           <div class="set-chips">${g.series.map((s) => `<span class="chip">${esc(s)}<span class="tag-x" data-group-series-del="${g.id}|${esc(s)}" role="button" aria-label="Remove">×</span></span>`).join('') || '<span class="set-empty">no series</span>'}
-            <button class="set-add" data-group-series-add="${g.id}" data-pop-anchor type="button" aria-label="Add series" title="Add series">+</button></div>
+            <button class="set-add" data-group-series-add="${g.id}" data-pop-anchor type="button" aria-label="Add series" title="Add series"><svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div>
         </div>`).join('')
     : '<p class="set-empty">No venue groups yet. Use the ＋ button next to a series in the sidebar.</p>';
   const colsHtml = state.collections.length
@@ -1330,7 +1326,6 @@ function wire() {
     const target = e.target as HTMLElement;
     const groupBtn = target.closest<HTMLElement>('[data-series-group]');
     if (groupBtn) {
-      animatePop(groupBtn);
       if (popAnchor === groupBtn && !popEl.hidden) closePop();
       else openGroupPop(groupBtn, groupBtn.dataset.seriesGroup ?? '');
       return;
@@ -1427,7 +1422,6 @@ function wire() {
     const collectBtn = target.closest<HTMLElement>('[data-collect]');
     const tagDel = target.closest<HTMLElement>('[data-tag-del]');
     if (collectBtn) {
-      animatePop(collectBtn);
       if (popAnchor === collectBtn && !popEl.hidden) closePop();
       else openCollectPop(collectBtn, k);
     } else if (tagDel) {

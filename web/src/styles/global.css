@@ -456,19 +456,21 @@ html.is-rail-collapsed { --col-right: 0; }
 
 /* User tags ride in the chips row (no dedicated line). */
 .chip-tag {
-  display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+  display: inline-flex; align-items: center; cursor: pointer;
   border-color: var(--line-strong); background: var(--panel);
 }
 .chip-tag:hover { border-color: var(--accent); color: var(--accent-dark); }
-.tag-x { display: inline-grid; place-items: center; cursor: pointer; color: var(--faint); font-size: 13px; line-height: 1; }
+/* A little breathing room between the label and its remove "×". */
+.tag-x { display: inline-grid; place-items: center; cursor: pointer; color: var(--faint); font-size: 13px; line-height: 1; margin-left: 5px; }
 .tag-x:hover { color: var(--favorite); }
 /* "+ tag" affordance — hidden until the card is hovered/focused so it doesn't
-   take permanent space; always shown on touch (no hover) when tags exist. */
+   take permanent space. Sized identically to .chip so revealing it doesn't
+   change the row height (no hover jitter). */
 .chip-add {
   display: none; align-items: center;
   border: 1px dashed var(--line-strong); border-radius: 999px;
   background: none; color: var(--faint); cursor: pointer;
-  font: inherit; font-size: 11.5px; font-weight: 500; padding: 3px 10px;
+  font: inherit; font-size: 11.5px; font-weight: 500; padding: 4px 11px;
   transition: var(--hover-tr);
 }
 .chip-add:hover { border-color: var(--accent); color: var(--accent); }
@@ -588,6 +590,9 @@ html.is-rail-collapsed { --col-right: 0; }
   background: var(--panel); box-shadow: var(--shadow); padding: 6px;
 }
 .popmenu[hidden] { display: none; }
+/* Entrance animation: the menu fades/scales in from its top edge. */
+@keyframes pop-in { from { opacity: 0; transform: translateY(-6px) scale(0.97); } to { opacity: 1; transform: none; } }
+.popmenu.is-in { animation: pop-in 0.15s ease; transform-origin: top center; }
 .pop-title { padding: 6px 8px 8px; color: var(--faint); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
 .pop-row { display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 8px; cursor: pointer; font-size: 13.5px; }
 .pop-row:hover { background: var(--panel-hover); }
@@ -625,13 +630,15 @@ html.is-rail-collapsed { --col-right: 0; }
 .set-mini-del { color: var(--faint); }
 .set-mini-del:hover { color: var(--favorite); }
 .set-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
+/* Add-series "+" — hidden until its group row is hovered/focused. */
 .set-add {
-  display: inline-grid; place-items: center; width: 22px; height: 22px;
+  display: none; place-items: center; width: 22px; height: 22px;
   border: 1px dashed var(--line-strong); border-radius: 999px;
-  background: none; color: var(--faint); cursor: pointer;
-  font: inherit; font-size: 15px; line-height: 1; padding: 0;
+  background: none; color: var(--faint); cursor: pointer; padding: 0;
 }
+.set-add .ic { width: 13px; height: 13px; }
 .set-add:hover { border-color: var(--accent); color: var(--accent); }
+.set-item:hover .set-add, .set-item:focus-within .set-add { display: inline-grid; }
 .set-raw {
   margin: 0; max-height: 200px; overflow: auto;
   border: 1px solid var(--line); border-radius: 9px; background: var(--panel-soft);
@@ -656,9 +663,6 @@ html.is-rail-collapsed { --col-right: 0; }
 .text-btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .text-btn--primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
 
-/* Click feedback for toggle buttons (collection bookmark, series group). */
-@keyframes btn-pop { 0% { transform: scale(1); } 40% { transform: scale(1.22); } 100% { transform: scale(1); } }
-.is-pop { animation: btn-pop 0.26s ease; }
 
 /* Right rail (insights) ------------------------------------------------ */
 .rail {
@@ -858,4 +862,5 @@ html.is-rail-collapsed { --col-right: 0; }
 @media (prefers-reduced-motion: reduce) {
   .app, .sidebar, .rail, .venue-cat-body, .venue-series-body, .facet-collapse, .facets-wrap, .cat-caret, .series-caret, .facet-caret { transition: none; }
   .disc-collapse, .title-caret { transition: none; }
+  .popmenu.is-in { animation: none; }
 }
