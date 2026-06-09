@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-09T08:14:57+00:00",
+  "generatedAt": "2026-06-09T08:46:07+00:00",
   "venues": [
     {
       "category": "Computer Architecture",
@@ -147,6 +147,15 @@
     },
     {
       "category": "Software Engineering",
+      "count": 232,
+      "id": "ase2023",
+      "kind": "conference",
+      "name": "ASE 2023",
+      "series": "ASE",
+      "year": 2023
+    },
+    {
+      "category": "Software Engineering",
       "count": 438,
       "id": "fse2026",
       "kind": "conference",
@@ -174,6 +183,15 @@
     },
     {
       "category": "Software Engineering",
+      "count": 231,
+      "id": "fse2023",
+      "kind": "conference",
+      "name": "FSE 2023",
+      "series": "FSE",
+      "year": 2023
+    },
+    {
+      "category": "Software Engineering",
       "count": 737,
       "id": "icse2026",
       "kind": "conference",
@@ -198,6 +216,15 @@
       "name": "ICSE 2024",
       "series": "ICSE",
       "year": 2024
+    },
+    {
+      "category": "Software Engineering",
+      "count": 497,
+      "id": "icse2023",
+      "kind": "conference",
+      "name": "ICSE 2023",
+      "series": "ICSE",
+      "year": 2023
     },
     {
       "category": "Software Engineering",
@@ -252,6 +279,15 @@
       "name": "ISSTA 2024",
       "series": "ISSTA",
       "year": 2024
+    },
+    {
+      "category": "Software Testing & Analysis",
+      "count": 146,
+      "id": "issta2023",
+      "kind": "conference",
+      "name": "ISSTA 2023",
+      "series": "ISSTA",
+      "year": 2023
     }
   ]
 }

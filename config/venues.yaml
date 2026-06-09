@@ -234,6 +234,39 @@ venues:
       enrichers:
         - crossref
 
+  - id: icse2023
+    name: ICSE 2023
+    series: ICSE
+    category: Software Engineering
+    kind: conference
+    year: 2023
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://conf.researchr.org/program/icse-2023/program-icse-2023/
+      context: icse-2023
+      require_authors: true
+      include_event_types:
+        - Paper
+        - Poster
+        - Research paper
+        - Talk
+      include_tracks:
+        - DEMO - Demonstrations
+        - DS - Doctoral Symposium
+        - FoSE - Future of Software Engineering
+        - Industry Forum
+        - Journal-First Papers
+        - NIER - New Ideas and Emerging Results
+        - Posters
+        - Technical Track
+        - SEIP - Software Engineering in Practice
+        - SEIS - Software Engineering in Society
+        - SRC - ACM Student Research Competition
+        - SEET - Software Engineering Education and Training
+      enrichers:
+        - crossref
+
   - id: fse2026
     name: FSE 2026
     series: FSE
@@ -312,6 +345,30 @@ venues:
       enrichers:
         - crossref
 
+  - id: fse2023
+    name: FSE 2023
+    series: FSE
+    category: Software Engineering
+    kind: conference
+    year: 2023
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://conf.researchr.org/program/fse-2023/program-fse-2023/Detailed-Timeline
+      context: fse-2023
+      default_event_type: Paper
+      require_authors: true
+      include_tracks:
+        - Doctoral Symposium
+        - Demonstrations
+        - Ideas, Visions and Reflections
+        - Industry Papers
+        - Journal First
+        - Research Papers
+        - Student Research Competition
+      enrichers:
+        - crossref
+
   - id: ase2025
     name: ASE 2025
     series: ASE
@@ -376,6 +433,36 @@ venues:
       enrichers:
         - crossref
 
+  - id: ase2023
+    name: ASE 2023
+    series: ASE
+    category: Software Engineering
+    kind: conference
+    year: 2023
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://conf.researchr.org/program/ase-2023/program-ase-2023/
+      context: ase-2023
+      require_authors: true
+      include_event_types:
+        - Demonstration
+        - Full-paper
+        - Long-paper
+        - Poster
+        - Research paper
+        - Short-paper
+        - Talk
+      include_tracks:
+        - Doctoral Forum
+        - Industry Showcase (Papers)
+        - Journal-first Papers
+        - NIER Track
+        - Research Papers
+        - Tool Demonstrations
+      enrichers:
+        - crossref
+
   - id: issta2025
     name: ISSTA 2025
     series: ISSTA
@@ -414,6 +501,25 @@ venues:
         - Technical Papers
         - ISSTA/ECOOP Doctoral Symposium
         - ISSTA/ECOOP Tool Demonstrations
+      enrichers:
+        - crossref
+
+  - id: issta2023
+    name: ISSTA 2023
+    series: ISSTA
+    category: Software Testing & Analysis
+    kind: conference
+    year: 2023
+    scraper: researchr
+    enabled: true
+    source:
+      program_url: https://2023.issta.org/program/program-issta-2023/Detailed-Timeline
+      context: issta-2023
+      default_event_type: Paper
+      include_tracks:
+        - Technical Papers
+        - ECOOP and ISSTA Doctoral Symposium
+        - Tool Demonstrations
       enrichers:
         - crossref
 
