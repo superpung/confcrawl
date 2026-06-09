@@ -1192,10 +1192,39 @@ function renderSettings() {
       <button class="text-btn" data-open-saved type="button">Open saved searches</button>
     </section>
     <section class="set-section">
-      <h3 class="set-title">Stored data</h3>
+      <h3 class="set-title"><span>Stored data</span><span class="set-item-meta">${formatBytes(localDataBytes())}</span>
+        <button class="set-mini set-mini-del" data-clear-local type="button" aria-label="Clear all local data" title="Clear all local data">${ICONS.trash}</button></h3>
       <p class="set-note">Everything below lives only in this browser (localStorage).</p>
       <pre class="set-raw">${esc(JSON.stringify(raw, null, 2))}</pre>
     </section>`;
+}
+
+// Total bytes used by this site in localStorage (UTF-16 code units → bytes).
+function localDataBytes(): number {
+  let total = 0;
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith('confer.')) continue;
+    total += (k.length + (localStorage.getItem(k) ?? '').length) * 2;
+  }
+  return total;
+}
+function formatBytes(n: number): string {
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / 1024 / 1024).toFixed(1)} MB`;
+}
+// Wipe every confer.* key and reset in-memory state (after a confirmation).
+function clearLocalData() {
+  if (!window.confirm('Erase all confer data stored in this browser — venue groups, collections, tags, saved searches and preferences? This cannot be undone.')) return;
+  const keys: string[] = [];
+  for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith('confer.')) keys.push(k); }
+  keys.forEach((k) => { try { localStorage.removeItem(k); } catch { /* ignore */ } });
+  state.groups = []; state.collections = []; state.tags.clear(); state.saved = [];
+  state.collection = ''; state.colSet = null;
+  reflectSidebar(); reflectSeriesGroup(); reflectCollectionFilter(); renderSaved(); renderSettings();
+  render();
+  toast('Local data cleared');
 }
 // Picker (popover) to add a series to a group, opened from the "+" in Settings.
 function openSeriesAddPop(anchor: HTMLElement, groupId: string) {
@@ -1500,6 +1529,7 @@ function wire() {
     const t = e.target as HTMLElement;
     if (t.closest('[data-settings-export]')) { exportSettings(); return; }
     if (t.closest('[data-settings-import]')) { importInput.click(); return; }
+    if (t.closest('[data-clear-local]')) { clearLocalData(); return; }
     const gAdd = t.closest<HTMLElement>('[data-group-series-add]');
     if (gAdd) { openSeriesAddPop(gAdd, gAdd.dataset.groupSeriesAdd ?? ''); return; }
     const gRen = t.closest<HTMLElement>('[data-group-rename]');
