@@ -455,23 +455,18 @@ html.is-rail-collapsed { --col-right: 0; }
 .collect-btn.is-on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
 
 /* User tags ride in the chips row (no dedicated line). */
-.chip-tag {
-  display: inline-flex; align-items: center; cursor: pointer;
-  border-color: var(--line-strong); background: var(--panel);
-}
+.chip-tag { cursor: pointer; border-color: var(--line-strong); background: var(--panel); }
 .chip-tag:hover { border-color: var(--accent); color: var(--accent-dark); }
 /* A little breathing room between the label and its remove "×". */
-.tag-x { display: inline-grid; place-items: center; cursor: pointer; color: var(--faint); font-size: 13px; line-height: 1; margin-left: 5px; }
+.tag-x { display: inline-grid; place-items: center; cursor: pointer; color: var(--faint); font-size: 12px; line-height: 1; margin-left: 5px; }
 .tag-x:hover { color: var(--favorite); }
-/* "+ tag" affordance — hidden until the card is hovered/focused so it doesn't
-   take permanent space. Sized identically to .chip so revealing it doesn't
-   change the row height (no hover jitter). */
+/* "+ tag" affordance — reuses the .chip box (identical height, so revealing it
+   on hover never changes the row height / jitters the card); hidden until the
+   card is hovered or focused so it takes no permanent space. */
 .chip-add {
-  display: none; align-items: center;
-  border: 1px dashed var(--line-strong); border-radius: 999px;
-  background: none; color: var(--faint); cursor: pointer;
-  font: inherit; font-size: 11.5px; font-weight: 500; padding: 4px 11px;
-  transition: var(--hover-tr);
+  display: none; cursor: pointer;
+  border-style: dashed; border-color: var(--line-strong);
+  background: none; color: var(--faint);
 }
 .chip-add:hover { border-color: var(--accent); color: var(--accent); }
 .paper-card:hover .chip-add, .paper-card:focus-within .chip-add { display: inline-flex; }
@@ -506,9 +501,11 @@ html.is-rail-collapsed { --col-right: 0; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .chip {
+  display: inline-flex; align-items: center; vertical-align: middle;
+  box-sizing: border-box; line-height: 1;
   border-radius: 999px; border: 1px solid var(--line);
   background: var(--panel-soft); color: var(--text-soft);
-  font-size: 11.5px; font-weight: 500; padding: 4px 11px;
+  font-size: 11.5px; font-weight: 500; padding: 5px 11px;
 }
 .chip-track { cursor: pointer; }
 .chip-track:hover { border-color: var(--accent); color: var(--accent-dark); }

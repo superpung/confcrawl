@@ -408,7 +408,7 @@ function cardHtml(p: Paper, v: string): string {
     `<button class="chip chip-tag" data-tag="${esc(t)}" title="Filter by tag “${esc(t)}”">${esc(t)}<span class="tag-x" data-tag-del="${esc(t)}" role="button" aria-label="Remove tag" title="Remove tag">×</span></button>`).join('');
   // Tags share the chips row with tracks (no dedicated line). The "+ tag" affordance
   // is revealed on hover (desktop) / when the card already has tags (mobile).
-  const addTagBtn = `<button class="chip-add" data-tag-add type="button" title="Add a tag" aria-label="Add a tag">+ tag</button>`;
+  const addTagBtn = `<button class="chip chip-add" data-tag-add type="button" title="Add a tag" aria-label="Add a tag">+ tag</button>`;
   // Date / location / session are hidden by default; they live inside the
   // disclosure so they appear together with the abstract when expanded.
   const publicationBits = [
