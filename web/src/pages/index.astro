@@ -56,11 +56,15 @@ const year = new Date().getFullYear();
         <div class="venue-tool-buttons">
           <button class="text-btn" data-select-all type="button">All</button>
           <button class="text-btn" data-select-none type="button">None</button>
+          <button class="text-btn venue-fav-toggle" data-fav-series-toggle type="button" aria-pressed="false" title="Show favorite series only" aria-label="Show favorite series only">
+            <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </button>
         </div>
       </div>
 
       <nav class="venue-nav" aria-label="Venues">
         {groups.length === 0 && <p class="venue-empty">No venues yet.</p>}
+        <p class="venue-empty" id="favEmpty" hidden>No favorite series yet — tap ☆ on a series to pin it.</p>
         {groups.map((group) => (
           <section class="venue-cat" data-cat={group.category}>
             <button class="venue-cat-head" type="button" data-cat-toggle aria-expanded="true">
@@ -78,6 +82,9 @@ const year = new Date().getFullYear();
                         <span class="series-name">{s.series}</span>
                         {s.kind === 'journal' && <span class="venue-kind kind-journal">J</span>}
                         <span class="series-count">{s.count.toLocaleString()}</span>
+                      </button>
+                      <button class="series-fav" type="button" data-series-fav={s.series} aria-pressed="false" aria-label={`Favorite ${s.series}`} title={`Favorite ${s.series}`}>
+                        <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                       </button>
                       <input class="series-check" type="checkbox" data-series-check aria-label={`Select all ${s.series}`} />
                     </div>

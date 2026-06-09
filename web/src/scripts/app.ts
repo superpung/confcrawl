@@ -9,6 +9,7 @@ const K_THEME = 'confer.theme';
 const K_SAVED = 'confer.savedSearches';
 const K_SIDEBAR = 'confer.sidebarCollapsed';
 const K_RAIL = 'confer.railCollapsed';
+const K_FAVSERIES = 'confer.favSeries';
 const PAGE = 200;
 
 // --- helpers -----------------------------------------------------------
@@ -210,6 +211,8 @@ const state = {
   sort: 'venue',
   favOnly: false,
   favs: new Set<string>(readJson<string[]>(K_FAVS, [])),
+  favSeries: new Set<string>(readJson<string[]>(K_FAVSERIES, [])),
+  showFavSeriesOnly: false,
   sel: new Set<string>(),
   saved: readJson<SavedSearch[]>(K_SAVED, []),
   shown: PAGE,
@@ -769,6 +772,38 @@ function setVenues(ids: string[], on: boolean) {
   ensureLoaded([...state.selected]).then(render);
 }
 
+// Filter the sidebar by the venue-search text and/or the "favorite series only"
+// toggle (both compose). Expands matching series while searching.
+function applyVenueFilter() {
+  const q = $<HTMLInputElement>('[data-venue-search]').value.trim().toLowerCase();
+  const favOnly = state.showFavSeriesOnly;
+  document.querySelectorAll<HTMLElement>('.venue-series').forEach((series) => {
+    const favOk = !favOnly || state.favSeries.has(series.dataset.series ?? '');
+    let anyRow = false;
+    series.querySelectorAll<HTMLElement>('[data-venue-row]').forEach((row) => {
+      const match = q.length === 0 || (row.dataset.venueName ?? '').includes(q);
+      row.hidden = !match;
+      if (match) anyRow = true;
+    });
+    series.hidden = !(favOk && anyRow);
+    const collapsed = q.length === 0 ? true : !anyRow;
+    series.classList.toggle('is-collapsed', collapsed);
+    series.querySelector('[data-series-toggle]')?.setAttribute('aria-expanded', String(!collapsed));
+  });
+  document.querySelectorAll<HTMLElement>('.venue-cat').forEach((cat) => {
+    cat.hidden = !cat.querySelector('.venue-series:not([hidden])');
+  });
+  $('#favEmpty').hidden = !(favOnly && !document.querySelector('.venue-series:not([hidden])'));
+}
+
+function reflectSeriesFav() {
+  document.querySelectorAll<HTMLElement>('[data-series-fav]').forEach((btn) => {
+    const on = state.favSeries.has(btn.dataset.seriesFav ?? '');
+    btn.classList.toggle('is-fav', on);
+    btn.setAttribute('aria-pressed', String(on));
+  });
+}
+
 // --- toast -------------------------------------------------------------
 let toastTimer = 0;
 function toast(msg: string) {
@@ -894,24 +929,22 @@ function wire() {
       setVenues(ids, master.checked);
     });
   });
-  // venue filter in sidebar
-  $<HTMLInputElement>('[data-venue-search]').addEventListener('input', (e) => {
-    const q = (e.target as HTMLInputElement).value.trim().toLowerCase();
-    document.querySelectorAll<HTMLElement>('[data-venue-row]').forEach((row) => {
-      row.hidden = q.length > 0 && !(row.dataset.venueName ?? '').includes(q);
-    });
-    // hide series with no matching rows; auto-expand the rest while filtering
-    // (keep the caret's aria-expanded in sync with the collapsed class).
-    document.querySelectorAll<HTMLElement>('.venue-series').forEach((series) => {
-      const hasMatch = !!series.querySelector('[data-venue-row]:not([hidden])');
-      series.hidden = !hasMatch;
-      const collapsed = q.length === 0 ? true : !hasMatch;
-      series.classList.toggle('is-collapsed', collapsed);
-      series.querySelector('[data-series-toggle]')?.setAttribute('aria-expanded', String(!collapsed));
-    });
-    document.querySelectorAll<HTMLElement>('.venue-cat').forEach((cat) => {
-      cat.hidden = !cat.querySelector('[data-venue-row]:not([hidden])');
-    });
+  // venue filter in sidebar (text + favorite-series toggle compose)
+  $<HTMLInputElement>('[data-venue-search]').addEventListener('input', applyVenueFilter);
+  $('[data-fav-series-toggle]').addEventListener('click', (e) => {
+    state.showFavSeriesOnly = !state.showFavSeriesOnly;
+    (e.currentTarget as HTMLElement).setAttribute('aria-pressed', String(state.showFavSeriesOnly));
+    applyVenueFilter();
+  });
+  // star a series (delegated) — toggles favorite, persists, re-applies filter
+  $('.venue-nav').addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-series-fav]');
+    if (!btn) return;
+    const s = btn.dataset.seriesFav ?? '';
+    if (state.favSeries.has(s)) state.favSeries.delete(s); else state.favSeries.add(s);
+    writeJson(K_FAVSERIES, [...state.favSeries].sort());
+    reflectSeriesFav();
+    if (state.showFavSeriesOnly) applyVenueFilter();
   });
   $('[data-select-all]').addEventListener('click', () => { manifest.forEach((v) => state.selected.add(v.id)); state.shown = PAGE; reflectSidebar(); writeUrl(); ensureLoaded([...state.selected]).then(render); });
   $('[data-select-none]').addEventListener('click', () => { state.selected.clear(); reflectSidebar(); writeUrl(); rebuildRows(); render(); });
@@ -1174,6 +1207,7 @@ function init() {
   renderSaved();
   wire();
   reflectSidebar();
+  reflectSeriesFav();
   if (state.favOnly) els.favOnly.checked = true;
   ensureLoaded([...state.selected]).then(render);
 }
