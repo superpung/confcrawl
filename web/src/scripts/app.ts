@@ -41,6 +41,8 @@ const ICONS = {
   bookmark: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
   bookmarkFilled: '<svg class="ic ic--fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
   layers: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+  pencil: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
+  trash: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>',
   settings: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
   externalLink: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>',
   network: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="7" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6.8" y1="6.8" x2="10.4" y2="16.2"/><line x1="17.3" y1="8.4" x2="13.3" y2="16.4"/><line x1="6.9" y1="6.2" x2="17" y2="6.8"/></svg>',
@@ -630,6 +632,9 @@ function buildNetwork(mode: 'author' | 'inst'): { nodes: NetNode[]; edges: NetEd
 
 function openNetwork(mode: 'author' | 'inst') {
   stopNetwork();
+  // On mobile the rail is an off-canvas drawer; close it so the modal opens over
+  // a clean, full-viewport page (and centers correctly).
+  $('#app').classList.remove('rail-open', 'sidebar-open');
   $('#networkModal').hidden = false;
   $('#networkTitle').textContent = mode === 'inst' ? 'Institution network' : 'Co-author network';
   const { nodes, edges } = buildNetwork(mode);
@@ -1149,8 +1154,8 @@ function renderSettings() {
           <div class="set-item-head">
             <span class="set-item-name">${esc(g.name)}</span>
             <span class="set-item-meta">${venuesOfGroup(g).length} venues</span>
-            <button class="set-mini" data-group-rename="${g.id}" type="button">Rename</button>
-            <button class="set-mini set-mini-del" data-group-del="${g.id}" type="button">Delete</button>
+            <button class="set-mini" data-group-rename="${g.id}" type="button" aria-label="Rename group" title="Rename">${ICONS.pencil}</button>
+            <button class="set-mini set-mini-del" data-group-del="${g.id}" type="button" aria-label="Delete group" title="Delete">${ICONS.trash}</button>
           </div>
           <div class="set-chips">${g.series.map((s) => `<span class="chip">${esc(s)}<span class="tag-x" data-group-series-del="${g.id}|${esc(s)}" role="button" aria-label="Remove">×</span></span>`).join('') || '<span class="set-empty">no series</span>'}
             <button class="set-add" data-group-series-add="${g.id}" data-pop-anchor type="button" aria-label="Add series" title="Add series"><svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div>
@@ -1162,8 +1167,8 @@ function renderSettings() {
           <div class="set-item-head">
             <span class="set-item-name">${esc(c.name)}</span>
             <span class="set-item-meta">${c.keys.length} papers</span>
-            <button class="set-mini" data-col-rename="${c.id}" type="button">Rename</button>
-            <button class="set-mini set-mini-del" data-col-del="${c.id}" type="button">Delete</button>
+            <button class="set-mini" data-col-rename="${c.id}" type="button" aria-label="Rename collection" title="Rename">${ICONS.pencil}</button>
+            <button class="set-mini set-mini-del" data-col-del="${c.id}" type="button" aria-label="Delete collection" title="Delete">${ICONS.trash}</button>
           </div>
         </div>`).join('')
     : '<p class="set-empty">No collections yet. Use the bookmark on a paper to add one.</p>';

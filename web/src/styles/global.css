@@ -471,8 +471,10 @@ html.is-rail-collapsed { --col-right: 0; }
 }
 .title-caret {
   display: inline-block; margin-left: 8px; font-size: 0.6em; vertical-align: middle;
-  color: var(--faint); transition: transform 0.22s ease, color 0.12s ease;
+  color: var(--faint); opacity: 0;   /* revealed on hover; opacity keeps layout stable */
+  transition: transform 0.22s ease, color 0.12s ease, opacity 0.15s ease;
 }
+.paper-card:hover .title-caret, .paper-card:focus-within .title-caret, .paper-card.is-open .title-caret { opacity: 1; }
 .title-toggle:hover .title-caret { color: var(--accent); }
 .paper-card.is-open .title-caret { transform: rotate(180deg); }
 
@@ -622,10 +624,13 @@ html.is-rail-collapsed { --col-right: 0; }
 .set-item-head { display: flex; align-items: center; gap: 8px; }
 .set-item-name { font-weight: 500; color: var(--text); }
 .set-item-meta { color: var(--faint); font-size: 12px; font-weight: 600; }
-.set-mini { margin-left: auto; border: 0; background: none; cursor: pointer; font: inherit; font-size: 12px; font-weight: 500; color: var(--accent); padding: 2px 4px; }
-.set-mini + .set-mini { margin-left: 0; }
-.set-mini:hover { color: var(--accent-dark); }
-.set-mini-del { color: var(--faint); }
+.set-mini {
+  display: inline-grid; place-items: center; width: 28px; height: 28px;
+  border: 1px solid transparent; border-radius: 7px;
+  background: none; color: var(--muted); cursor: pointer; padding: 0;
+}
+.set-mini:first-of-type { margin-left: auto; }
+.set-mini:hover { color: var(--accent); border-color: var(--line-strong); background: var(--panel-hover); }
 .set-mini-del:hover { color: var(--favorite); }
 .set-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
 /* Add-series "+" — hidden until its group row is hovered/focused. */
@@ -728,9 +733,15 @@ html.is-rail-collapsed { --col-right: 0; }
 .author-pop {
   position: absolute; left: 0; top: 100%; z-index: 8;
   padding-top: 5px;   /* bridge so the popover stays reachable on hover */
-  display: none; width: max-content; max-width: min(300px, 80vw);
+  width: max-content; max-width: min(300px, 80vw);
+  /* fade/scale in & out instead of toggling display */
+  opacity: 0; visibility: hidden; transform: translateY(-3px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
 }
-.author.has-inst:hover .author-pop, .author-pop:hover { display: block; }
+.author.has-inst:hover .author-pop, .author-pop:hover {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s;
+}
 .author-inst {
   display: inline-block; max-width: 300px;
   border: 1px solid var(--line-strong); border-radius: 9px;
@@ -799,6 +810,9 @@ html.is-rail-collapsed { --col-right: 0; }
     opacity: 0; pointer-events: none; transition: opacity 0.22s ease;
   }
   .app.rail-open .rail-scrim { opacity: 1; pointer-events: auto; }
+  /* Keep the (tall) network modal within the viewport so it stays centered. */
+  .modal-card--wide { width: min(680px, 92vw); max-height: 88vh; }
+  #networkCanvas { height: min(58vh, 460px); }
 }
 
 /* Responsive ----------------------------------------------------------- */
@@ -861,4 +875,6 @@ html.is-rail-collapsed { --col-right: 0; }
   .app, .sidebar, .rail, .venue-cat-body, .venue-series-body, .facet-collapse, .facets-wrap, .cat-caret, .series-caret, .facet-caret { transition: none; }
   .disc-collapse, .title-caret { transition: none; }
   .popmenu.is-in { animation: none; }
+  .author-pop { transition: opacity 0.15s ease, visibility 0s; transform: none; }
+  .author.has-inst:hover .author-pop, .author-pop:hover { transform: none; }
 }
