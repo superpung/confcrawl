@@ -98,4 +98,8 @@ export interface SyncMeta {
   remoteUpdatedAt: string;
   /** bundleFingerprint() of the local config at the time of last sync. */
   localFingerprint: string;
+  /** ISO time of the last confirmed-in-sync check (push, pull, or no-op).
+   *  Used only for the "Last synced" display; falls back to remoteUpdatedAt
+   *  for metas written before this field existed. */
+  lastSyncedAt?: string;
 }

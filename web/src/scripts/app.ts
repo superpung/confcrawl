@@ -1254,10 +1254,11 @@ function renderSyncSection(): string {
   const nameHtml = user?.name ? `<span class="gh-name">${esc(user.name)}</span>` : `<span class="gh-name">@${esc(user?.login ?? '')}</span>`;
   const loginHtml = user?.name ? `<span class="gh-login">@${esc(user.login)}</span>` : '';
   // Sync time / conflict indicator beside the button
+  const syncDisplayTs = meta ? (meta.lastSyncedAt ?? meta.remoteUpdatedAt) : null;
   const syncedHtml = syncConflictPending
     ? `<button class="gh-conflict" type="button" title="Local and cloud both changed — click to review and resolve">⚠ Sync conflict — review</button>`
-    : meta?.remoteUpdatedAt
-      ? `<span class="gh-synced" title="${esc(fullTimestamp(meta.remoteUpdatedAt))}">Synced ${relativeTime(meta.remoteUpdatedAt)}</span>`
+    : syncDisplayTs
+      ? `<span class="gh-synced" title="${esc(fullTimestamp(syncDisplayTs))}">Synced ${relativeTime(syncDisplayTs)}</span>`
       : `<span class="gh-synced">Not yet synced</span>`;
   // View Gist: dashed-underline inline link styled like paper authors
   const gistLinkHtml = gistId
@@ -1550,13 +1551,14 @@ async function pushBundle(token: string, gistId: string, bundle: SettingsBundle)
     body: JSON.stringify({ files: { 'confer-config.json': { content: JSON.stringify(withTs, null, 2) } } }),
   });
   if (!res.ok) throw new Error('Push failed');
-  writeJson(K_SYNC_META, { remoteUpdatedAt: now, localFingerprint: bundleFingerprint(bundle) } satisfies SyncMeta);
+  writeJson(K_SYNC_META, { remoteUpdatedAt: now, localFingerprint: bundleFingerprint(bundle), lastSyncedAt: now } satisfies SyncMeta);
 }
 
 /** Low-level: apply a remote bundle as the new local state and record the sync point. */
 function applyRemoteBundle(remote: SettingsBundle): void {
   applySettingsBundle(remote);
-  writeJson(K_SYNC_META, { remoteUpdatedAt: remote.updatedAt ?? '', localFingerprint: bundleFingerprint(serializeSettings()) } satisfies SyncMeta);
+  const now = new Date().toISOString();
+  writeJson(K_SYNC_META, { remoteUpdatedAt: remote.updatedAt ?? '', localFingerprint: bundleFingerprint(serializeSettings()), lastSyncedAt: now } satisfies SyncMeta);
 }
 
 /** Sign out: confirm, then clear token, identity, gist id, and sync meta. */
@@ -1739,8 +1741,11 @@ async function runSync({ auto }: { auto: boolean }): Promise<void> {
     const remoteChanged = (remote!.updatedAt ?? '') !== meta.remoteUpdatedAt;
 
     if (!localChanged && !remoteChanged) {
-      if (!auto) { toast('Already up to date'); renderSettings(); }
-      else if (auto) lastAutoPullAt = Date.now(); // update throttle even on no-op
+      // Bump lastSyncedAt to reflect the confirmed-in-sync check time
+      writeJson(K_SYNC_META, { ...meta, lastSyncedAt: new Date().toISOString() } satisfies SyncMeta);
+      if (auto) lastAutoPullAt = Date.now(); // update focus-throttle
+      renderSettings(); // refresh the displayed "Last synced" time
+      if (!auto) toast('Already up to date');
       return;
     }
     if (localChanged && !remoteChanged) {
