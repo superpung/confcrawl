@@ -69,8 +69,6 @@ const ICONS = {
   upload: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
   link: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
   github: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>',
-  cloudUp: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>',
-  cloudDown: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>',
   help: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
   signout: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
   extLink: '<svg style="width:12px;height:12px;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>',
@@ -102,6 +100,8 @@ function shortList(values: string[], max = 1) {
   const hidden = values.length - max;
   return hidden > 0 ? `${visible} +${hidden}` : visible;
 }
+/** Pick singular/plural noun for a count (word only; caller supplies the number). */
+const plural = (n: number, one: string, many = one + 's') => (n === 1 ? one : many);
 function searchBlob(p: Paper): string {
   if (p._search === undefined) {
     p._search = [
@@ -604,9 +604,9 @@ function renderRail(filtered: { p: Paper; v: string }[]) {
   const stat = (n: number, label: string) =>
     `<div class="rail-stat"><span class="rail-stat-n">${n.toLocaleString()}</span><span class="rail-stat-l">${label}</span></div>`;
   const summary = `<div class="rail-stats">
-    ${stat(filtered.length, 'papers')}
-    ${stat(authorCount.size, 'authors')}
-    ${stat(instCount.size, 'institutions')}
+    ${stat(filtered.length, plural(filtered.length, 'paper'))}
+    ${stat(authorCount.size, plural(authorCount.size, 'author'))}
+    ${stat(instCount.size, plural(instCount.size, 'institution'))}
   </div>`;
   const netBtn = (mode: string, label: string) =>
     `<button class="rail-net-btn" data-open-network="${mode}" title="${label}" aria-label="${label}">${ICONS.network}</button>`;
@@ -807,7 +807,7 @@ function render() {
     : `<div class="empty-state"><h2>No matching papers</h2><p>Try clearing the search or filters.</p></div>`;
 
   const venuesShown = new Set(filtered.map((r) => r.v)).size;
-  els.summary.textContent = `${filtered.length.toLocaleString()} of ${state.rows.length.toLocaleString()} papers · ${venuesShown} venue${venuesShown === 1 ? '' : 's'}`;
+  els.summary.textContent = `${filtered.length.toLocaleString()} of ${state.rows.length.toLocaleString()} papers · ${venuesShown} ${plural(venuesShown, 'venue')}`;
 
   if (filtered.length > state.shown) {
     els.more.hidden = false;
@@ -1200,13 +1200,13 @@ async function doExport(format: string) {
   const rows = currentExportRows();
   if (!rows.length) { toast('Nothing to export'); return; }
   if (format === 'bibtex') {
-    try { await navigator.clipboard.writeText(toBibtex(rows)); toast(`Copied ${rows.length} BibTeX entries`); }
+    try { await navigator.clipboard.writeText(toBibtex(rows)); toast(`Copied ${rows.length} ${plural(rows.length, 'BibTeX entry', 'BibTeX entries')}`); }
     catch { toast('Clipboard blocked'); }
   } else if (format === 'csv') {
     const blob = new Blob([toCsv(rows)], { type: 'text/csv' });
     const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'confer-papers.csv' });
     a.click(); URL.revokeObjectURL(a.href);
-    toast(`Downloaded ${rows.length} rows`);
+    toast(`Downloaded ${rows.length} ${plural(rows.length, 'row')}`);
   }
 }
 
@@ -1302,7 +1302,7 @@ function renderSettings() {
         `<div class="set-item" data-set-group="${g.id}">
           <div class="set-item-head">
             <span class="set-item-name">${esc(g.name)}</span>
-            <span class="set-item-meta">${venuesOfGroup(g).length} venues</span>
+            <span class="set-item-meta">${venuesOfGroup(g).length} ${plural(venuesOfGroup(g).length, 'venue')}</span>
             <button class="set-mini" data-group-share="${g.id}" type="button" aria-label="Copy share link" title="Copy share link">${ICONS.link}</button>
             <button class="set-mini" data-group-rename="${g.id}" type="button" aria-label="Rename group" title="Rename">${ICONS.pencil}</button>
             <button class="set-mini set-mini-del" data-group-del="${g.id}" type="button" aria-label="Delete group" title="Delete">${ICONS.trash}</button>
@@ -1310,13 +1310,13 @@ function renderSettings() {
           <div class="set-chips">${g.series.map((s) => `<span class="chip">${esc(s)}<span class="tag-x" data-group-series-del="${g.id}|${esc(s)}" role="button" aria-label="Remove">×</span></span>`).join('') || '<span class="set-empty">no series</span>'}
             <button class="set-add" data-group-series-add="${g.id}" data-pop-anchor type="button" aria-label="Add series" title="Add series"><svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button></div>
         </div>`).join('')
-    : '<p class="set-empty">No venue groups yet. Use the ＋ button next to a series in the sidebar.</p>';
+    : '<p class="set-empty">No venue groups yet. Use the group icon beside a series in the sidebar to add one.</p>';
   const colsHtml = state.collections.length
     ? state.collections.map((c) =>
         `<div class="set-item" data-set-col="${c.id}">
           <div class="set-item-head">
             <span class="set-item-name">${esc(c.name)}</span>
-            <span class="set-item-meta">${c.keys.length} papers</span>
+            <span class="set-item-meta">${c.keys.length} ${plural(c.keys.length, 'paper')}</span>
             <button class="set-mini" data-col-share="${c.id}" type="button" aria-label="Copy share link" title="Copy share link">${ICONS.link}</button>
             <button class="set-mini" data-col-rename="${c.id}" type="button" aria-label="Rename collection" title="Rename">${ICONS.pencil}</button>
             <button class="set-mini set-mini-del" data-col-del="${c.id}" type="button" aria-label="Delete collection" title="Delete">${ICONS.trash}</button>
@@ -1489,8 +1489,8 @@ async function handleShareHash() {
           ? `Import venue group "${grpName}"?`
           : `Import ${grpCount} venue groups?`
         : colCount === 1
-          ? `Import collection "${colName}" (${paperCount} papers)?`
-          : `Import ${colCount} collections (${paperCount} papers)?`;
+          ? `Import collection "${colName}" (${paperCount} ${plural(paperCount, 'paper')})?`
+          : `Import ${colCount} ${plural(colCount, 'collection')} (${paperCount} ${plural(paperCount, 'paper')})?`;
     const confirmed = await askConfirm({ title: 'Import shared data', message: desc, ok: 'Import' });
     if (confirmed) {
       applySettingsBundle(bundle, { merge: true });
