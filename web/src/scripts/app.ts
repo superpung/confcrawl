@@ -1348,11 +1348,13 @@ function renderSettings() {
       <h3 class="set-title"><span>Config</span><span class="set-item-meta">${formatBytes(configBundleBytes())}</span>
         <button class="set-mini" data-settings-export type="button" aria-label="Export config" title="Export">${ICONS.download}</button>
         <button class="set-mini" data-settings-import type="button" aria-label="Import config" title="Import">${ICONS.upload}</button>
-        <button class="set-mini" data-share-full type="button" aria-label="Copy share link" title="Share all">${ICONS.link}</button>
-        <button class="set-mini set-mini-del" data-clear-local type="button" aria-label="Clear all local data" title="Clear all local data">${ICONS.trash}</button></h3>
+        <button class="set-mini" data-share-full type="button" aria-label="Copy share link" title="Share all">${ICONS.link}</button></h3>
       <p class="set-note">Site config stored in this browser.</p>
       <pre class="set-raw">${esc(JSON.stringify(raw, null, 2))}</pre>
-      <p class="set-note">Local storage ${formatBytes(localDataBytes())}</p>
+      <div class="set-local-storage">
+        <span>Local storage ${formatBytes(localDataBytes())}</span>
+        <button class="set-mini set-mini-del" data-clear-local type="button" aria-label="Clear all local data" title="Clear all local data">${ICONS.trash}</button>
+      </div>
     </section>`;
 }
 
