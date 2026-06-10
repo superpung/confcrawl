@@ -66,9 +66,9 @@ export interface Collection {
   keys: string[];
 }
 
-/** Serialized snapshot of all personal/preference data; used for export,
- *  import, URL sharing, and Gist sync. Every field is optional so partial
- *  bundles (e.g. a single shared collection) are valid. */
+/** Serialized snapshot of syncable config; used for export, import, URL
+ *  sharing, and Gist sync. Every field is optional so partial bundles
+ *  (e.g. a single shared collection) are valid. */
 export interface SettingsBundle {
   app: string;
   version: number;

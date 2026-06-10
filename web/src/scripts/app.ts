@@ -16,8 +16,8 @@ const K_GH_TOKEN = 'confer.ghToken';         // GitHub gist-scoped access token
 const K_GIST_ID = 'confer.gistId';           // id of the user's confer config gist
 const K_GH_USER = 'confer.ghUser';           // cached GitHubUser JSON
 const K_SYNC_META = 'confer.syncMeta';       // SyncMeta JSON (conflict detection)
-// Keys bundled by the settings export/import.
-const PERSONAL_KEYS = [K_VGROUPS, K_COLLECTIONS, K_TAGS, K_SAVED, K_THEME, K_ACCENT];
+// Keys bundled by the settings export/import and Gist sync.
+const CONFIG_KEYS = [K_VGROUPS, K_COLLECTIONS, K_TAGS, K_SAVED, K_THEME, K_ACCENT];
 // OAuth broker endpoint (Netlify Function — stateless, stores nothing).
 const OAUTH_BROKER = '/.netlify/functions/github-oauth';
 // GitHub OAuth App client_id (public; the secret lives only in Netlify env).
@@ -88,7 +88,7 @@ function writeJson(key: string, value: unknown) {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* ignore */ }
   // Trigger auto-sync for personal data writes (theme/accent are set directly and
   // call markLocalChange() themselves; K_SYNC_META writes should never loop back).
-  if (PERSONAL_KEYS.includes(key)) markLocalChange();
+  if (CONFIG_KEYS.includes(key)) markLocalChange();
 }
 
 function joinList(values: string[], fallback = 'Not listed') {
@@ -1328,7 +1328,7 @@ function renderSettings() {
     ? `<div class="set-chips">${tags.map(([t, n]) => `<span class="chip">${esc(t)} ${n}<span class="tag-x" data-tag-purge="${esc(t)}" role="button" aria-label="Remove from all">×</span></span>`).join('')}</div>`
     : '<p class="set-empty">No tags yet. Add tags on a paper card.</p>';
   const raw: Record<string, unknown> = {};
-  for (const k of PERSONAL_KEYS) { const v = localStorage.getItem(k); if (!v) continue; try { raw[k] = JSON.parse(v); } catch { raw[k] = v; } }
+  for (const k of CONFIG_KEYS) { const v = localStorage.getItem(k); if (!v) continue; try { raw[k] = JSON.parse(v); } catch { raw[k] = v; } }
   const currentAccent = document.documentElement.dataset.accent || 'clay';
   const swatchesHtml = Object.entries(ACCENTS).map(([key, { label, light }]) =>
     `<button class="accent-sw${currentAccent === key ? ' is-on' : ''}" data-accent-pick="${key}" title="${label}" type="button" style="background:${light}"></button>`
@@ -1345,14 +1345,20 @@ function renderSettings() {
       <button class="text-btn" data-open-saved type="button">Open saved searches</button>
     </section>
     <section class="set-section">
-      <h3 class="set-title"><span>Config</span><span class="set-item-meta">${formatBytes(localDataBytes())}</span>
+      <h3 class="set-title"><span>Config</span><span class="set-item-meta">${formatBytes(configBundleBytes())}</span>
         <button class="set-mini" data-settings-export type="button" aria-label="Export config" title="Export">${ICONS.download}</button>
         <button class="set-mini" data-settings-import type="button" aria-label="Import config" title="Import">${ICONS.upload}</button>
         <button class="set-mini" data-share-full type="button" aria-label="Copy share link" title="Share all">${ICONS.link}</button>
         <button class="set-mini set-mini-del" data-clear-local type="button" aria-label="Clear all local data" title="Clear all local data">${ICONS.trash}</button></h3>
       <p class="set-note">Site config stored in this browser.</p>
       <pre class="set-raw">${esc(JSON.stringify(raw, null, 2))}</pre>
+      <p class="set-note">Local storage ${formatBytes(localDataBytes())}</p>
     </section>`;
+}
+
+// Size of the exported/synced SettingsBundle JSON.
+function configBundleBytes(): number {
+  return new TextEncoder().encode(JSON.stringify(serializeSettings())).length;
 }
 
 // Total bytes used by this site in localStorage (UTF-16 code units → bytes).
@@ -1714,7 +1720,7 @@ function diffBundles(local: SettingsBundle, remote: SettingsBundle): string {
   </div>`;
 }
 
-/** Debounced push trigger: called by writeJson (for PERSONAL_KEYS) and theme/accent changes.
+/** Debounced push trigger: called by writeJson (for CONFIG_KEYS) and theme/accent changes.
  *  Coalesces rapid local edits (3s window) before pushing to avoid spamming the Gist API. */
 function markLocalChange() {
   if (!localStorage.getItem(K_GH_TOKEN)) return;  // not logged in
