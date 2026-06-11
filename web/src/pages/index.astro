@@ -59,6 +59,7 @@ const year = new Date().getFullYear();
         </div>
       </div>
 
+      <div class="sidebar-scroll">
       <nav class="venue-nav" aria-label="Venues">
         {groups.length === 0 && <p class="venue-empty">No venues yet.</p>}
         <div class="venue-groups" id="venueGroups" hidden></div>
@@ -128,6 +129,7 @@ const year = new Date().getFullYear();
         </p>
         <p class="foot-copy">Copyright © {year} <a href="https://github.com/superpung" target="_blank" rel="noreferrer">Super Lee</a> &amp; <a href="https://claude.com/product/claude-code" target="_blank" rel="noreferrer">Claude</a></p>
       </footer>
+      </div>{/* sidebar-scroll */}
     </aside>
 
     <div class="sidebar-scrim" id="sidebarScrim"></div>
