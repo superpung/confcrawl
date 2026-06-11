@@ -11,6 +11,8 @@ const K_RAIL = 'confer.railCollapsed';
 const K_VGROUPS = 'confer.venueGroups';      // VenueGroup[] (series-level groups)
 const K_COLLECTIONS = 'confer.collections';  // Collection[] (paper collections)
 const K_TAGS = 'confer.paperTags';           // Record<paperKey, string[]>
+const K_NOTES = 'confer.paperNotes';         // Record<paperKey, string> — private notes
+const K_STATUS = 'confer.readStatus';        // Record<paperKey, 'reading'|'done'> — omit 'unread'
 const K_ACCENT = 'confer.accent';            // accent color key (e.g. "sage")
 const K_GH_TOKEN = 'confer.ghToken';         // GitHub gist-scoped access token
 const K_GH_REFRESH = 'confer.ghRefresh';     // GitHub refresh token (when expiry is enabled)
@@ -20,7 +22,7 @@ const K_GH_USER = 'confer.ghUser';           // cached GitHubUser JSON
 const K_SYNC_META = 'confer.syncMeta';       // SyncMeta JSON (conflict detection)
 const K_SYNC_ETAG = 'confer.syncEtag';       // ETag of the last fetched gist (conditional GET)
 // Keys bundled by the settings export/import and Gist sync.
-const CONFIG_KEYS = [K_VGROUPS, K_COLLECTIONS, K_TAGS, K_SAVED];
+const CONFIG_KEYS = [K_VGROUPS, K_COLLECTIONS, K_TAGS, K_SAVED, K_NOTES, K_STATUS];
 // OAuth broker endpoint (Netlify Function — stateless, stores nothing).
 const OAUTH_BROKER = '/.netlify/functions/github-oauth';
 // GitHub OAuth App client_id (public; the secret lives only in Netlify env).
@@ -78,6 +80,10 @@ const ICONS = {
   extLink: '<svg style="width:12px;height:12px;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>',
   refresh: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
   chevronDown: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>',
+  // reading-status icons (circle outline / half-filled dot / checkmark)
+  statusUnread:  '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>',
+  statusReading: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/></svg>',
+  statusDone:    '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="8.5 12 11 14.5 15.5 9.5"/></svg>',
 };
 
 function readJson<T>(key: string, fallback: T): T {
@@ -275,6 +281,10 @@ const state = {
   groups: readJson<VenueGroup[]>(K_VGROUPS, []),
   collections: readJson<Collection[]>(K_COLLECTIONS, []),
   tags: new Map<string, string[]>(Object.entries(readJson<Record<string, string[]>>(K_TAGS, {}))),
+  notes: new Map<string, string>(Object.entries(readJson<Record<string, string>>(K_NOTES, {}))),
+  status: new Map<string, string>(Object.entries(readJson<Record<string, string>>(K_STATUS, {}))),
+  statusFilter: '',                                          // '' = all, 'reading', 'done'
+  entityModal: null as { kind: string; key: string } | null, // open profile modal state
   sel: new Set<string>(),
   saved: readJson<SavedSearch[]>(K_SAVED, []),
   shown: PAGE,
@@ -291,6 +301,24 @@ function saveTags() {
 const collectionById = (id: string) => state.collections.find((c) => c.id === id);
 const collectionsOf = (k: string) => state.collections.filter((c) => c.keys.includes(k));
 function tagsOf(k: string): string[] { return state.tags.get(k) ?? []; }
+function noteOf(k: string): string { return state.notes.get(k) ?? ''; }
+function saveNotes() {
+  writeJson(K_NOTES, Object.fromEntries([...state.notes].filter(([, v]) => v)));
+}
+/** 'unread' is the implicit default — only 'reading' and 'done' are persisted. */
+function statusOf(k: string): string { return state.status.get(k) ?? 'unread'; }
+function saveStatus() {
+  writeJson(K_STATUS, Object.fromEntries([...state.status].filter(([, v]) => v && v !== 'unread')));
+}
+const STATUS_ICONS: Record<string, string> = {
+  unread: ICONS.statusUnread, reading: ICONS.statusReading, done: ICONS.statusDone,
+};
+const STATUS_NEXT: Record<string, string> = { unread: 'reading', reading: 'done', done: 'unread' };
+const STATUS_TITLE: Record<string, string> = {
+  unread: 'Mark as reading',
+  reading: 'Mark as done (currently: reading)',
+  done: 'Mark as unread (currently: done)',
+};
 /** Venue ids whose series belongs to the group (across all years). */
 function venuesOfGroup(g: VenueGroup): string[] {
   const series = new Set(g.series);
@@ -308,6 +336,11 @@ function readUrl() {
   (q.get('track') ?? '').split(',').filter(Boolean).forEach((t) => state.tracks.add(t));
   (q.get('event') ?? '').split(',').filter(Boolean).forEach((e) => state.events.add(e));
   (q.get('tags') ?? '').split(',').filter(Boolean).forEach((t) => state.tagFilter.add(t));
+  state.statusFilter = q.get('status') ?? '';
+  const authorParam = q.get('author');
+  const instParam = q.get('inst');
+  if (authorParam) state.entityModal = { kind: 'author', key: authorParam };
+  else if (instParam) state.entityModal = { kind: 'inst', key: instParam };
   return !!v || q.has('q') || q.has('track');
 }
 function writeUrl() {
@@ -320,6 +353,8 @@ function writeUrl() {
   if (state.tracks.size) q.set('track', [...state.tracks].join(','));
   if (state.events.size) q.set('event', [...state.events].join(','));
   if (state.tagFilter.size) q.set('tags', [...state.tagFilter].join(','));
+  if (state.statusFilter) q.set('status', state.statusFilter);
+  if (state.entityModal) q.set(state.entityModal.kind === 'author' ? 'author' : 'inst', state.entityModal.key);
   const qs = q.toString();
   history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
   writeJson(K_SELECTED, [...state.selected]);
@@ -359,6 +394,7 @@ function rebuildRows() {
     for (const p of state.loaded.get(v.id) ?? []) rows.push({ p, v: v.id });
   }
   state.rows = rows;
+  _tfidfBuilt = false; // invalidate TF-IDF cache whenever the corpus changes
 }
 
 // --- filtering & sorting ----------------------------------------------
@@ -369,6 +405,7 @@ function matches(row: { p: Paper; v: string }): boolean {
   if (state.tracks.size && !p.tracks.some((t) => state.tracks.has(t))) return false;
   if (state.events.size && !eventList(p).some((e) => state.events.has(e))) return false;
   if (state.tagFilter.size && !tagsOf(key(v, p.id)).some((t) => state.tagFilter.has(t))) return false;
+  if (state.statusFilter && statusOf(key(v, p.id)) !== state.statusFilter) return false;
   if (!matchQuery(row, state.terms)) return false;
   return true;
 }
@@ -434,13 +471,16 @@ function cardHtml(p: Paper, v: string): string {
   const k = key(v, p.id);
   const collected = collectionsOf(k).length > 0;
   const tags = tagsOf(k);
+  const note = noteOf(k);
+  const status = statusOf(k);
   const sel = state.sel.has(k);
   const authors = p.authors.length
     ? authorAff(p).map(({ author, inst }) =>
         `<span class="author${inst ? ' has-inst' : ''}">` +
           `<button class="link-author" data-author="${esc(author)}">${esc(author)}</button>` +
+          `<button class="author-profile-btn" data-author-profile="${esc(author)}" title="View ${esc(author)} profile" aria-label="Author profile">↗</button>` +
           (inst
-            ? `<span class="author-pop"><button class="author-inst" data-inst="${esc(inst)}" title="Search papers from ${esc(inst)}">${esc(inst)}</button></span>`
+            ? `<span class="author-pop"><button class="author-inst" data-inst="${esc(inst)}" title="Search papers from ${esc(inst)}">${esc(inst)}</button><button class="inst-profile-btn" data-inst-profile="${esc(inst)}" title="View ${esc(inst)} profile" aria-label="Institution profile">↗</button></span>`
             : '') +
         `</span>`).join(', ')
     : 'Not listed';
@@ -479,7 +519,9 @@ function cardHtml(p: Paper, v: string): string {
       ${p.publisher ? `<span class="meta-item"><strong>Publisher</strong>${esc(p.publisher)}</span>` : ''}
       ${doiHtml || pdfHtml || artifactHtml ? `<span class="meta-item meta-links"><strong>Links</strong>${doiHtml}${pdfHtml}${artifactHtml}</span>` : ''}
     </div>` : '';
-  const discInner = (p.abstract ? `<p class="disc-text">${esc(p.abstract)}</p>` : '') + metaHtml;
+  const noteHtml = note ? `<p class="disc-note"><strong>Note:</strong> ${esc(note)}</p>` : '';
+  const similarBtn = `<button class="text-btn text-btn--sm similar-btn" data-find-similar="${esc(k)}" type="button">Find similar</button>`;
+  const discInner = noteHtml + (p.abstract ? `<p class="disc-text">${esc(p.abstract)}</p>` : '') + metaHtml + (p.abstract || hasMeta ? `<div class="disc-actions">${similarBtn}</div>` : '');
   // The title is the toggle: clicking it expands the disclosure, and the whole
   // card animates height via the grid-template-rows 0fr↔1fr trick. Papers with
   // nothing to reveal render a plain (non-interactive) title.
@@ -498,6 +540,8 @@ function cardHtml(p: Paper, v: string): string {
     </div>
     ${titleHtml}
     <p class="paper-authors">${authors}</p>
+    <button class="icon-btn status-btn status-btn--${status}" data-status-cycle title="${STATUS_TITLE[status]}" aria-label="${STATUS_TITLE[status]}">${STATUS_ICONS[status]}</button>
+    <button class="icon-btn note-btn${note ? ' is-on' : ''}" data-note-edit title="${note ? `Note: ${esc(note)}` : 'Add a note'}" aria-label="Note">${ICONS.pencil}</button>
     <button class="icon-btn collect-btn${collected ? ' is-on' : ''}" data-collect data-pop-anchor aria-pressed="${collected}" title="${collected ? 'In a collection — edit' : 'Add to a collection'}">${collected ? ICONS.bookmarkFilled : ICONS.bookmark}</button>
     ${disc}
     <div class="chips${tags.length ? ' has-tags' : ''}">${tracks}${extra}${tagChips}${addTagBtn}</div>
@@ -548,6 +592,7 @@ function renderActiveFilters() {
   state.events.forEach((e) => add('event', e, e));
   state.venuesFacet.forEach((v) => add('venue', v, venueById.get(v)?.name ?? v));
   state.tagFilter.forEach((t) => add('tagfilter', t, `tag: ${t}`));
+  if (state.statusFilter) add('statusfilter', state.statusFilter, `status: ${state.statusFilter}`);
   if (chips.length > 1) {
     chips.push('<button class="filter-clear" data-clear-filters type="button">Clear all</button>');
   }
@@ -560,6 +605,7 @@ function clearFilters() {
   state.events.clear();
   state.venuesFacet.clear();
   state.tagFilter.clear();
+  state.statusFilter = '';
   state.shown = PAGE;
   writeUrl();
   render();
@@ -612,20 +658,150 @@ function renderRail(filtered: { p: Paper; v: string }[]) {
     });
     for (const t of new Set(p.tracks)) trackCount.set(t, (trackCount.get(t) ?? 0) + 1);
   }
-  const stat = (n: number, label: string) =>
-    `<div class="rail-stat"><span class="rail-stat-n">${n.toLocaleString()}</span><span class="rail-stat-l">${label}</span></div>`;
+  const readingN = filtered.filter((r) => statusOf(key(r.v, r.p.id)) === 'reading').length;
+  const doneN = filtered.filter((r) => statusOf(key(r.v, r.p.id)) === 'done').length;
+  const stat = (n: number, label: string, cls = '') =>
+    `<div class="rail-stat${cls ? ` ${cls}` : ''}"><span class="rail-stat-n">${n.toLocaleString()}</span><span class="rail-stat-l">${label}</span></div>`;
   const summary = `<div class="rail-stats">
     ${stat(filtered.length, plural(filtered.length, 'paper'))}
     ${stat(authorCount.size, plural(authorCount.size, 'author'))}
     ${stat(instCount.size, plural(instCount.size, 'institution'))}
+    ${readingN ? stat(readingN, 'reading', 'rail-stat--reading') : ''}
+    ${doneN ? stat(doneN, 'done', 'rail-stat--done') : ''}
   </div>`;
   const netBtn = (mode: string, label: string) =>
     `<button class="rail-net-btn" data-open-network="${mode}" title="${label}" aria-label="${label}">${ICONS.network}</button>`;
+  // "For you" recommendations — shown only when the user has saved papers
+  const hasSaved = state.collections.some((c) => c.keys.length > 0) ||
+    state.tags.size > 0 || state.status.size > 0;
+  const forYouHtml = hasSaved
+    ? `<section class="rail-section">
+        <div class="rail-section-head"><h3 class="rail-section-title">For you</h3></div>
+        <button class="text-btn text-btn--sm" data-open-recommend type="button" style="margin-bottom:2px">Show recommendations</button>
+      </section>`
+    : '';
   els.railBody.innerHTML =
     summary +
+    forYouHtml +
     barChart('Top institutions', instCount, 'inst', 8, { action: netBtn('inst', 'Institution network') }) +
     barChart('Top authors', authorCount, 'author', 8, { label: (k) => railAuthorName.get(k) ?? k, action: netBtn('author', 'Co-author network') }) +
     barChart('Top tracks', trackCount, 'track', 6);
+}
+
+// --- entity profile modal (author / institution aggregate view) -------
+function miniCardHtml(p: Paper, v: string): string {
+  const venue = venueById.get(v)!;
+  const k = key(v, p.id);
+  const note = noteOf(k);
+  const status = statusOf(k);
+  const statusCls = status !== 'unread' ? ` mini-card--${status}` : '';
+  return `<div class="mini-card${statusCls}">
+    <button class="venue-badge" data-mini-venue="${esc(v)}">${esc(venue.name)}</button>
+    <div class="mini-card-body">
+      <p class="mini-card-title">${esc(p.title)}</p>
+      <p class="mini-card-authors">${esc(p.authors.slice(0, 5).join(', '))}${p.authors.length > 5 ? ` +${p.authors.length - 5}` : ''}</p>
+      ${note ? `<p class="mini-card-note">${esc(note)}</p>` : ''}
+    </div>
+  </div>`;
+}
+
+function openEntity(kind: string, entityKey: string) {
+  const modal = document.querySelector<HTMLElement>('#entityModal');
+  const titleEl = document.querySelector<HTMLElement>('#entityTitle');
+  const bodyEl = document.querySelector<HTMLElement>('#entityBody');
+  if (!modal || !titleEl || !bodyEl) return;
+
+  // Collect all matching papers across ALL loaded rows (not just the filtered set)
+  const resolveAuthor = authorResolver(state.rows);
+  const paperRows: { p: Paper; v: string }[] = [];
+  for (const row of state.rows) {
+    const { p, v } = row;
+    if (kind === 'author') {
+      const matched = p.authors.some((_, i) => normKey(resolveAuthor(p, i).name) === normKey(entityKey));
+      if (matched) paperRows.push(row);
+    } else {
+      if (instList(p).some((inst) => inst === entityKey)) paperRows.push(row);
+    }
+  }
+  if (!paperRows.length) return;
+
+  const displayName = entityKey;
+  titleEl.textContent = (kind === 'author' ? 'Author: ' : 'Institution: ') + displayName;
+
+  // Aggregate stats
+  const venues = new Set(paperRows.map((r) => venueById.get(r.v)?.series ?? r.v));
+  const years = [...new Set(paperRows.map((r) => venueById.get(r.v)?.year).filter(Boolean))] as number[];
+  years.sort((a, b) => a - b);
+  const yearSpan = years.length > 1 ? `${years[0]}–${years[years.length - 1]}` : years[0] ? `${years[0]}` : '';
+
+  const yearCount = new Map<string, number>();
+  const venueCount = new Map<string, number>();
+  for (const { v } of paperRows) {
+    const yr = venueById.get(v)?.year;
+    if (yr) yearCount.set(String(yr), (yearCount.get(String(yr)) ?? 0) + 1);
+    const ser = venueById.get(v)?.series ?? v;
+    venueCount.set(ser, (venueCount.get(ser) ?? 0) + 1);
+  }
+
+  // Related: co-authors (for author view) or co-institutions (for inst view)
+  let relatedHtml = '';
+  if (kind === 'author') {
+    const coauthorMap = new Map<string, number>();
+    for (const { p } of paperRows) {
+      p.authors.forEach((nm, i) => {
+        const rk = resolveAuthor(p, i);
+        if (normKey(rk.name) !== normKey(entityKey)) {
+          coauthorMap.set(rk.name, (coauthorMap.get(rk.name) ?? 0) + 1);
+        }
+      });
+    }
+    const top = [...coauthorMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12);
+    if (top.length) {
+      relatedHtml = `<section class="entity-section"><h4 class="entity-section-title">Co-authors</h4><div class="entity-chips">
+        ${top.map(([nm, n]) => `<button class="chip entity-chip" data-entity-author-profile="${esc(nm)}">${esc(nm)}<span class="tag-n">${n}</span></button>`).join('')}
+      </div></section>`;
+    }
+  } else {
+    const coInstMap = new Map<string, number>();
+    for (const { p } of paperRows) {
+      for (const inst of instList(p)) {
+        if (inst !== entityKey) coInstMap.set(inst, (coInstMap.get(inst) ?? 0) + 1);
+      }
+    }
+    const top = [...coInstMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12);
+    if (top.length) {
+      relatedHtml = `<section class="entity-section"><h4 class="entity-section-title">Related institutions</h4><div class="entity-chips">
+        ${top.map(([inst, n]) => `<button class="chip entity-chip" data-entity-inst-profile="${esc(inst)}">${esc(inst)}<span class="tag-n">${n}</span></button>`).join('')}
+      </div></section>`;
+    }
+  }
+
+  const statBar = `<div class="entity-stats">
+    <div class="entity-stat"><span class="entity-stat-n">${paperRows.length}</span><span class="entity-stat-l">${plural(paperRows.length, 'paper')}</span></div>
+    <div class="entity-stat"><span class="entity-stat-n">${venues.size}</span><span class="entity-stat-l">${plural(venues.size, 'venue')}</span></div>
+    ${yearSpan ? `<div class="entity-stat"><span class="entity-stat-n">${esc(yearSpan)}</span><span class="entity-stat-l">years</span></div>` : ''}
+  </div>`;
+
+  const MAX_PAPERS = 25;
+  const slice = paperRows.slice(0, MAX_PAPERS);
+  const showAllBtn = paperRows.length > MAX_PAPERS
+    ? `<div class="entity-show-all"><button class="text-btn" data-entity-show-all="${esc(kind)}:${esc(entityKey)}">Show all ${paperRows.length} papers in main view →</button></div>`
+    : '';
+  const filterBtn = `<div class="entity-show-all"><button class="text-btn" data-entity-show-all="${esc(kind)}:${esc(entityKey)}">${kind === 'author' ? 'Filter to this author in main view' : 'Filter to this institution in main view'} →</button></div>`;
+
+  bodyEl.innerHTML = statBar +
+    barChart('By year', yearCount, 'ent-year', 10, { order: 'key' }) +
+    barChart('Venues', venueCount, 'ent-venue', 8) +
+    relatedHtml +
+    `<section class="entity-section"><h4 class="entity-section-title">Papers</h4>
+      <div class="mini-card-list">${slice.map((r) => miniCardHtml(r.p, r.v)).join('')}</div>
+      ${paperRows.length > MAX_PAPERS ? showAllBtn : filterBtn}
+    </section>`;
+
+  // Persist to URL
+  state.entityModal = { kind, key: entityKey };
+  writeUrl();
+  modal.hidden = false;
 }
 
 // --- author co-authorship network (modal, canvas force layout) --------
@@ -792,6 +968,7 @@ function render() {
   reflectSort();
   reflectCollectionFilter();
   reflectTagFilter();
+  reflectStatusFilter();
 
   if (!state.selected.size) {
     els.list.innerHTML = `<div class="empty-state"><h2>No venues selected</h2><p>Pick one or more venues from the left to browse their papers.</p></div>`;
@@ -1314,6 +1491,50 @@ function reflectTagFilter() {
   }
 }
 
+/** Sync the Status filter pill (visibility + count badge). */
+function reflectStatusFilter() {
+  const btn = document.querySelector<HTMLElement>('#statusFilterBtn');
+  if (!btn) return;
+  const hasAny = state.rows.some((r) => {
+    const s = statusOf(key(r.v, r.p.id));
+    return s === 'reading' || s === 'done';
+  });
+  btn.hidden = !hasAny;
+  btn.setAttribute('aria-expanded', String(!popEl.hidden && popAnchor === btn));
+  const countEl = btn.querySelector<HTMLElement>('#statusFilterCount');
+  if (countEl) {
+    const active = state.statusFilter ? '1' : '';
+    countEl.textContent = active;
+    countEl.hidden = !active;
+  }
+}
+
+function openStatusFilterPop(anchor: HTMLElement) {
+  const counts: Record<string, number> = { reading: 0, done: 0 };
+  for (const { p, v } of state.rows) {
+    const s = statusOf(key(v, p.id));
+    if (s === 'reading' || s === 'done') counts[s]++;
+  }
+  const buildHtml = () => {
+    const opts: { val: string; label: string }[] = [
+      { val: 'reading', label: 'Reading' },
+      { val: 'done', label: 'Done' },
+    ].filter((o) => counts[o.val] > 0);
+    const rows = opts.map((o) =>
+      `<div class="pop-row" data-status-filter-val="${o.val}" role="button"><input type="checkbox" tabindex="-1" ${state.statusFilter === o.val ? 'checked' : ''}><span class="pop-row-label">${o.label}</span><span class="pop-row-n">${counts[o.val]}</span></div>`
+    ).join('');
+    return `<div class="pop-title">Filter by status</div>${rows || '<p class="pop-empty">No status set.</p>'}`;
+  };
+  openPop(anchor, buildHtml, (t) => {
+    const row = t.closest<HTMLElement>('[data-status-filter-val]');
+    if (row) {
+      const val = row.dataset.statusFilterVal!;
+      state.statusFilter = state.statusFilter === val ? '' : val;
+      state.shown = PAGE; writeUrl(); render(); paintPop();
+    }
+  });
+}
+
 // --- toast -------------------------------------------------------------
 let toastTimer = 0;
 // Pending conflict resolution state (set when the conflict modal opens)
@@ -1539,7 +1760,8 @@ function clearLocalDataNow() {
   for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith('confer.')) keys.push(k); }
   keys.forEach((k) => { try { localStorage.removeItem(k); } catch { /* ignore */ } });
   state.groups = []; state.collections = []; state.tags.clear(); state.saved = [];
-  state.collection = ''; state.colSet = null;
+  state.notes.clear(); state.status.clear();
+  state.collection = ''; state.colSet = null; state.statusFilter = '';
   reflectSidebar(); reflectSeriesGroup(); reflectCollectionFilter(); renderSaved(); renderSettings();
   render();
   toast('Local data cleared');
@@ -1884,6 +2106,8 @@ function bundleFingerprint(b: Partial<SettingsBundle>): string {
     collections: b.collections ?? [],
     paperTags: b.paperTags ?? {},
     savedSearches: b.savedSearches ?? [],
+    paperNotes: b.paperNotes ?? {},
+    readStatus: b.readStatus ?? {},
   });
 }
 
@@ -1951,6 +2175,33 @@ function mergeThreeWay(
     return result;
   }
 
+  // Merge per-paper scalar maps (notes: Record<paperKey, string>, status: same)
+  function mergeScalarMap(
+    b: Record<string, string>,
+    l: Record<string, string>,
+    r: Record<string, string>,
+    label: string,
+  ): Record<string, string> {
+    const allKeys = new Set([...Object.keys(b), ...Object.keys(l), ...Object.keys(r)]);
+    const result: Record<string, string> = {};
+    for (const k of allKeys) {
+      const bVal = b[k] ?? '';
+      const lVal = l[k] ?? '';
+      const rVal = r[k] ?? '';
+      const lChanged = lVal !== bVal;
+      const rChanged = rVal !== bVal;
+      if (!lChanged && !rChanged) { if (lVal) result[k] = lVal; continue; }
+      if (lChanged && !rChanged) { if (lVal) result[k] = lVal; continue; }
+      if (!lChanged && rChanged) { if (rVal) result[k] = rVal; continue; }
+      if (lVal === rVal) { if (lVal) result[k] = lVal; continue; }
+      // Both sides changed to different values — flag conflict, keep local
+      const paperId = k.split(':').slice(1).join(':');
+      conflicts.push(`${label} for paper "${paperId}"`);
+      if (lVal) result[k] = lVal;
+    }
+    return result;
+  }
+
   // Merge per-paper tags (Record<paperKey, string[]>)
   function mergePaperTags(
     b: Record<string, string[]>,
@@ -1976,11 +2227,13 @@ function mergeThreeWay(
   }
 
   const merged: SettingsBundle = {
-    app: 'confer', version: 1,
+    app: 'confer', version: 2,
     venueGroups:   mergeById(base.venueGroups ?? [], local.venueGroups ?? [], remote.venueGroups ?? [], 'Venue group'),
     collections:   mergeById(base.collections  ?? [], local.collections  ?? [], remote.collections  ?? [], 'Collection'),
     savedSearches: mergeSavedSearches(base.savedSearches ?? [], local.savedSearches ?? [], remote.savedSearches ?? []),
     paperTags:     mergePaperTags(base.paperTags ?? {}, local.paperTags ?? {}, remote.paperTags ?? {}),
+    paperNotes:    mergeScalarMap(base.paperNotes ?? {}, local.paperNotes ?? {}, remote.paperNotes ?? {}, 'Note'),
+    readStatus:    mergeScalarMap(base.readStatus ?? {}, local.readStatus ?? {}, remote.readStatus ?? {}, 'Status'),
   };
 
   return { merged, conflicts };
@@ -2020,6 +2273,18 @@ function diffBundles(local: SettingsBundle, remote: SettingsBundle): string {
   const ssLocal = (local.savedSearches ?? []).filter((s) => !rSNames.has(s.name)).map((s) => s.name);
   const ssRemote = (remote.savedSearches ?? []).filter((s) => !lSNames.has(s.name)).map((s) => s.name);
   if (ssLocal.length || ssRemote.length) rows.push({ label: 'Saved searches', localItems: ssLocal, remoteItems: ssRemote });
+
+  const lNKeys = new Set(Object.keys(local.paperNotes ?? {}));
+  const rNKeys = new Set(Object.keys(remote.paperNotes ?? {}));
+  const noteLocalOnly = [...lNKeys].filter((k) => !rNKeys.has(k)).length;
+  const noteRemoteOnly = [...rNKeys].filter((k) => !lNKeys.has(k)).length;
+  if (noteLocalOnly || noteRemoteOnly) rows.push({ label: 'Notes', localItems: noteLocalOnly ? [`${noteLocalOnly} new`] : [], remoteItems: noteRemoteOnly ? [`${noteRemoteOnly} new`] : [] });
+
+  const lSKeys = new Set(Object.keys(local.readStatus ?? {}));
+  const rSKeys = new Set(Object.keys(remote.readStatus ?? {}));
+  const statusLocalOnly = [...lSKeys].filter((k) => !rSKeys.has(k)).length;
+  const statusRemoteOnly = [...rSKeys].filter((k) => !lSKeys.has(k)).length;
+  if (statusLocalOnly || statusRemoteOnly) rows.push({ label: 'Reading status', localItems: statusLocalOnly ? [`${statusLocalOnly} new`] : [], remoteItems: statusRemoteOnly ? [`${statusRemoteOnly} new`] : [] });
 
   if (!rows.length) return '<p class="set-note">The content is the same; only timestamps differ.</p>';
 
@@ -2341,11 +2606,13 @@ async function resolveSyncConflict(choice: 'local' | 'cloud' | 'merge') {
 /** Snapshot all personal data into a portable bundle. */
 function serializeSettings(): SettingsBundle {
   return {
-    app: 'confer', version: 1, exportedAt: new Date().toISOString(),
+    app: 'confer', version: 2, exportedAt: new Date().toISOString(),
     venueGroups: state.groups,
     collections: state.collections,
     paperTags: Object.fromEntries([...state.tags].filter(([, v]) => v.length)),
     savedSearches: state.saved,
+    paperNotes: Object.fromEntries([...state.notes].filter(([, v]) => v)),
+    readStatus: Object.fromEntries([...state.status].filter(([, v]) => v && v !== 'unread')),
   };
 }
 
@@ -2377,6 +2644,22 @@ function applySettingsBundle(d: Partial<SettingsBundle>, opts?: { merge?: boolea
     state.saved = merge ? [...state.saved, ...d.savedSearches.filter((s) => !state.saved.find((x) => x.name === s.name))] : d.savedSearches;
     writeJson(K_SAVED, state.saved);
   }
+  if (d.paperNotes && typeof d.paperNotes === 'object') {
+    if (merge) {
+      for (const [k, v] of Object.entries(d.paperNotes)) { if (v && !state.notes.has(k)) state.notes.set(k, v as string); }
+    } else {
+      state.notes = new Map(Object.entries(d.paperNotes as Record<string, string>));
+    }
+    saveNotes();
+  }
+  if (d.readStatus && typeof d.readStatus === 'object') {
+    if (merge) {
+      for (const [k, v] of Object.entries(d.readStatus)) { if (v && !state.status.has(k)) state.status.set(k, v as string); }
+    } else {
+      state.status = new Map(Object.entries(d.readStatus as Record<string, string>));
+    }
+    saveStatus();
+  }
   reflectSidebar(); renderVenueGroups(); reflectSeriesGroup(); renderSaved(); renderSettings();
   writeUrl();
   ensureLoaded([...state.selected]).then(render);
@@ -2390,8 +2673,10 @@ function reloadConfigFromStorage() {
   state.collections = readJson<Collection[]>(K_COLLECTIONS, []);
   state.tags        = new Map<string, string[]>(Object.entries(readJson<Record<string, string[]>>(K_TAGS, {})));
   state.saved       = readJson<SavedSearch[]>(K_SAVED, []);
+  state.notes       = new Map<string, string>(Object.entries(readJson<Record<string, string>>(K_NOTES, {})));
+  state.status      = new Map<string, string>(Object.entries(readJson<Record<string, string>>(K_STATUS, {})));
   reflectSidebar(); renderVenueGroups(); reflectSeriesGroup(); renderSaved();
-  reflectCollectionFilter(); reflectTagFilter(); renderSettings();
+  reflectCollectionFilter(); reflectTagFilter(); reflectStatusFilter(); renderSettings();
   ensureLoaded([...state.selected]).then(render);
 }
 
@@ -2436,7 +2721,9 @@ function setQuery(q: string) {
 function closeModals() {
   if (promptResolver) settlePrompt(null);
   if (confirmResolver) settleConfirm(false);
+  const entityWasOpen = !document.querySelector<HTMLElement>('#entityModal')?.hidden;
   document.querySelectorAll<HTMLElement>('.modal').forEach((m) => { m.hidden = true; });
+  if (entityWasOpen && state.entityModal) { state.entityModal = null; writeUrl(); }
   closePop();
   stopNetwork();
 }
@@ -2635,6 +2922,13 @@ function wire() {
       else openTagFilterPop(tagFilterBtn);
     });
   }
+  const statusFilterBtn = document.querySelector<HTMLElement>('#statusFilterBtn');
+  if (statusFilterBtn) {
+    statusFilterBtn.addEventListener('click', () => {
+      if (popAnchor === statusFilterBtn && !popEl.hidden) closePop();
+      else openStatusFilterPop(statusFilterBtn);
+    });
+  }
 
   // facets toggle + changes
   $('[data-facets-toggle]').addEventListener('click', (e) => {
@@ -2667,6 +2961,7 @@ function wire() {
     if (!btn) return;
     const kind = btn.dataset.kind;
     if (kind === 'query') { state.query = ''; }
+    else if (kind === 'statusfilter') { state.statusFilter = ''; }
     else {
       const set = kind === 'track' ? state.tracks : kind === 'event' ? state.events : kind === 'tagfilter' ? state.tagFilter : state.venuesFacet;
       set.delete(btn.dataset.val ?? '');
@@ -2687,9 +2982,54 @@ function wire() {
       return;
     }
     const k = card.dataset.key ?? '';
+    const statusCycle = target.closest<HTMLElement>('[data-status-cycle]');
+    const noteEdit = target.closest<HTMLElement>('[data-note-edit]');
     const collectBtn = target.closest<HTMLElement>('[data-collect]');
     const tagDel = target.closest<HTMLElement>('[data-tag-del]');
-    if (collectBtn) {
+    if (statusCycle) {
+      const cur = statusOf(k);
+      const next = STATUS_NEXT[cur] ?? 'reading';
+      if (next === 'unread') state.status.delete(k); else state.status.set(k, next);
+      saveStatus();
+      // Targeted in-place update to avoid full re-render on every status click
+      const btn = card.querySelector<HTMLElement>('[data-status-cycle]');
+      if (btn) {
+        btn.className = `icon-btn status-btn status-btn--${next}`;
+        btn.title = STATUS_TITLE[next] ?? '';
+        btn.setAttribute('aria-label', STATUS_TITLE[next] ?? '');
+        btn.innerHTML = STATUS_ICONS[next] ?? '';
+      }
+      reflectStatusFilter();
+    } else if (noteEdit) {
+      askText({ title: 'Paper note', value: noteOf(k), placeholder: 'Add a private note…', max: 500, ok: 'Save' }).then((v) => {
+        if (v === null) return; // cancelled
+        const clean = v.trim();
+        if (clean) state.notes.set(k, clean); else state.notes.delete(k);
+        saveNotes();
+        // Targeted in-place note update
+        const btn = card.querySelector<HTMLElement>('[data-note-edit]');
+        if (btn) {
+          btn.classList.toggle('is-on', !!clean);
+          btn.title = clean ? `Note: ${clean}` : 'Add a note';
+        }
+        // Update the note text inside the disclosure if it's open
+        const discInner = card.querySelector<HTMLElement>('.disc-inner');
+        if (discInner) {
+          let existing = discInner.querySelector<HTMLElement>('.disc-note');
+          if (clean) {
+            if (existing) existing.innerHTML = `<strong>Note:</strong> ${esc(clean)}`;
+            else {
+              const el = document.createElement('p');
+              el.className = 'disc-note';
+              el.innerHTML = `<strong>Note:</strong> ${esc(clean)}`;
+              discInner.insertBefore(el, discInner.firstChild);
+            }
+          } else if (existing) {
+            existing.remove();
+          }
+        }
+      });
+    } else if (collectBtn) {
       if (popAnchor === collectBtn && !popEl.hidden) closePop();
       else openCollectPop(collectBtn, k);
     } else if (tagDel) {
@@ -2704,6 +3044,13 @@ function wire() {
       const v = k.split(':')[0];
       state.venuesFacet.has(v) ? state.venuesFacet.delete(v) : state.venuesFacet.add(v);
       state.shown = PAGE; writeUrl(); render();
+    } else if (target.closest('[data-find-similar]')) {
+      const fk = (target.closest('[data-find-similar]') as HTMLElement).dataset.findSimilar!;
+      openSimilarModal('Similar papers', similarTo(fk, 10));
+    } else if (target.closest('[data-author-profile]')) {
+      openEntity('author', (target.closest('[data-author-profile]') as HTMLElement).dataset.authorProfile!);
+    } else if (target.closest('[data-inst-profile]')) {
+      openEntity('inst', (target.closest('[data-inst-profile]') as HTMLElement).dataset.instProfile!);
     } else if (target.closest('[data-inst]')) {
       setQuery(`inst:"${(target.closest('[data-inst]') as HTMLElement).dataset.inst!}"`);
     } else if (target.closest('[data-author]')) {
@@ -2806,6 +3153,44 @@ function wire() {
     if (tagPurge) { const tag = tagPurge.dataset.tagPurge ?? ''; const n = tagCounts().get(tag) ?? 0; askConfirm({ title: 'Remove tag', message: `Remove tag "${tag}" from ${n} ${plural(n, 'paper')}? This removes it from all papers.`, ok: 'Remove', danger: true }).then((ok) => { if (!ok) return; for (const [k, tags] of [...state.tags]) { const next = tags.filter((x) => x !== tag); if (next.length) state.tags.set(k, next); else state.tags.delete(k); } saveTags(); renderSettings(); render(); }); return; }
   });
 
+  // entity modal interactions (co-author chips, mini-card, show-all, bar charts)
+  const entityBodyEl = document.querySelector<HTMLElement>('#entityBody');
+  if (entityBodyEl) {
+    entityBodyEl.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      const authorProfile = t.closest<HTMLElement>('[data-entity-author-profile]');
+      if (authorProfile) { openEntity('author', authorProfile.dataset.entityAuthorProfile!); return; }
+      const instProfile = t.closest<HTMLElement>('[data-entity-inst-profile]');
+      if (instProfile) { openEntity('inst', instProfile.dataset.entityInstProfile!); return; }
+      const showAll = t.closest<HTMLElement>('[data-entity-show-all]');
+      if (showAll) {
+        const [kind, ...rest] = showAll.dataset.entityShowAll!.split(':');
+        const key = rest.join(':');
+        closeModals();
+        setQuery(`${kind === 'author' ? 'author' : 'inst'}:"${key}"`);
+        return;
+      }
+      const miniVenue = t.closest<HTMLElement>('[data-mini-venue]');
+      if (miniVenue) {
+        const vId = miniVenue.dataset.miniVenue!;
+        closeModals();
+        const ser = venueById.get(vId)?.series ?? vId;
+        setQuery(`venue:"${ser}"`);
+        return;
+      }
+      // Bar chart clicks inside entity modal
+      const bar = t.closest<HTMLElement>('[data-chart]');
+      if (bar) {
+        const kind = bar.dataset.chart!;
+        const val = bar.dataset.val ?? '';
+        closeModals();
+        if (kind === 'ent-year') setQuery(`year:"${val}"`);
+        else if (kind === 'ent-venue') setQuery(`venue:"${val}"`);
+        return;
+      }
+    });
+  }
+
   // sidebar: mobile drawer toggle + desktop collapse
   $('[data-sidebar-toggle]').addEventListener('click', () => {
     if (window.matchMedia('(max-width: 860px)').matches) $('#app').classList.add('sidebar-open');
@@ -2827,6 +3212,12 @@ function wire() {
   els.railBody.addEventListener('click', (e) => {
     const netBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-open-network]');
     if (netBtn) { openNetwork(netBtn.dataset.openNetwork === 'inst' ? 'inst' : 'author'); return; }
+    const recBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-open-recommend]');
+    if (recBtn) {
+      const recs = recommendFromSaved(12);
+      openSimilarModal('For you — recommended papers', recs);
+      return;
+    }
     const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-chart]');
     if (!btn) return;
     const kind = btn.dataset.chart!;
@@ -2960,6 +3351,132 @@ function wire() {
   });
 }
 
+// --- TF-IDF similarity ------------------------------------------------
+const STOP_WORDS = new Set([
+  'a','an','the','and','or','but','of','in','to','is','are','was','were','be','been',
+  'for','on','at','by','with','as','from','this','that','these','those','it','its',
+  'we','our','their','they','has','have','had','not','no','can','may','will','more',
+  'each','which','when','who','than','other','into','also','such','two','three','use',
+  'used','using','show','shows','paper','approach','method','model','results','based',
+  'proposed','present','new','large','high','low','set','data','can','work','provide',
+]);
+
+function tfidfTokenize(text: string): string[] {
+  return text.toLowerCase().split(/[^a-z0-9]+/).filter((t) => t.length >= 3 && !STOP_WORDS.has(t));
+}
+
+let _tfidfBuilt = false;
+let _idf = new Map<string, number>();
+
+function buildTfidf() {
+  if (_tfidfBuilt) return;
+  _tfidfBuilt = true;
+  const docCount = state.rows.length;
+  if (!docCount) return;
+  // Count how many documents each term appears in (df)
+  const df = new Map<string, number>();
+  for (const { p } of state.rows) {
+    const focused = `${p.title} ${p.abstract} ${(p.keywords ?? []).join(' ')} ${p.tracks.join(' ')}`;
+    const terms = new Set(tfidfTokenize(focused));
+    for (const t of terms) df.set(t, (df.get(t) ?? 0) + 1);
+  }
+  // IDF: log(N / df)  (add-1 smoothing to avoid divide-by-zero)
+  _idf = new Map([...df.entries()].map(([t, d]) => [t, Math.log((docCount + 1) / (d + 1))]));
+  // Build per-paper TF-IDF vectors (sparse, L2-normalised) — cache on paper._vec
+  for (const { p } of state.rows) {
+    if ((p as Paper & { _vec?: Map<string, number> })._vec) continue;
+    const focused = `${p.title} ${p.abstract} ${(p.keywords ?? []).join(' ')} ${p.tracks.join(' ')}`;
+    const tokens = tfidfTokenize(focused);
+    if (!tokens.length) { (p as Paper & { _vec?: Map<string, number> })._vec = new Map(); continue; }
+    const tf = new Map<string, number>();
+    for (const t of tokens) tf.set(t, (tf.get(t) ?? 0) + 1);
+    const vec = new Map<string, number>();
+    let norm = 0;
+    for (const [t, c] of tf) {
+      const w = (c / tokens.length) * (_idf.get(t) ?? 0);
+      if (w > 0) { vec.set(t, w); norm += w * w; }
+    }
+    norm = Math.sqrt(norm) || 1;
+    for (const [t, w] of vec) vec.set(t, w / norm);
+    (p as Paper & { _vec?: Map<string, number> })._vec = vec;
+  }
+}
+
+function cosine(a: Map<string, number>, b: Map<string, number>): number {
+  let dot = 0;
+  for (const [t, w] of a) { const bw = b.get(t); if (bw) dot += w * bw; }
+  return dot; // both are L2-normalised, so |a|=|b|=1 → cosine = dot product
+}
+
+function similarTo(paperKey: string, n = 8): { p: Paper; v: string; score: number }[] {
+  buildTfidf();
+  const target = state.rows.find((r) => key(r.v, r.p.id) === paperKey);
+  if (!target) return [];
+  const vec = (target.p as Paper & { _vec?: Map<string, number> })._vec;
+  if (!vec || !vec.size) return [];
+  return state.rows
+    .filter((r) => key(r.v, r.p.id) !== paperKey)
+    .map((r) => {
+      const rv = (r.p as Paper & { _vec?: Map<string, number> })._vec ?? new Map();
+      return { ...r, score: cosine(vec, rv) };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, n)
+    .filter((x) => x.score > 0);
+}
+
+function recommendFromSaved(n = 12): { p: Paper; v: string; score: number }[] {
+  buildTfidf();
+  // Papers the user has collected, tagged, or marked reading/done
+  const savedKeys = new Set<string>();
+  for (const c of state.collections) c.keys.forEach((k) => savedKeys.add(k));
+  for (const [k] of state.tags) savedKeys.add(k);
+  for (const [k] of state.status) savedKeys.add(k);
+  if (!savedKeys.size) return [];
+  // Build profile vector: average of saved paper vectors
+  const profile = new Map<string, number>();
+  let savedCount = 0;
+  for (const paperKey of savedKeys) {
+    const row = state.rows.find((r) => key(r.v, r.p.id) === paperKey);
+    if (!row) continue;
+    const vec = (row.p as Paper & { _vec?: Map<string, number> })._vec ?? new Map();
+    for (const [t, w] of vec) profile.set(t, (profile.get(t) ?? 0) + w);
+    savedCount++;
+  }
+  if (!savedCount) return [];
+  // Normalise profile vector
+  for (const [t, w] of profile) profile.set(t, w / savedCount);
+  let pnorm = 0;
+  for (const w of profile.values()) pnorm += w * w;
+  pnorm = Math.sqrt(pnorm) || 1;
+  for (const [t, w] of profile) profile.set(t, w / pnorm);
+  // Score all non-saved papers
+  return state.rows
+    .filter((r) => !savedKeys.has(key(r.v, r.p.id)))
+    .map((r) => {
+      const rv = (r.p as Paper & { _vec?: Map<string, number> })._vec ?? new Map();
+      return { ...r, score: cosine(profile, rv) };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, n)
+    .filter((x) => x.score > 0);
+}
+
+function openSimilarModal(title: string, rows: { p: Paper; v: string; score: number }[]) {
+  const modal = document.querySelector<HTMLElement>('#entityModal');
+  const titleEl = document.querySelector<HTMLElement>('#entityTitle');
+  const bodyEl = document.querySelector<HTMLElement>('#entityBody');
+  if (!modal || !titleEl || !bodyEl) return;
+  titleEl.textContent = title;
+  if (!rows.length) {
+    bodyEl.innerHTML = '<p class="rail-empty">Not enough text data to compute similarity.</p>';
+  } else {
+    bodyEl.innerHTML = `<div class="mini-card-list">${rows.map((r) => miniCardHtml(r.p, r.v)).join('')}</div>`;
+  }
+  state.entityModal = null; // similar modal doesn't need URL state
+  modal.hidden = false;
+}
+
 // --- init --------------------------------------------------------------
 // Fill the footer's "Built … ago" with a relative time computed at view time
 // (build-time would freeze it). The exact timestamp stays in the title tooltip.
@@ -3012,8 +3529,13 @@ function init() {
   reflectSeriesGroup();
   reflectCollectionFilter();
   reflectTagFilter();
+  reflectStatusFilter();
   renderSettings();
-  ensureLoaded([...state.selected]).then(render);
+  const pendingEntity = state.entityModal; // read before first render clears it
+  ensureLoaded([...state.selected]).then(() => {
+    render();
+    if (pendingEntity) openEntity(pendingEntity.kind, pendingEntity.key);
+  });
 }
 
 init();

@@ -15,6 +15,8 @@
   --accent-soft: #f4ece6;
   --favorite: #c2410c;
   --favorite-soft: #fdf3ec;
+  --status-reading: #b07010;    /* amber — reading in progress */
+  --status-done: #2e7a44;       /* green — finished */
   --shadow: 0 1px 2px rgba(26, 26, 24, 0.04), 0 8px 24px rgba(26, 26, 24, 0.06);
   --radius: 12px;
   /* Unified hover/active transition for all interactive controls. */
@@ -59,6 +61,8 @@
   --accent-soft: #3a2c24;
   --favorite: #e0875c;
   --favorite-soft: #382a22;
+  --status-reading: #d4a040;
+  --status-done: #4aad68;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 28px rgba(0, 0, 0, 0.35);
 }
 
@@ -498,12 +502,27 @@ html.is-rail-collapsed { --col-right: 0; }
 }
 .link-author:hover { color: var(--accent-dark); border-bottom-color: currentColor; }
 
+/* Collect / status / note icon buttons sit in a stacked column at top-right. */
 .collect-btn {
   position: absolute; top: 16px; right: 16px;
   width: 34px; height: 34px;
 }
 .collect-btn:hover { border-color: var(--accent); color: var(--accent); }
 .collect-btn.is-on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+/* Status cycle button — unread is subtle (opacity); reading/done are always visible. */
+.status-btn { position: absolute; top: 55px; right: 16px; width: 34px; height: 34px; opacity: 0.3; transition: opacity .15s, color .15s; }
+.paper-card:hover .status-btn, .status-btn.status-btn--reading, .status-btn.status-btn--done { opacity: 1; }
+.status-btn--reading { color: var(--status-reading); }
+.status-btn--done { color: var(--status-done); }
+
+/* Note edit button — hidden by default; shown on hover or when a note exists. */
+.note-btn { position: absolute; top: 94px; right: 16px; width: 34px; height: 34px; opacity: 0; pointer-events: none; transition: opacity .15s; }
+.paper-card:hover .note-btn, .note-btn.is-on { opacity: 1; pointer-events: auto; }
+.note-btn.is-on { color: var(--accent); }
+
+/* Note text shown at the top of the card disclosure. */
+.disc-note { margin: 13px 0 0; padding: 7px 10px; border-left: 2px solid var(--accent); border-radius: 0 4px 4px 0; background: var(--accent-soft); color: var(--text-soft); font-size: 13px; overflow-wrap: break-word; }
 
 .compact-meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 13px 0 0; color: var(--muted); font-size: 12.5px; }
 .meta-item { max-width: min(100%, 340px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -534,6 +553,8 @@ html.is-rail-collapsed { --col-right: 0; }
 .paper-card.is-open .disc-collapse { grid-template-rows: 1fr; }
 .disc-inner { min-height: 0; overflow: hidden; }
 .disc-text { margin: 13px 0 0; overflow-wrap: break-word; }
+.disc-actions { margin: 10px 0 0; display: flex; gap: 8px; }
+.text-btn--sm { font-size: 12px; padding: 3px 9px; border-radius: 7px; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .chip {
@@ -848,6 +869,41 @@ html.is-rail-collapsed { --col-right: 0; }
 .rail-stat { display: flex; flex-direction: column; gap: 2px; padding: 9px 6px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); text-align: center; }
 .rail-stat-n { font-size: 16px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
 .rail-stat-l { font-size: 10.5px; color: var(--faint); }
+.rail-stat--reading .rail-stat-n { color: var(--status-reading); }
+.rail-stat--done    .rail-stat-n { color: var(--status-done); }
+
+/* Entity (author / institution) profile modal ------------------------- */
+.entity-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 0 2px; }
+.entity-stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.entity-stat { display: flex; flex-direction: column; gap: 2px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 9px; text-align: center; }
+.entity-stat-n { font-size: 17px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.entity-stat-l { font-size: 10.5px; color: var(--faint); }
+.entity-section { margin-bottom: 14px; }
+.entity-section-title { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--faint); letter-spacing: 0.05em; text-transform: uppercase; }
+.entity-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.entity-chip { cursor: pointer; }
+.entity-chip:hover { border-color: var(--accent); color: var(--accent); }
+/* Compact paper rows inside entity modal */
+.mini-card-list { display: flex; flex-direction: column; gap: 8px; }
+.mini-card { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }
+.mini-card:hover { border-color: var(--line-strong); }
+.mini-card--reading { border-left: 3px solid var(--status-reading); }
+.mini-card--done { border-left: 3px solid var(--status-done); }
+.mini-card .venue-badge { flex: 0 0 auto; font-size: 10.5px; padding: 2px 7px; }
+.mini-card-body { flex: 1; min-width: 0; }
+.mini-card-title { margin: 0 0 3px; font-size: 13.5px; font-weight: 500; line-height: 1.35; color: var(--text); overflow-wrap: break-word; }
+.mini-card-authors { margin: 0; font-size: 12px; color: var(--muted); }
+.mini-card-note { margin: 4px 0 0; font-size: 12px; color: var(--accent); font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.entity-show-all { margin-top: 12px; text-align: center; }
+/* Author profile button (↗) beside the author name — hidden by default */
+.author-profile-btn, .inst-profile-btn {
+  display: inline-block; border: 0; background: none; padding: 0 2px; margin-left: 2px; font-size: 10px;
+  color: var(--faint); opacity: 0; cursor: pointer; pointer-events: none; transition: opacity .12s;
+  vertical-align: middle; line-height: 1;
+}
+.paper-card:hover .author-profile-btn,
+.paper-card:hover .inst-profile-btn { opacity: 1; pointer-events: auto; }
+.author-profile-btn:hover, .inst-profile-btn:hover { color: var(--accent); }
 
 .rail-section { display: flex; flex-direction: column; gap: 9px; }
 .rail-section-title { margin: 0; color: var(--faint); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
@@ -991,6 +1047,8 @@ html.is-rail-collapsed { --col-right: 0; }
      several papers are visible per screen instead of one or two. */
   .paper-list { gap: 10px; padding-top: 14px; padding-bottom: 32px; }
   .paper-card { padding: 13px 44px 13px 14px; }
+  .status-btn { top: 48px; }
+  .note-btn { top: 82px; }
   .card-select { display: none; }            /* bulk-select is a desktop affordance */
   .card-head { gap: 6px; }
   .venue-badge { font-size: 10.5px; padding: 2px 8px; }

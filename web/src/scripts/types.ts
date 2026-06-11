@@ -70,7 +70,8 @@ export interface Collection {
 
 /** Serialized snapshot of syncable config; used for export, import, URL
  *  sharing, and Gist sync. Every field is optional so partial bundles
- *  (e.g. a single shared collection) are valid. */
+ *  (e.g. a single shared collection) are valid.
+ *  version 1 = initial; version 2 = adds paperNotes + readStatus. */
 export interface SettingsBundle {
   app: string;
   version: number;
@@ -81,6 +82,10 @@ export interface SettingsBundle {
   collections?: Collection[];
   paperTags?: Record<string, string[]>;
   savedSearches?: SavedSearch[];
+  /** Per-paper private notes, keyed "venueId:paperId". */
+  paperNotes?: Record<string, string>;
+  /** Per-paper reading status, keyed "venueId:paperId". Values: 'reading'|'done'. */
+  readStatus?: Record<string, string>;
 }
 
 /** Cached GitHub user info (from GET /user). Stored as K_GH_USER. */

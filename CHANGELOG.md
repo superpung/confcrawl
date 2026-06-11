@@ -9,6 +9,23 @@ Entries are user-facing; implementation details belong in commit messages.
 ## [Unreleased]
 
 ### Added
+- Per-paper **reading status**: cycle cards between Unread / Reading / Done with a
+  status icon; filter the result list to any status via the active-filters bar
+  (`?status=reading` / `?status=done`). Status is synced to GitHub Gist like tags.
+- Per-paper **private notes**: add freeform text to any paper; notes appear in the
+  expanded card below the abstract and are persisted and synced across devices.
+- Reading progress summary in the Insights rail: "N reading · N done" stats with
+  color-coded indicators.
+- **Author and institution profile views**: click the "↗" affordance on any author
+  or institution chip to open a detail modal showing all their papers, co-authors,
+  year timeline, and venue breakdown. Deep-linkable via `?author=` / `?inst=`
+  query params (survive reload).
+- **"Find similar" per paper**: open a paper's abstract, then click "Find similar"
+  to get a ranked list of topically-related papers computed on the fly with
+  client-side TF-IDF cosine similarity. Runs lazily — no work at page load.
+- **"For you" recommendations** in the Insights rail: when you have saved/tagged
+  papers, a "For you" section appears showing papers most similar to your
+  collection, excluding already-saved papers.
 - Latest AI/ML, NLP, and NDSS paper datasets are now included in the site.
 - Theme auto mode: toggle now cycles light → dark → auto; auto follows the OS
   `prefers-color-scheme` live (page reacts immediately when the OS switches).
