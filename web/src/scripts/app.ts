@@ -1321,10 +1321,14 @@ let conflictGistId = '';
 // Auto-sync state
 const SYNC_QUIET_MS = 5000;               // ms of inactivity before auto-pushing
 const SYNC_MAX_WAIT_MS = 30_000;          // maximum ms to defer a push under continuous edits
+// Exponential backoff delays for retrying failed auto-pushes (30s → 1m → 2m → 5m cap)
+const SYNC_RETRY_BACKOFF_MS = [30_000, 60_000, 120_000, 300_000] as const;
 let autoSyncTimer: number | null = null;  // debounce handle for push
 let syncPendingSince = 0;                 // epoch ms when the current pending batch started (0 = idle)
 let syncConflictPending = false;          // true → paused, "Sync conflict — review" shown
 let lastAutoPullAt = 0;                   // throttle focus-pulls (epoch ms)
+let syncRetryTimer: number | null = null; // retry handle after a failed auto-push
+let syncRetryAttempt = 0;                 // how many consecutive auto-push failures
 function toast(msg: string) {
   const el = $('#toast');
   el.textContent = msg;
@@ -1717,7 +1721,8 @@ async function ensureGist(token: string, opts?: { silent?: boolean }): Promise<s
   return gist.id;
 }
 
-/** Low-level: write a bundle to the Gist with a fresh updatedAt, then persist SyncMeta. */
+/** Low-level: write a bundle to the Gist with a fresh updatedAt, then persist SyncMeta.
+ *  The bundle itself is saved as `base` for future 3-way merges. */
 async function pushBundle(token: string, gistId: string, bundle: SettingsBundle): Promise<void> {
   const now = new Date().toISOString();
   const withTs: SettingsBundle = { ...bundle, updatedAt: now };
@@ -1727,14 +1732,16 @@ async function pushBundle(token: string, gistId: string, bundle: SettingsBundle)
     body: JSON.stringify({ files: { 'confer-config.json': { content: JSON.stringify(withTs, null, 2) } } }),
   });
   if (!res.ok) throw new Error('Push failed');
-  writeJson(K_SYNC_META, { remoteUpdatedAt: now, localFingerprint: bundleFingerprint(bundle), lastSyncedAt: now } satisfies SyncMeta);
+  writeJson(K_SYNC_META, { remoteUpdatedAt: now, localFingerprint: bundleFingerprint(bundle), lastSyncedAt: now, base: bundle } satisfies SyncMeta);
 }
 
-/** Low-level: apply a remote bundle as the new local state and record the sync point. */
+/** Low-level: apply a remote bundle as the new local state and record the sync point.
+ *  The remote bundle is saved as `base` for future 3-way merges. */
 function applyRemoteBundle(remote: SettingsBundle): void {
   applySettingsBundle(remote);
   const now = new Date().toISOString();
-  writeJson(K_SYNC_META, { remoteUpdatedAt: remote.updatedAt ?? '', localFingerprint: bundleFingerprint(serializeSettings()), lastSyncedAt: now } satisfies SyncMeta);
+  const fp = bundleFingerprint(serializeSettings());
+  writeJson(K_SYNC_META, { remoteUpdatedAt: remote.updatedAt ?? '', localFingerprint: fp, lastSyncedAt: now, base: remote } satisfies SyncMeta);
 }
 
 /** Sign out: confirm, then clear token, identity, gist id, and sync meta. */
@@ -1745,6 +1752,7 @@ function signOutGitHub() {
     conflictLocal = null; conflictRemote = null; conflictToken = ''; conflictGistId = '';
     syncConflictPending = false;
     if (autoSyncTimer !== null) { clearTimeout(autoSyncTimer); autoSyncTimer = null; }
+    clearSyncRetry();
     toast('Signed out');
     renderSettings();
   });
@@ -1812,6 +1820,105 @@ function bundleFingerprint(b: Partial<SettingsBundle>): string {
     paperTags: b.paperTags ?? {},
     savedSearches: b.savedSearches ?? [],
   });
+}
+
+/** 3-way merge of local and remote relative to a shared base.
+ *  Returns the merged bundle and a list of human-readable conflict descriptions
+ *  (non-empty when the same item was mutated incompatibly on both sides).
+ *  Only items whose content changed on exactly one side are auto-resolved; items
+ *  changed on both sides (or that can't be matched by id/name) are flagged. */
+function mergeThreeWay(
+  base: SettingsBundle,
+  local: SettingsBundle,
+  remote: SettingsBundle,
+): { merged: SettingsBundle; conflicts: string[] } {
+  const conflicts: string[] = [];
+
+  // Generic merge for id-keyed arrays (VenueGroup, Collection)
+  function mergeById<T extends { id: string }>(
+    b: T[], l: T[], r: T[],
+    label: string,
+  ): T[] {
+    const allIds = new Set([...b.map((x) => x.id), ...l.map((x) => x.id), ...r.map((x) => x.id)]);
+    const result: T[] = [];
+    for (const id of allIds) {
+      const bItem = b.find((x) => x.id === id);
+      const lItem = l.find((x) => x.id === id);
+      const rItem = r.find((x) => x.id === id);
+      const bSer = JSON.stringify(bItem);
+      const lSer = JSON.stringify(lItem);
+      const rSer = JSON.stringify(rItem);
+      const lChanged = lSer !== bSer;
+      const rChanged = rSer !== bSer;
+      if (!lChanged && !rChanged) { if (lItem) result.push(lItem); continue; }
+      if (lChanged && !rChanged) { if (lItem) result.push(lItem); continue; } // local added/modified/deleted
+      if (!lChanged && rChanged) { if (rItem) result.push(rItem); continue; } // remote added/modified/deleted
+      // Both changed
+      if (lSer === rSer) { if (lItem) result.push(lItem); continue; } // identical result — fine
+      // True conflict: both modified the same item differently
+      const name = (lItem as unknown as { name?: string })?.name ?? (rItem as unknown as { name?: string })?.name ?? id;
+      conflicts.push(`${label} "${name}"`);
+      result.push(lItem ?? rItem!); // keep local on conflict
+    }
+    return result;
+  }
+
+  // Merge name-keyed saved searches
+  function mergeSavedSearches(b: SavedSearch[], l: SavedSearch[], r: SavedSearch[]): SavedSearch[] {
+    const allNames = new Set([...b.map((x) => x.name), ...l.map((x) => x.name), ...r.map((x) => x.name)]);
+    const result: SavedSearch[] = [];
+    for (const name of allNames) {
+      const bItem = b.find((x) => x.name === name);
+      const lItem = l.find((x) => x.name === name);
+      const rItem = r.find((x) => x.name === name);
+      const bSer = JSON.stringify(bItem);
+      const lSer = JSON.stringify(lItem);
+      const rSer = JSON.stringify(rItem);
+      const lChanged = lSer !== bSer;
+      const rChanged = rSer !== bSer;
+      if (!lChanged && !rChanged) { if (lItem) result.push(lItem); continue; }
+      if (lChanged && !rChanged) { if (lItem) result.push(lItem); continue; }
+      if (!lChanged && rChanged) { if (rItem) result.push(rItem); continue; }
+      if (lSer === rSer) { if (lItem) result.push(lItem); continue; }
+      conflicts.push(`Saved search "${name}"`);
+      result.push(lItem ?? rItem!);
+    }
+    return result;
+  }
+
+  // Merge per-paper tags (Record<paperKey, string[]>)
+  function mergePaperTags(
+    b: Record<string, string[]>,
+    l: Record<string, string[]>,
+    r: Record<string, string[]>,
+  ): Record<string, string[]> {
+    const allKeys = new Set([...Object.keys(b), ...Object.keys(l), ...Object.keys(r)]);
+    const result: Record<string, string[]> = {};
+    for (const key of allKeys) {
+      const bVal = JSON.stringify(b[key] ?? null);
+      const lVal = JSON.stringify(l[key] ?? null);
+      const rVal = JSON.stringify(r[key] ?? null);
+      const lChanged = lVal !== bVal;
+      const rChanged = rVal !== bVal;
+      if (!lChanged && !rChanged) { if (l[key]?.length) result[key] = l[key]; continue; }
+      if (lChanged && !rChanged) { if (l[key]?.length) result[key] = l[key]; continue; }
+      if (!lChanged && rChanged) { if (r[key]?.length) result[key] = r[key]; continue; }
+      if (lVal === rVal) { if (l[key]?.length) result[key] = l[key]; continue; }
+      // Both sides changed the tags for this paper — union them (low-friction resolution)
+      result[key] = [...new Set([...(l[key] ?? []), ...(r[key] ?? [])])];
+    }
+    return result;
+  }
+
+  const merged: SettingsBundle = {
+    app: 'confer', version: 1,
+    venueGroups:   mergeById(base.venueGroups ?? [], local.venueGroups ?? [], remote.venueGroups ?? [], 'Venue group'),
+    collections:   mergeById(base.collections  ?? [], local.collections  ?? [], remote.collections  ?? [], 'Collection'),
+    savedSearches: mergeSavedSearches(base.savedSearches ?? [], local.savedSearches ?? [], remote.savedSearches ?? []),
+    paperTags:     mergePaperTags(base.paperTags ?? {}, local.paperTags ?? {}, remote.paperTags ?? {}),
+  };
+
+  return { merged, conflicts };
 }
 
 /** Build HTML showing what's different between two bundles (for the conflict modal). */
@@ -1894,13 +2001,45 @@ function setSyncBtnState(s: 'syncing' | 'pending' | 'synced') {
   }
 }
 
-/** Debounced push trigger: called by writeJson (for CONFIG_KEYS) and theme/accent changes.
+/** Schedule an exponential-backoff retry after a failed auto-push.
+ *  No-ops if a retry is already pending. */
+function scheduleSyncRetry() {
+  if (syncRetryTimer !== null) return;
+  const delay = SYNC_RETRY_BACKOFF_MS[Math.min(syncRetryAttempt, SYNC_RETRY_BACKOFF_MS.length - 1)];
+  syncRetryAttempt++;
+  syncRetryTimer = window.setTimeout(() => {
+    syncRetryTimer = null;
+    if (!localStorage.getItem(K_GH_TOKEN)) return;
+    if (syncConflictPending) return;
+    if (!localPending()) return;
+    void autoSync();
+  }, delay);
+}
+
+/** Cancel any pending retry and reset the attempt counter. */
+function clearSyncRetry() {
+  if (syncRetryTimer !== null) { clearTimeout(syncRetryTimer); syncRetryTimer = null; }
+  syncRetryAttempt = 0;
+}
+
+/** Debounced push trigger: called by writeJson (for CONFIG_KEYS).
  *  Coalesces rapid local edits into a single push:
  *  - waits SYNC_QUIET_MS of inactivity before firing (cancels the timer on each new edit),
- *  - but forces a push after SYNC_MAX_WAIT_MS of continuous editing regardless. */
+ *  - but forces a push after SYNC_MAX_WAIT_MS of continuous editing regardless.
+ *  Dirty-checks via localPending() before scheduling anything so that net-zero
+ *  edits (e.g. add then delete a tag within the debounce window) never trigger
+ *  a network push. */
 function markLocalChange() {
   if (!localStorage.getItem(K_GH_TOKEN)) return;  // not logged in
   if (syncConflictPending) return;                 // paused until conflict is resolved
+  if (!localPending()) {
+    // Net state matches the last sync snapshot — nothing real changed.
+    // Cancel any queued push and reset the button.
+    if (autoSyncTimer !== null) { clearTimeout(autoSyncTimer); autoSyncTimer = null; }
+    syncPendingSince = 0;
+    setSyncBtnState('synced');
+    return;
+  }
   setSyncBtnState('pending');                      // show queued-upload icon immediately
   const now = Date.now();
   if (syncPendingSince === 0) syncPendingSince = now;
@@ -1912,7 +2051,10 @@ function markLocalChange() {
     return;
   }
   autoSyncTimer = window.setTimeout(() => {
-    autoSyncTimer = null; syncPendingSince = 0; void autoSync();
+    autoSyncTimer = null; syncPendingSince = 0;
+    // Re-check: state may have reverted since the timer was set (e.g. user
+    // deleted the tag they just added). Only push if still dirty.
+    if (localPending()) void autoSync(); else setSyncBtnState('synced');
   }, SYNC_QUIET_MS);
 }
 
@@ -1937,6 +2079,7 @@ async function runSync({ auto }: { auto: boolean }): Promise<void> {
 
   /** Shared success epilogue: settle the button to the appropriate steady state. */
   const onSyncDone = (msg?: string) => {
+    clearSyncRetry(); // success — cancel any pending retry
     if (!auto && msg) toast(msg);
     renderSettings();
     setSyncBtnState(localPending() ? 'pending' : 'synced');
@@ -2021,7 +2164,36 @@ async function runSync({ auto }: { auto: boolean }): Promise<void> {
       return;
     }
 
-    // True conflict — both sides changed
+    // Both sides changed — try to resolve automatically before showing a modal
+    //
+    // 1. Content-equality short-circuit: if the two sides happen to carry the
+    //    same effective content (e.g. a keepalive flush succeeded on another tab),
+    //    reconcile silently without a modal.
+    if (bundleFingerprint(local) === bundleFingerprint(remote!)) {
+      const now = new Date().toISOString();
+      writeJson(K_SYNC_META, { ...meta, localFingerprint: bundleFingerprint(local), lastSyncedAt: now, base: local } satisfies SyncMeta);
+      if (auto) lastAutoPullAt = Date.now();
+      onSyncDone(!auto ? 'Already up to date' : undefined);
+      return;
+    }
+
+    // 2. 3-way merge: if we have a shared base, attempt an automatic merge.
+    //    When every item-level change is unambiguous, apply and push silently.
+    //    Only fall through to the stash/modal path for genuine per-item conflicts.
+    if (meta.base) {
+      const { merged, conflicts: mergeConflicts } = mergeThreeWay(meta.base, local, remote!);
+      if (!mergeConflicts.length) {
+        applySettingsBundle(merged);
+        await pushBundle(token, gistId, serializeSettings());
+        if (auto) lastAutoPullAt = Date.now();
+        onSyncDone(!auto ? 'Synced ✓ — merged changes' : undefined);
+        return;
+      }
+      // Partial conflicts: update the stashed bundles to the attempted merge result
+      // so the conflict modal shows only the genuinely unresolvable items.
+    }
+
+    // True conflict — both sides changed and could not be automatically merged
     setSyncBtnState(localPending() ? 'pending' : 'synced');
     if (auto) {
       // Don't pop modal; stash and show passive indicator
@@ -2033,7 +2205,11 @@ async function runSync({ auto }: { auto: boolean }): Promise<void> {
     }
   } catch (e: unknown) {
     setSyncBtnState(localPending() ? 'pending' : 'synced');
-    if ((e as Error).message !== 'gh_401') { if (!auto) toast('Sync failed'); }
+    if ((e as Error).message !== 'gh_401') {
+      if (!auto) toast('Sync failed');
+      // Silent failure: schedule a retry if there is still something to push
+      if (auto && localPending()) scheduleSyncRetry();
+    }
     console.error(e);
   } finally {
     syncInFlight = false;
@@ -2140,6 +2316,19 @@ function applySettingsBundle(d: Partial<SettingsBundle>, opts?: { merge?: boolea
   ensureLoaded([...state.selected]).then(render);
 }
 
+/** Re-read all CONFIG_KEYS from localStorage into live state and re-render.
+ *  Called in response to cross-tab `storage` events so every open tab stays
+ *  in sync with whichever tab just mutated shared config. */
+function reloadConfigFromStorage() {
+  state.groups      = readJson<VenueGroup[]>(K_VGROUPS, []);
+  state.collections = readJson<Collection[]>(K_COLLECTIONS, []);
+  state.tags        = new Map<string, string[]>(Object.entries(readJson<Record<string, string[]>>(K_TAGS, {})));
+  state.saved       = readJson<SavedSearch[]>(K_SAVED, []);
+  reflectSidebar(); renderVenueGroups(); reflectSeriesGroup(); renderSaved();
+  reflectCollectionFilter(); reflectTagFilter(); renderSettings();
+  ensureLoaded([...state.selected]).then(render);
+}
+
 function exportSettings() {
   const data = serializeSettings();
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -2224,14 +2413,40 @@ function toggleTheme() {
   document.documentElement.dataset.theme = dark ? 'light' : 'dark';
   try { localStorage.setItem(K_THEME, dark ? 'light' : 'dark'); } catch { /* ignore */ }
   reflectTheme();
-  markLocalChange();
+  // Theme is not part of the synced bundle; no markLocalChange() needed.
 }
 function applyAccent(name: string) {
   const key = name in ACCENTS ? name : 'clay';
   if (key === 'clay') delete document.documentElement.dataset.accent;
   else document.documentElement.dataset.accent = key;
   try { localStorage.setItem(K_ACCENT, key); } catch { /* ignore */ }
-  markLocalChange();
+  // Accent is not part of the synced bundle; no markLocalChange() needed.
+}
+
+/** Best-effort flush: fire a keepalive PATCH for any pending local changes before
+ *  the page unloads. The meta is intentionally NOT updated here — the device stays
+ *  "pending" so a dropped keepalive is recovered/reconciled on next startup pull.
+ *  (Feature 4's content-equality check makes a successful flush a clean no-op.) */
+function flushPendingSync() {
+  const token = localStorage.getItem(K_GH_TOKEN);
+  if (!token) return;
+  if (syncConflictPending) return;
+  if (!localPending()) return;
+  const gistId = localStorage.getItem(K_GIST_ID);
+  if (!gistId) return; // no cached gist id — rely on startup pull for recovery
+  if (autoSyncTimer !== null) { clearTimeout(autoSyncTimer); autoSyncTimer = null; }
+  const now = new Date().toISOString();
+  const payload = JSON.stringify({ ...serializeSettings(), updatedAt: now });
+  void fetch(`https://api.github.com/gists/${gistId}`, {
+    method: 'PATCH',
+    keepalive: true,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ files: { 'confer-config.json': { content: payload } } }),
+  });
 }
 
 // --- events ------------------------------------------------------------
@@ -2542,15 +2757,52 @@ function wire() {
     }
   });
 
-  // auto-sync on tab focus: pull remote changes when switching back to this tab
+  // auto-sync on tab focus: pull remote changes when switching back to this tab;
+  // best-effort flush on tab hide (changes inside the debounce window).
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState !== 'visible') return;
+    if (document.visibilityState === 'hidden') {
+      flushPendingSync(); // non-blocking keepalive
+      return;
+    }
+    // visible — pull remote
     if (!localStorage.getItem(K_GH_TOKEN)) return;
     if (syncConflictPending) return;
     const now = Date.now();
     if (now - lastAutoPullAt < 30_000) return; // throttle: at most once per 30 s
     lastAutoPullAt = now;
     void autoSync();
+  });
+
+  // pagehide fires more reliably than unload; also flush here as a fallback
+  window.addEventListener('pagehide', () => { flushPendingSync(); });
+
+  // cross-tab config sync: when another tab writes shared config, mirror it here
+  window.addEventListener('storage', (e: StorageEvent) => {
+    if (!e.key) return;
+    // Another tab mutated user config — reload it into live state
+    if ((CONFIG_KEYS as readonly string[]).includes(e.key)) {
+      reloadConfigFromStorage();
+      setSyncBtnState(localPending() ? 'pending' : 'synced');
+      return;
+    }
+    // Another tab completed a sync — re-evaluate our pending state (may cancel a queued push)
+    if (e.key === K_SYNC_META) {
+      if (!localPending()) {
+        if (autoSyncTimer !== null) { clearTimeout(autoSyncTimer); autoSyncTimer = null; }
+        syncPendingSince = 0;
+        clearSyncRetry();
+        setSyncBtnState('synced');
+      } else {
+        setSyncBtnState('pending');
+      }
+      return;
+    }
+    // Another tab signed out
+    if (e.key === K_GH_TOKEN && !e.newValue) {
+      if (autoSyncTimer !== null) { clearTimeout(autoSyncTimer); autoSyncTimer = null; }
+      clearSyncRetry();
+      renderSettings();
+    }
   });
 
   // clicking the "Sync conflict — review" indicator opens the stashed diff modal

@@ -205,6 +205,11 @@ npm run build                     # static build → web/dist/ (what Netlify pub
 - **Favorites** are client-side `localStorage`. When multi-venue lands, key them as
   `venueId:paperId` so they do not collide across venues.
 - **No backend:** the site is fully static. All filtering/search is client-side.
+- **Changelog:** every bug fix, feature, or notable behaviour change must add a
+  concise, user-facing one-liner to `CHANGELOG.md` under `## [Unreleased]` in the
+  appropriate `### Added / Changed / Fixed` sub-section. Keep entries terse — describe
+  the visible effect, not the implementation. When tagging a release, rename
+  `[Unreleased]` to a version + date section (e.g. `## [1.2.0] - 2026-06-15`).
 
 ## Status
 

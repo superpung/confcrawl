@@ -99,4 +99,7 @@ export interface SyncMeta {
    *  Used only for the "Last synced" display; falls back to remoteUpdatedAt
    *  for metas written before this field existed. */
   lastSyncedAt?: string;
+  /** The synced bundle as of the last push/pull — used as the merge base for
+   *  3-way conflict resolution. Absent on metas written before this field. */
+  base?: SettingsBundle;
 }
