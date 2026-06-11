@@ -25,12 +25,13 @@ interface — so you can scan a whole field in minutes instead of clicking throu
 dozen program pages.
 
 It's a static website backed by a small scraping pipeline: each venue is normalized
-to one shared `Paper` shape, then enriched from bibliographic/open metadata sources
-for DOI, abstracts, publication details, and open-access links where available. No
-accounts, no backend — your groups, collections, tags and saved searches live in your
-browser. You can export everything to a file, share a collection with a link, or
-optionally sign in with GitHub to sync your config across devices automatically.
-Sync is opt-in; confer is fully usable without any account.
+to one shared `Paper` shape, then enriched from official detail pages and
+bibliographic/open metadata sources for DOI, abstracts, publication details, and
+open-access links where available. No accounts, no backend — your groups,
+collections, tags and saved searches live in your browser. You can export everything
+to a file, share a collection with a link, or optionally sign in with GitHub to sync
+your config across devices automatically. Sync is opt-in; confer is fully usable
+without any account.
 
 ## Highlights
 
@@ -58,10 +59,10 @@ Sync is opt-in; confer is fully usable without any account.
 ## Venues
 
 confer currently brings together conferences and journals across EDA, computer
-architecture, software engineering, testing, and programming languages, with more
-added purely through configuration. Browse them all from the category sidebar.
-The current data set includes multiple yearly editions for several venue series,
-grouped by area, series, and year.
+architecture, software engineering, testing, programming languages, security and
+privacy, and systems/networking, with more added purely through configuration.
+Browse them all from the category sidebar. The current data set includes multiple
+yearly editions for several venue series, grouped by area, series, and year.
 
 ## How it works
 
@@ -70,7 +71,8 @@ config/venues.yaml ─▶ scraper + enrichers ─▶ unified JSON per venue ─�
 ```
 
 - **Config** lists venues, their primary scraper, and the minimum source URL.
-- **Adapters** each understand one source platform and emit the *same* `Paper` shape.
+- **Adapters** each understand one source platform and emit the *same* `Paper` shape;
+  when source records link to official detail pages, adapters can merge those too.
 - **Enrichers** merge Crossref/OpenAlex metadata such as DOI, abstract, publication
   date, volume/issue/pages, keywords, author metadata, and open-access/PDF links.
 - **Site** consumes only the unified data — adding a venue never touches the UI. It

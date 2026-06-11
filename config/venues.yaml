@@ -100,6 +100,39 @@ venues:
     source:
       program_url: https://microarch.org/micro58/program/index.php
 
+  - id: nsdi2026
+    name: NSDI 2026
+    series: NSDI
+    category: Systems & Networking
+    kind: conference
+    year: 2026
+    scraper: dblp
+    enabled: true
+    source:
+      toc_url: https://dblp.org/db/conf/nsdi/nsdi2026.xml
+
+  - id: sosp2025
+    name: SOSP 2025
+    series: SOSP
+    category: Systems & Networking
+    kind: conference
+    year: 2025
+    scraper: dblp
+    enabled: true
+    source:
+      toc_url: https://dblp.org/db/conf/sosp/sosp2025.xml
+
+  - id: osdi2025
+    name: OSDI 2025
+    series: OSDI
+    category: Systems & Networking
+    kind: conference
+    year: 2025
+    scraper: dblp
+    enabled: true
+    source:
+      toc_url: https://dblp.org/db/conf/osdi/osdi2025.xml
+
   - id: icse2026
     name: ICSE 2026
     series: ICSE
@@ -253,6 +286,39 @@ venues:
     enabled: true
     source:
       program_url: https://2023.issta.org/program/program-issta-2023/Detailed-Timeline
+
+  - id: usenixsecurity2025
+    name: USENIX Security 2025
+    series: USENIX Security
+    category: Security & Privacy
+    kind: conference
+    year: 2025
+    scraper: dblp
+    enabled: true
+    source:
+      toc_url: https://dblp.org/db/conf/uss/uss2025.xml
+
+  - id: ccs2025
+    name: CCS 2025
+    series: CCS
+    category: Security & Privacy
+    kind: conference
+    year: 2025
+    scraper: dblp
+    enabled: true
+    source:
+      toc_url: https://dblp.org/db/conf/ccs/ccs2025.xml
+
+  - id: sp2025
+    name: IEEE S&P 2025
+    series: IEEE S&P
+    category: Security & Privacy
+    kind: conference
+    year: 2025
+    scraper: dblp
+    enabled: true
+    source:
+      toc_url: https://dblp.org/db/conf/sp/sp2025.xml
 
   - id: tosem2026
     name: TOSEM 2026

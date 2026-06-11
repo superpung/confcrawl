@@ -10,8 +10,8 @@ static, searchable website (Netlify) for browsing papers. Venues are configured 
 `config/venues.yaml`, scraped through pluggable adapters, enriched from bibliographic
 metadata APIs, normalized to one schema, and shown in a single site with a category
 **sidebar**. Enabled venues now span EDA, computer architecture, software engineering,
-testing, programming languages, and journals; new venues are added by config + adapter,
-never by changing the site.
+testing, programming languages, security/privacy, systems/networking, and journals;
+new venues are added by config + adapter, never by changing the site.
 
 **Stack:** a **monorepo** — a **Python** scraper (`scraper/`, package `confer`) that
 emits unified JSON, consumed by an **Astro** static site (`web/`) that renders a single
@@ -248,9 +248,11 @@ npm run build                     # static build → web/dist/ (what Netlify pub
    publisher, container, volume/issue/pages, keywords, PDF/open-access links, and
    source provenance. Matching uses a broader conference-year window and can replace
    visibly truncated titles with richer bibliographic titles.
-9. **DBLP journals and PL venues** — `dblp` adapter publishes TOSEM 2025/2026 and
-   TSE 2025/2026 journal articles from DBLP TOC XML; Researchr publishes POPL
-   2025/2026 and PLDI 2025/2026; all use metadata enrichment.
+9. **DBLP journals and proceedings** — `dblp` adapter publishes TOSEM 2025/2026 and
+   TSE 2025/2026 journal articles, plus security/privacy and systems/networking
+   conference proceedings from DBLP TOC XML. It follows linked USENIX presentation
+   pages to fill abstracts, author-affiliation display text, pages, publisher, and
+   PDF links. Researchr publishes POPL 2025/2026 and PLDI 2025/2026.
 
 **Planned:**
 

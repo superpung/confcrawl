@@ -333,8 +333,8 @@ def openalex_to_metadata(item: dict[str, Any]) -> dict[str, Any]:
     source = primary.get("source") or {}
     biblio = item.get("biblio") or {}
     open_access = item.get("open_access") or {}
-    landing = primary.get("landing_page_url") or item.get("landing_page_url")
-    pdf = primary.get("pdf_url") or open_access.get("oa_url")
+    landing = clean_metadata_url(primary.get("landing_page_url") or item.get("landing_page_url"))
+    pdf = clean_metadata_url(primary.get("pdf_url") or open_access.get("oa_url"))
     pages = biblio_pages(biblio)
     metadata = {
         "title": item.get("title", ""),
@@ -349,16 +349,30 @@ def openalex_to_metadata(item: dict[str, Any]) -> dict[str, Any]:
         "urls": unique_preserve_order([landing, item.get("id", "")]),
         "pdf_urls": unique_preserve_order([pdf]),
         "keywords": openalex_keywords(item),
-        "open_access": {
-            key: open_access[key]
-            for key in ("is_oa", "oa_status", "oa_url")
-            if key in open_access and open_access[key] is not None
-        },
+        "open_access": openalex_open_access(open_access),
     }
     out = {key: value for key, value in metadata.items() if value}
     auths = openalex_authorships(item)
     if any(a["id"] for a in auths):
         out["authorships"] = auths
+    return out
+
+
+def clean_metadata_url(value: Any) -> str:
+    url = str(value or "").strip()
+    if re.fullmatch(r"https?://(?:dx\.)?doi\.org/(?:none|null|nan|n/a|na)?/?", url, re.IGNORECASE):
+        return ""
+    return url
+
+
+def openalex_open_access(open_access: dict[str, Any]) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    for key in ("is_oa", "oa_status"):
+        if key in open_access and open_access[key] is not None:
+            out[key] = open_access[key]
+    oa_url = clean_metadata_url(open_access.get("oa_url"))
+    if oa_url:
+        out["oa_url"] = oa_url
     return out
 
 

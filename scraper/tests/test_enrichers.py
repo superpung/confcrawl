@@ -150,3 +150,22 @@ def test_openalex_to_metadata_maps_fields():
     assert meta["pdf_urls"] == ["https://example.org/paper.pdf"]
     assert meta["open_access"]["oa_status"] == "gold"
     assert meta["keywords"] == ["Static Analysis"]
+
+
+def test_openalex_to_metadata_drops_placeholder_doi_urls():
+    item = {
+        "id": "https://openalex.org/W123",
+        "doi": None,
+        "primary_location": {
+            "landing_page_url": "https://doi.org/None",
+            "pdf_url": "https://doi.org/None",
+        },
+        "open_access": {"is_oa": True, "oa_status": "green", "oa_url": "https://doi.org/None"},
+    }
+
+    meta = openalex_to_metadata(item)
+
+    assert "doi" not in meta
+    assert meta["urls"] == ["https://openalex.org/W123"]
+    assert "pdf_urls" not in meta
+    assert meta["open_access"] == {"is_oa": True, "oa_status": "green"}

@@ -44,10 +44,14 @@ def meaningful_abstract(value: str) -> str:
 
 def clean_doi(value: str) -> str:
     text = re.sub(r"\s+", "", value or "")
+    if not text or text.lower() in {"none", "null", "nan", "n/a", "na"}:
+        return ""
     text = re.sub(r"^https?://(?:dx\.)?doi\.org/", "", text, flags=re.IGNORECASE)
     text = re.sub(r"^doi:\s*", "", text, flags=re.IGNORECASE)
     match = DOI_RE.search(text)
-    doi = match.group(0) if match else text
+    if not match:
+        return ""
+    doi = match.group(0)
     return doi.strip(" .;,)")
 
 

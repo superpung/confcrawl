@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-09T15:39:40+00:00",
+  "generatedAt": "2026-06-11T10:16:38+00:00",
   "venues": [
     {
       "category": "Computer Architecture",
@@ -125,6 +125,33 @@
       "kind": "conference",
       "name": "POPL 2025",
       "series": "POPL",
+      "year": 2025
+    },
+    {
+      "category": "Security & Privacy",
+      "count": 395,
+      "id": "ccs2025",
+      "kind": "conference",
+      "name": "CCS 2025",
+      "series": "CCS",
+      "year": 2025
+    },
+    {
+      "category": "Security & Privacy",
+      "count": 255,
+      "id": "sp2025",
+      "kind": "conference",
+      "name": "IEEE S&P 2025",
+      "series": "IEEE S&P",
+      "year": 2025
+    },
+    {
+      "category": "Security & Privacy",
+      "count": 439,
+      "id": "usenixsecurity2025",
+      "kind": "conference",
+      "name": "USENIX Security 2025",
+      "series": "USENIX Security",
       "year": 2025
     },
     {
@@ -288,6 +315,33 @@
       "name": "ISSTA 2023",
       "series": "ISSTA",
       "year": 2023
+    },
+    {
+      "category": "Systems & Networking",
+      "count": 150,
+      "id": "nsdi2026",
+      "kind": "conference",
+      "name": "NSDI 2026",
+      "series": "NSDI",
+      "year": 2026
+    },
+    {
+      "category": "Systems & Networking",
+      "count": 53,
+      "id": "osdi2025",
+      "kind": "conference",
+      "name": "OSDI 2025",
+      "series": "OSDI",
+      "year": 2025
+    },
+    {
+      "category": "Systems & Networking",
+      "count": 66,
+      "id": "sosp2025",
+      "kind": "conference",
+      "name": "SOSP 2025",
+      "series": "SOSP",
+      "year": 2025
     }
   ]
 }

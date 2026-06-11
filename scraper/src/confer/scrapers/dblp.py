@@ -12,7 +12,16 @@ from bs4 import BeautifulSoup, Tag
 from ..config import VenueConfig
 from ..fetcher import Fetcher
 from ..models import Paper
-from ..util import clean_doi, clean_text, doi_from_url, safe_slug, unique_preserve_order
+from ..util import (
+    cache_name_for_url,
+    clean_doi,
+    clean_text,
+    doi_from_url,
+    meaningful_abstract,
+    safe_slug,
+    strip_markup,
+    unique_preserve_order,
+)
 from .base import Scraper
 
 
@@ -56,6 +65,7 @@ class DblpScraper(Scraper):
         xml = self.fetcher.get_text(self.toc_url, "toc.xml")
         papers = self.parse_toc(xml)
         selected = papers[: self.limit] if self.limit else papers
+        self.enrich_official_details(selected)
         print(
             f"[{self.venue.id}] {len(selected)} DBLP papers selected "
             f"from {len(papers)} bibliography records.",
@@ -76,12 +86,12 @@ class DblpScraper(Scraper):
         title = self.clean_title(clean_text(record.find("title")))
         if not title or self.is_excluded_title(title):
             return None
+        issue_title = self.issue_title(record)
 
         ee_urls = [clean_text(ee) for ee in record.find_all("ee") if clean_text(ee)]
         dblp_url = self.dblp_url(record)
         urls = unique_preserve_order(ee_urls + [dblp_url, self.toc_url])
         doi = next((doi_from_url(url) for url in ee_urls if doi_from_url(url)), "")
-        issue_title = self.issue_title(record)
         journal = clean_text(record.find("journal"))
         booktitle = clean_text(record.find("booktitle"))
         container = journal or booktitle or self.venue.name
@@ -125,6 +135,98 @@ class DblpScraper(Scraper):
     def is_excluded_title(self, title: str) -> bool:
         return any(pattern.search(title) for pattern in self.exclude_title_patterns)
 
+    def enrich_official_details(self, papers: list[Paper]) -> None:
+        matched = 0
+        candidates = [paper for paper in papers if self.usenix_presentation_url(paper)]
+        for index, paper in enumerate(candidates, start=1):
+            url = self.usenix_presentation_url(paper)
+            if not url:
+                continue
+            try:
+                html = self.fetcher.get_text(url, f"details/{cache_name_for_url(url)}")
+            except Exception as exc:  # noqa: BLE001 - official pages supplement DBLP, not replace it
+                print(f"[{self.venue.id}] usenix detail lookup failed for {paper.id}: {exc}", file=sys.stderr)
+                continue
+            metadata = self.usenix_detail_metadata(html, url)
+            if metadata:
+                matched += 1
+                self.apply_usenix_detail(paper, metadata)
+            if index % 100 == 0:
+                print(
+                    f"[{self.venue.id}] usenix details enriched {index}/{len(candidates)} papers...",
+                    file=sys.stderr,
+                )
+        if candidates:
+            print(f"[{self.venue.id}] usenix details matched {matched}/{len(candidates)} papers.", file=sys.stderr)
+
+    @staticmethod
+    def usenix_presentation_url(paper: Paper) -> str:
+        return next(
+            (
+                url
+                for url in paper.urls
+                if "://www.usenix.org/conference/" in url and "/presentation/" in url
+            ),
+            "",
+        )
+
+    @staticmethod
+    def usenix_detail_metadata(html: str, url: str) -> dict[str, Any]:
+        soup = BeautifulSoup(html, "html.parser")
+        first_page = meta_content(soup, "citation_firstpage")
+        last_page = meta_content(soup, "citation_lastpage")
+        pages = "-".join(part for part in (first_page, last_page) if part)
+        if first_page and last_page and first_page == last_page:
+            pages = first_page
+
+        pdf_urls = unique_preserve_order(
+            [
+                *meta_contents(soup, "citation_pdf_url"),
+                *[
+                    urljoin(url, str(link.get("href", "")))
+                    for link in soup.select(".field-name-field-final-paper-pdf a[href]")
+                ],
+                *[
+                    urljoin(url, str(link.get("href", "")))
+                    for link in soup.select(".field-name-field-presentation-pdf a[href]")
+                ],
+            ]
+        )
+
+        people_node = soup.select_one(".field-name-field-paper-people-text")
+        abstract_node = soup.select_one(".field-name-field-paper-description")
+        metadata = {
+            "title": meta_content(soup, "citation_title"),
+            "authors": meta_contents(soup, "citation_author"),
+            "author_institutions": clean_text(people_node),
+            "abstract": meaningful_abstract(clean_text(abstract_node)),
+            "publication_date": meta_content(soup, "citation_publication_date"),
+            "publisher": "USENIX Association",
+            "container": meta_content(soup, "citation_conference_title"),
+            "pages": pages,
+            "urls": [url],
+            "pdf_urls": pdf_urls,
+        }
+        return {key: value for key, value in metadata.items() if value}
+
+    @staticmethod
+    def apply_usenix_detail(paper: Paper, metadata: dict[str, Any]) -> None:
+        if not paper.title and metadata.get("title"):
+            paper.title = strip_markup(str(metadata["title"]))
+        if not paper.authors and metadata.get("authors"):
+            paper.authors = list(metadata["authors"])
+        paper.author_institutions = paper.author_institutions or str(metadata.get("author_institutions", ""))
+        paper.abstract = meaningful_abstract(paper.abstract) or str(metadata.get("abstract", ""))
+        paper.publication_date = paper.publication_date or str(metadata.get("publication_date", ""))
+        paper.publisher = paper.publisher or str(metadata.get("publisher", ""))
+        paper.container = paper.container or str(metadata.get("container", ""))
+        paper.pages = paper.pages or str(metadata.get("pages", ""))
+        paper.urls = unique_preserve_order(paper.urls + list(metadata.get("urls", [])))
+        paper.pdf_urls = unique_preserve_order(paper.pdf_urls + list(metadata.get("pdf_urls", [])))
+        sources = paper.extra.setdefault("officialSources", [])
+        if "usenix" not in sources:
+            sources.append("usenix")
+
     def dblp_url(self, record: Tag) -> str:
         url = clean_text(record.find("url"))
         return urljoin("https://dblp.org/", url) if url else ""
@@ -149,3 +251,16 @@ class DblpScraper(Scraper):
             if month_number:
                 return f"{year}-{month_number}-01"
         return year
+
+
+def meta_content(soup: BeautifulSoup, name: str) -> str:
+    values = meta_contents(soup, name)
+    return values[0] if values else ""
+
+
+def meta_contents(soup: BeautifulSoup, name: str) -> list[str]:
+    return [
+        strip_markup(str(meta.get("content", "")))
+        for meta in soup.find_all("meta", attrs={"name": name})
+        if strip_markup(str(meta.get("content", "")))
+    ]
