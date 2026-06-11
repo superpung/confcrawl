@@ -263,8 +263,21 @@ html.is-rail-collapsed { --col-right: 0; }
 /* padding-top matches the inter-row gap so the series head and the first year
    row don't have touching hover/selected backgrounds (clipped when collapsed). */
 .venue-series-inner { display: flex; flex-direction: column; gap: 2px; min-height: 0; overflow: hidden; padding: 2px 0 0 18px; }
-.year-row { font-size: 12.5px; }
+.year-row { display: flex; align-items: center; font-size: 12.5px; }
+.year-row[hidden] { display: none; }
+.year-row .venue-row { flex: 1 1 0; min-width: 0; }
 .year-row .venue-row-name { color: var(--text-soft); }
+.year-link {
+  flex: 0 0 auto; display: inline-grid; place-items: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  color: var(--faint); opacity: 0; pointer-events: none;
+  transition: opacity 0.12s ease, color 0.12s ease;
+  text-decoration: none;
+}
+.year-row:hover .year-link, .year-link:focus-visible {
+  opacity: 1; pointer-events: auto;
+}
+.year-link:hover { color: var(--accent); }
 
 .sidebar-scrim { display: none; }
 .rail-scrim { display: none; }
@@ -781,6 +794,8 @@ html.is-rail-collapsed { --col-right: 0; }
 .text-btn--primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
 .text-btn--danger { background: var(--favorite); border-color: var(--favorite); color: #fff; }
 .text-btn--danger:hover { filter: brightness(0.88); }
+.text-btn--danger-ghost { background: transparent; border-color: var(--favorite); color: var(--favorite); }
+.text-btn--danger-ghost:hover { background: var(--favorite-soft); border-color: var(--favorite); color: var(--favorite); }
 
 
 /* Right rail (insights) ------------------------------------------------ */

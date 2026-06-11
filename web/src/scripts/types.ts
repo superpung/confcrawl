@@ -6,6 +6,8 @@ export interface Venue {
   year: number | null;
   kind: string;
   count: number;
+  /** Homepage / programme URL for this venue edition (from venues.yaml at build time). */
+  url?: string;
 }
 
 export interface Paper {

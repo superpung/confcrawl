@@ -9,6 +9,11 @@ Entries are user-facing; implementation details belong in commit messages.
 ## [Unreleased]
 
 ### Added
+- Theme auto mode: toggle now cycles light → dark → auto; auto follows the OS
+  `prefers-color-scheme` live (page reacts immediately when the OS switches).
+- Per-year official-site link in the sidebar: each venue edition shows an
+  external-link icon on hover that opens its conference homepage in a new tab.
+- ⌘S / Ctrl+S "Sync now" shortcut listed in the help/shortcuts panel.
 - Sync retry with exponential backoff (30s → 1m → 2m → 5m) after a failed
   silent auto-push; retries clear automatically on success or sign-out.
 - Cross-tab config sync: editing settings in one browser tab is immediately
@@ -25,7 +30,19 @@ Entries are user-facing; implementation details belong in commit messages.
   showing a spurious conflict modal.
 - `CHANGELOG.md` (this file) and a changelog convention in `AGENTS.md`.
 
+### Changed
+- "Clear local data" button restyled to a hollow danger button (red outline +
+  red text/icon, transparent fill) — less visually heavy than the solid red.
+- Removing a tag in Settings now asks for confirmation (the operation removes
+  the tag from *all* papers and is not undoable).
+- Removing a series from a venue group in Settings now asks for confirmation.
+
 ### Fixed
+- GitHub session no longer silently drops after ~8 hours: expired access tokens
+  are refreshed automatically via the broker; a single transient 401 retries
+  with the refreshed token before clearing credentials.
+- Sign-in now explicitly requests `gist` scope so newly-authorized tokens have
+  the required permissions on fresh OAuth App authorizations.
 - Net-zero edits (e.g. adding then removing a tag within the 5-second debounce
   window) no longer trigger a GitHub Gist sync.
 - Toggling theme or changing accent no longer triggers a spurious sync push

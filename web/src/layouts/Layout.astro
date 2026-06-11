@@ -25,9 +25,10 @@ const { title, description = 'Browse accepted papers across conferences and jour
     <script is:inline>
       (() => {
         try {
-          const saved = localStorage.getItem('confer.theme');
-          const dark = saved ? saved === 'dark'
-            : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const saved = localStorage.getItem('confer.theme') ?? 'auto';
+          const dark = saved === 'auto'
+            ? window.matchMedia('(prefers-color-scheme: dark)').matches
+            : saved === 'dark';
           document.documentElement.dataset.theme = dark ? 'dark' : 'light';
           if (localStorage.getItem('confer.sidebarCollapsed') === '1') {
             document.documentElement.classList.add('is-sidebar-collapsed');

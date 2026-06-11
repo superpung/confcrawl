@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import yaml from 'js-yaml';
 
 const DATA_DIR = path.resolve('public/data');
 
@@ -11,6 +12,8 @@ export interface VenueSummary {
   year: number | null;
   kind: string;
   count: number;
+  /** Homepage / programme URL for this venue edition, sourced from venues.yaml. */
+  url?: string;
 }
 
 export interface SeriesGroup {
@@ -26,11 +29,38 @@ export interface CategoryGroup {
   count: number;
 }
 
+/** Read config/venues.yaml (one level up from web/) and extract the URL for each
+ *  venue id.  Prefers program_url, then base_url, then toc_url.  Returns an empty
+ *  map on any parse error so the site degrades gracefully. */
+function loadVenueUrls(): Map<string, string> {
+  const urls = new Map<string, string>();
+  try {
+    const ymlFile = path.resolve('../config/venues.yaml');
+    if (!fs.existsSync(ymlFile)) return urls;
+    const doc = yaml.load(fs.readFileSync(ymlFile, 'utf-8')) as {
+      venues?: { id?: string; source?: { program_url?: string; base_url?: string; toc_url?: string } }[]
+    };
+    for (const v of doc.venues ?? []) {
+      if (!v.id) continue;
+      const src = v.source;
+      const url = src?.program_url ?? src?.base_url ?? src?.toc_url;
+      if (url) urls.set(v.id, url);
+    }
+  } catch { /* degrade gracefully */ }
+  return urls;
+}
+
 export function loadVenues(): VenueSummary[] {
   const file = path.join(DATA_DIR, 'venues.json');
   if (!fs.existsSync(file)) return [];
   const raw = JSON.parse(fs.readFileSync(file, 'utf-8'));
-  return (raw.venues ?? []) as VenueSummary[];
+  const urlMap = loadVenueUrls();
+  const venues = (raw.venues ?? []) as VenueSummary[];
+  for (const v of venues) {
+    const url = urlMap.get(v.id);
+    if (url) v.url = url;
+  }
+  return venues;
 }
 
 /** ISO timestamp of the last scrape, recorded in venues.json. */

@@ -13,6 +13,8 @@ const K_COLLECTIONS = 'confer.collections';  // Collection[] (paper collections)
 const K_TAGS = 'confer.paperTags';           // Record<paperKey, string[]>
 const K_ACCENT = 'confer.accent';            // accent color key (e.g. "sage")
 const K_GH_TOKEN = 'confer.ghToken';         // GitHub gist-scoped access token
+const K_GH_REFRESH = 'confer.ghRefresh';     // GitHub refresh token (when expiry is enabled)
+const K_GH_EXPIRES = 'confer.ghExpires';     // epoch-ms when the access token expires
 const K_GIST_ID = 'confer.gistId';           // id of the user's confer config gist
 const K_GH_USER = 'confer.ghUser';           // cached GitHubUser JSON
 const K_SYNC_META = 'confer.syncMeta';       // SyncMeta JSON (conflict detection)
@@ -56,6 +58,7 @@ const esc = (s: string) => String(s).replace(/[&<>"']/g, (c) => ESC[c]);
 const ICONS = {
   moon: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
   sun: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>',
+  auto: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
   star: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
   starFilled: '<svg class="ic ic--fill" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
   bookmark: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
@@ -1504,7 +1507,7 @@ function renderSettings() {
     </section>
     <section class="set-section">
       <h3 class="set-title"><span>Local storage</span><span class="set-item-meta">${formatBytes(localDataBytes())}</span></h3>
-      <button class="text-btn text-btn--danger" data-clear-local type="button">${ICONS.trash} Clear local data</button>
+      <button class="text-btn text-btn--danger-ghost" data-clear-local type="button">${ICONS.trash} Clear local data</button>
     </section>`;
 }
 
@@ -1666,6 +1669,7 @@ function startGitHubLogin() {
   const url = new URL('https://github.com/login/oauth/authorize');
   url.searchParams.set('client_id', GH_CLIENT_ID);
   url.searchParams.set('state', state);
+  url.searchParams.set('scope', 'gist');
   location.href = url.toString();
 }
 
@@ -1686,9 +1690,11 @@ async function handleOAuthCallback() {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code }),
     });
-    const data = await res.json() as { access_token?: string; error?: string };
+    const data = await res.json() as { access_token?: string; refresh_token?: string; expires_in?: number; error?: string };
     if (!data.access_token) { toast('Login failed: ' + (data.error ?? 'unknown')); return; }
     try { localStorage.setItem(K_GH_TOKEN, data.access_token); } catch { /* ignore */ }
+    if (data.refresh_token) { try { localStorage.setItem(K_GH_REFRESH, data.refresh_token); } catch { /* ignore */ } }
+    if (data.expires_in) { try { localStorage.setItem(K_GH_EXPIRES, String(Date.now() + data.expires_in * 1000)); } catch { /* ignore */ } }
     toast('Logged in with GitHub ✓');
     void fetchGitHubUser(data.access_token); // async — re-renders when identity arrives
     void autoSync(); // pull remote state right after login
@@ -1748,7 +1754,7 @@ function applyRemoteBundle(remote: SettingsBundle): void {
 function signOutGitHub() {
   askConfirm({ title: 'Sign out', message: 'Sign out of GitHub? Your local config stays in this browser.', ok: 'Sign out' }).then((ok) => {
     if (!ok) return;
-    try { [K_GH_TOKEN, K_GH_USER, K_GIST_ID, K_SYNC_META, K_SYNC_ETAG].forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
+    try { [K_GH_TOKEN, K_GH_REFRESH, K_GH_EXPIRES, K_GH_USER, K_GIST_ID, K_SYNC_META, K_SYNC_ETAG].forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
     conflictLocal = null; conflictRemote = null; conflictToken = ''; conflictGistId = '';
     syncConflictPending = false;
     if (autoSyncTimer !== null) { clearTimeout(autoSyncTimer); autoSyncTimer = null; }
@@ -1760,10 +1766,54 @@ function signOutGitHub() {
 
 // --- GitHub API helpers -----------------------------------------------
 
-/** fetch() wrapper that surfaces 401s as an auto-signout + thrown error.
- *  Pass `{ silent: true }` for background calls so an expired token signs out
- *  quietly (no toast) — manual calls remain loud. Token-refresh is not
- *  implemented here; it requires a server-side broker extension (TODO). */
+/** Exchange a stored refresh token for a fresh access token via the broker.
+ *  Returns the new access token on success, or null if refresh is impossible
+ *  (no refresh token, broker error, or the refresh token itself has expired).
+ *  Persists the rotated token set in localStorage on success. */
+async function refreshAccessToken(): Promise<string | null> {
+  const refreshToken = localStorage.getItem(K_GH_REFRESH);
+  if (!refreshToken) return null;
+  try {
+    const res = await fetch(OAUTH_BROKER, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ grant_type: 'refresh_token', refresh_token: refreshToken }),
+    });
+    const data = await res.json() as { access_token?: string; refresh_token?: string; expires_in?: number; error?: string };
+    if (!data.access_token) return null;
+    try { localStorage.setItem(K_GH_TOKEN, data.access_token); } catch { /* ignore */ }
+    if (data.refresh_token) { try { localStorage.setItem(K_GH_REFRESH, data.refresh_token); } catch { /* ignore */ } }
+    if (data.expires_in) { try { localStorage.setItem(K_GH_EXPIRES, String(Date.now() + data.expires_in * 1000)); } catch { /* ignore */ } }
+    return data.access_token;
+  } catch {
+    return null;
+  }
+}
+
+/** Return the stored access token, proactively refreshing it when it is within
+ *  5 minutes of expiry (or already expired) and a refresh token is available.
+ *  Returns null if the user is not logged in. */
+async function getValidToken(): Promise<string | null> {
+  const token = localStorage.getItem(K_GH_TOKEN);
+  if (!token) return null;
+  const expiresStr = localStorage.getItem(K_GH_EXPIRES);
+  if (expiresStr) {
+    const expiresAt = Number(expiresStr);
+    if (Date.now() >= expiresAt - 5 * 60 * 1000) {
+      // Proactive refresh before the token dies
+      const fresh = await refreshAccessToken();
+      if (fresh) return fresh;
+      // Refresh failed — fall through and let the caller use the (expired) token;
+      // ghFetch's 401 handler will attempt one more refresh on the actual 401.
+    }
+  }
+  return token;
+}
+
+/** fetch() wrapper that surfaces 401s cleanly. On a 401 it first attempts a
+ *  token refresh via the broker; if that succeeds it retries the request once.
+ *  Only if the refresh also fails does it wipe credentials and sign the user out.
+ *  Pass `{ silent: true }` for background calls so sign-out happens quietly. */
 async function ghFetch(url: string, token: string, init?: RequestInit, opts?: { silent?: boolean }): Promise<Response> {
   const res = await fetch(url, {
     ...init,
@@ -1774,7 +1824,22 @@ async function ghFetch(url: string, token: string, init?: RequestInit, opts?: { 
     },
   });
   if (res.status === 401) {
-    try { [K_GH_TOKEN, K_GH_USER, K_GIST_ID, K_SYNC_META, K_SYNC_ETAG].forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
+    // Attempt one silent token refresh before giving up
+    const freshToken = await refreshAccessToken();
+    if (freshToken) {
+      // Retry the original request with the refreshed token
+      const retry = await fetch(url, {
+        ...init,
+        headers: {
+          Authorization: `Bearer ${freshToken}`,
+          Accept: 'application/vnd.github+json',
+          ...((init?.headers ?? {}) as Record<string, string>),
+        },
+      });
+      if (retry.status !== 401) return retry;
+      // Refresh token was also rejected — fall through to sign-out
+    }
+    try { [K_GH_TOKEN, K_GH_REFRESH, K_GH_EXPIRES, K_GH_USER, K_GIST_ID, K_SYNC_META, K_SYNC_ETAG].forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }
     if (!opts?.silent) toast('GitHub session expired — please log in again');
     renderSettings();
     throw new Error('gh_401');
@@ -2069,7 +2134,8 @@ async function runSync({ auto }: { auto: boolean }): Promise<void> {
   if (syncInFlight) { if (!auto) toast('Syncing…'); return; }
   syncInFlight = true;
   setSyncBtnState('syncing');
-  const token = localStorage.getItem(K_GH_TOKEN);
+  // Use getValidToken to proactively refresh if the access token is near expiry
+  const token = await getValidToken();
   if (!token) {
     if (!auto) toast('Not logged in');
     setSyncBtnState(localPending() ? 'pending' : 'synced');
@@ -2404,14 +2470,32 @@ function reflectSort() {
 }
 
 // --- theme -------------------------------------------------------------
-function reflectTheme() {
-  const dark = document.documentElement.dataset.theme === 'dark';
-  document.querySelectorAll('[data-theme-icon]').forEach((el) => { el.innerHTML = dark ? ICONS.sun : ICONS.moon; });
+/** Resolve a stored theme choice to the actual CSS value applied to the document. */
+function effectiveTheme(choice: string): 'dark' | 'light' {
+  if (choice === 'auto') return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return choice === 'dark' ? 'dark' : 'light';
 }
-function toggleTheme() {
-  const dark = document.documentElement.dataset.theme === 'dark';
-  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
-  try { localStorage.setItem(K_THEME, dark ? 'light' : 'dark'); } catch { /* ignore */ }
+function reflectTheme() {
+  const choice = localStorage.getItem(K_THEME) ?? 'auto';
+  const iconMap: Record<string, string> = { light: ICONS.moon, dark: ICONS.sun, auto: ICONS.auto };
+  const icon = iconMap[choice] ?? ICONS.auto;
+  const titleMap: Record<string, string> = {
+    light: 'Theme: light — click to cycle',
+    dark: 'Theme: dark — click to cycle',
+    auto: 'Theme: auto (follows OS) — click to cycle',
+  };
+  const titleText = titleMap[choice] ?? 'Toggle theme';
+  document.querySelectorAll('[data-theme-icon]').forEach((el) => { el.innerHTML = icon; });
+  document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach((btn) => {
+    btn.title = titleText;
+    btn.setAttribute('aria-label', titleText);
+  });
+}
+function cycleTheme() {
+  const current = localStorage.getItem(K_THEME) ?? 'auto';
+  const next = current === 'light' ? 'dark' : current === 'dark' ? 'auto' : 'light';
+  try { localStorage.setItem(K_THEME, next); } catch { /* ignore */ }
+  document.documentElement.dataset.theme = effectiveTheme(next);
   reflectTheme();
   // Theme is not part of the synced bundle; no markLocalChange() needed.
 }
@@ -2652,7 +2736,7 @@ function wire() {
   $('[data-save-current]').addEventListener('click', () => saveCurrentSearch());
 
   // theme, help, modals
-  document.querySelectorAll('[data-theme-toggle]').forEach((b) => b.addEventListener('click', toggleTheme));
+  document.querySelectorAll('[data-theme-toggle]').forEach((b) => b.addEventListener('click', cycleTheme));
   $('[data-help]').addEventListener('click', () => { $('#helpModal').hidden = false; });
   document.querySelectorAll('[data-modal-close]').forEach((b) => b.addEventListener('click', closeModals));
   document.querySelectorAll('.modal').forEach((m) => m.addEventListener('click', (e) => { if (e.target === m) closeModals(); }));
@@ -2713,13 +2797,13 @@ function wire() {
     const gDel = t.closest<HTMLElement>('[data-group-del]');
     if (gDel) { deleteGroup(gDel.dataset.groupDel ?? ''); return; }
     const gsDel = t.closest<HTMLElement>('[data-group-series-del]');
-    if (gsDel) { const [id, ...rest] = (gsDel.dataset.groupSeriesDel ?? '').split('|'); const s = rest.join('|'); const g = state.groups.find((x) => x.id === id); if (g) { g.series = g.series.filter((x) => x !== s); saveGroups(); renderVenueGroups(); reflectSeriesGroup(); renderSettings(); } return; }
+    if (gsDel) { const [id, ...rest] = (gsDel.dataset.groupSeriesDel ?? '').split('|'); const s = rest.join('|'); const g = state.groups.find((x) => x.id === id); if (g) { askConfirm({ title: 'Remove series', message: `Remove ${s} from "${g.name}"?`, ok: 'Remove', danger: false }).then((ok) => { if (!ok) return; g.series = g.series.filter((x) => x !== s); saveGroups(); renderVenueGroups(); reflectSeriesGroup(); renderSettings(); }); } return; }
     const cRen = t.closest<HTMLElement>('[data-col-rename]');
     if (cRen) { const c = collectionById(cRen.dataset.colRename ?? ''); if (c) askText({ title: 'Rename collection', value: c.name, max: NAME_MAX, ok: 'Rename' }).then((n) => { const cl = cleanInput(n ?? ''); if (cl) { c.name = cl; saveCollections(); afterCollectionsChange(); } }); return; }
     const cDel = t.closest<HTMLElement>('[data-col-del]');
     if (cDel) { const c = collectionById(cDel.dataset.colDel ?? ''); if (c) askConfirm({ title: 'Delete collection', message: `Delete collection “${c.name}”?`, ok: 'Delete', danger: true }).then((ok) => { if (!ok) return; state.collections = state.collections.filter((x) => x.id !== c.id); if (state.collection === c.id) state.collection = ''; saveCollections(); afterCollectionsChange(); render(); }); return; }
     const tagPurge = t.closest<HTMLElement>('[data-tag-purge]');
-    if (tagPurge) { const tag = tagPurge.dataset.tagPurge ?? ''; for (const [k, tags] of [...state.tags]) { const next = tags.filter((x) => x !== tag); if (next.length) state.tags.set(k, next); else state.tags.delete(k); } saveTags(); renderSettings(); render(); return; }
+    if (tagPurge) { const tag = tagPurge.dataset.tagPurge ?? ''; const n = tagCounts().get(tag) ?? 0; askConfirm({ title: 'Remove tag', message: `Remove tag "${tag}" from ${n} ${plural(n, 'paper')}? This removes it from all papers.`, ok: 'Remove', danger: true }).then((ok) => { if (!ok) return; for (const [k, tags] of [...state.tags]) { const next = tags.filter((x) => x !== tag); if (next.length) state.tags.set(k, next); else state.tags.delete(k); } saveTags(); renderSettings(); render(); }); return; }
   });
 
   // sidebar: mobile drawer toggle + desktop collapse
@@ -2775,6 +2859,13 @@ function wire() {
 
   // pagehide fires more reliably than unload; also flush here as a fallback
   window.addEventListener('pagehide', () => { flushPendingSync(); });
+
+  // Live OS theme changes: re-apply only when the user's choice is 'auto'
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if ((localStorage.getItem(K_THEME) ?? 'auto') === 'auto') {
+      document.documentElement.dataset.theme = effectiveTheme('auto');
+    }
+  });
 
   // cross-tab config sync: when another tab writes shared config, mirror it here
   window.addEventListener('storage', (e: StorageEvent) => {
@@ -2852,7 +2943,7 @@ function wire() {
       case '/': e.preventDefault(); els.search.focus(); break;
       case '?': toggleHelp(); break;
       case 'f': { const open = els.facetsWrap.classList.toggle('is-open'); $('[data-facets-toggle]').setAttribute('aria-expanded', String(open)); break; }
-      case 't': toggleTheme(); break;
+      case 't': cycleTheme(); break;
       case '[': setSidebarCollapsed(!document.documentElement.classList.contains('is-sidebar-collapsed')); break;
       case ']': setRailCollapsed(!document.documentElement.classList.contains('is-rail-collapsed')); break;
       case 'j': e.preventDefault(); moveFocus(1); break;

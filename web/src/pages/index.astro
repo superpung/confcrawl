@@ -88,15 +88,18 @@ const year = new Date().getFullYear();
                     <div class="venue-series-body">
                       <div class="venue-series-inner">
                         {s.years.map((venue) => (
-                          <label
-                            class="venue-row year-row"
-                            data-venue-row
-                            data-venue-name={`${venue.name} ${venue.series}`.toLowerCase()}
-                          >
-                            <input class="venue-check" type="checkbox" value={venue.id} data-venue-check />
-                            <span class="venue-row-name">{venue.year ?? venue.name}</span>
-                            <span class="venue-row-count">{venue.count.toLocaleString()}</span>
-                          </label>
+                          <div class="year-row" data-venue-row data-venue-name={`${venue.name} ${venue.series}`.toLowerCase()}>
+                            <label class="venue-row">
+                              <input class="venue-check" type="checkbox" value={venue.id} data-venue-check />
+                              <span class="venue-row-name">{venue.year ?? venue.name}</span>
+                              <span class="venue-row-count">{venue.count.toLocaleString()}</span>
+                            </label>
+                            {venue.url && (
+                              <a class="year-link" href={venue.url} target="_blank" rel="noreferrer" title="Open official site" aria-label={`Open ${venue.name} official site`}>
+                                <svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                              </a>
+                            )}
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -233,11 +236,12 @@ const year = new Date().getFullYear();
         <h3 class="modal-subhead">Keyboard</h3>
         <dl class="shortcuts">
           <div><dt><kbd>⌘</kbd><kbd>K</kbd> / <kbd>/</kbd></dt><dd>Focus search</dd></div>
+          <div><dt><kbd>⌘</kbd><kbd>S</kbd></dt><dd>Sync now</dd></div>
           <div><dt><kbd>j</kbd> / <kbd>k</kbd></dt><dd>Move between papers</dd></div>
           <div><dt><kbd>o</kbd></dt><dd>Expand / collapse the focused paper</dd></div>
           <div><dt><kbd>s</kbd></dt><dd>Save the focused paper to a collection</dd></div>
           <div><dt><kbd>f</kbd></dt><dd>Toggle filters</dd></div>
-          <div><dt><kbd>t</kbd></dt><dd>Toggle theme</dd></div>
+          <div><dt><kbd>t</kbd></dt><dd>Cycle theme (light / dark / auto)</dd></div>
           <div><dt><kbd>[</kbd> / <kbd>]</kbd></dt><dd>Collapse sidebar / insights</dd></div>
           <div><dt><kbd>g</kbd><kbd>g</kbd> / <kbd>G</kbd></dt><dd>Jump to top / bottom</dd></div>
           <div><dt><kbd>?</kbd> / <kbd>⌘</kbd><kbd>/</kbd></dt><dd>Toggle this panel</dd></div>
