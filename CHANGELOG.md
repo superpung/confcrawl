@@ -16,10 +16,6 @@ Entries are user-facing; implementation details belong in commit messages.
   expanded card below the abstract and are persisted and synced across devices.
 - Reading progress summary in the Insights rail: "N reading · N done" stats with
   color-coded indicators.
-- **Author and institution profile views**: click the "↗" affordance on any author
-  or institution chip to open a detail modal showing all their papers, co-authors,
-  year timeline, and venue breakdown. Deep-linkable via `?author=` / `?inst=`
-  query params (survive reload).
 - **"Find similar" per paper**: open a paper's abstract, then click "Find similar"
   to get a ranked list of topically-related papers computed on the fly with
   client-side TF-IDF cosine similarity. Runs lazily — no work at page load.
@@ -56,6 +52,9 @@ Entries are user-facing; implementation details belong in commit messages.
 - Removing a series from a venue group in Settings now asks for confirmation.
 
 ### Fixed
+- Paper title and author normalization now removes LaTeX/entity artifacts, repairs
+  source-specific author parsing, and avoids unsafe metadata matches for generic
+  authorless schedule entries.
 - GitHub session no longer silently drops after ~8 hours: expired access tokens
   are refreshed automatically via the broker; a single transient 401 retries
   with the refreshed token before clearing credentials.

@@ -284,7 +284,6 @@ const state = {
   notes: new Map<string, string>(Object.entries(readJson<Record<string, string>>(K_NOTES, {}))),
   status: new Map<string, string>(Object.entries(readJson<Record<string, string>>(K_STATUS, {}))),
   statusFilter: '',                                          // '' = all, 'reading', 'done'
-  entityModal: null as { kind: string; key: string } | null, // open profile modal state
   sel: new Set<string>(),
   saved: readJson<SavedSearch[]>(K_SAVED, []),
   shown: PAGE,
@@ -337,10 +336,6 @@ function readUrl() {
   (q.get('event') ?? '').split(',').filter(Boolean).forEach((e) => state.events.add(e));
   (q.get('tags') ?? '').split(',').filter(Boolean).forEach((t) => state.tagFilter.add(t));
   state.statusFilter = q.get('status') ?? '';
-  const authorParam = q.get('author');
-  const instParam = q.get('inst');
-  if (authorParam) state.entityModal = { kind: 'author', key: authorParam };
-  else if (instParam) state.entityModal = { kind: 'inst', key: instParam };
   return !!v || q.has('q') || q.has('track');
 }
 function writeUrl() {
@@ -354,7 +349,6 @@ function writeUrl() {
   if (state.events.size) q.set('event', [...state.events].join(','));
   if (state.tagFilter.size) q.set('tags', [...state.tagFilter].join(','));
   if (state.statusFilter) q.set('status', state.statusFilter);
-  if (state.entityModal) q.set(state.entityModal.kind === 'author' ? 'author' : 'inst', state.entityModal.key);
   const qs = q.toString();
   history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
   writeJson(K_SELECTED, [...state.selected]);
@@ -478,9 +472,8 @@ function cardHtml(p: Paper, v: string): string {
     ? authorAff(p).map(({ author, inst }) =>
         `<span class="author${inst ? ' has-inst' : ''}">` +
           `<button class="link-author" data-author="${esc(author)}">${esc(author)}</button>` +
-          `<button class="author-profile-btn" data-author-profile="${esc(author)}" title="View ${esc(author)} profile" aria-label="Author profile">↗</button>` +
           (inst
-            ? `<span class="author-pop"><button class="author-inst" data-inst="${esc(inst)}" title="Search papers from ${esc(inst)}">${esc(inst)}</button><button class="inst-profile-btn" data-inst-profile="${esc(inst)}" title="View ${esc(inst)} profile" aria-label="Institution profile">↗</button></span>`
+            ? `<span class="author-pop"><button class="author-inst" data-inst="${esc(inst)}" title="Search papers from ${esc(inst)}">${esc(inst)}</button></span>`
             : '') +
         `</span>`).join(', ')
     : 'Not listed';
@@ -688,7 +681,7 @@ function renderRail(filtered: { p: Paper; v: string }[]) {
     barChart('Top tracks', trackCount, 'track', 6);
 }
 
-// --- entity profile modal (author / institution aggregate view) -------
+// --- similar-papers modal (mini-card renderer, shared with openSimilarModal) ---
 function miniCardHtml(p: Paper, v: string): string {
   const venue = venueById.get(v)!;
   const k = key(v, p.id);
@@ -703,105 +696,6 @@ function miniCardHtml(p: Paper, v: string): string {
       ${note ? `<p class="mini-card-note">${esc(note)}</p>` : ''}
     </div>
   </div>`;
-}
-
-function openEntity(kind: string, entityKey: string) {
-  const modal = document.querySelector<HTMLElement>('#entityModal');
-  const titleEl = document.querySelector<HTMLElement>('#entityTitle');
-  const bodyEl = document.querySelector<HTMLElement>('#entityBody');
-  if (!modal || !titleEl || !bodyEl) return;
-
-  // Collect all matching papers across ALL loaded rows (not just the filtered set)
-  const resolveAuthor = authorResolver(state.rows);
-  const paperRows: { p: Paper; v: string }[] = [];
-  for (const row of state.rows) {
-    const { p, v } = row;
-    if (kind === 'author') {
-      const matched = p.authors.some((_, i) => normKey(resolveAuthor(p, i).name) === normKey(entityKey));
-      if (matched) paperRows.push(row);
-    } else {
-      if (instList(p).some((inst) => inst === entityKey)) paperRows.push(row);
-    }
-  }
-  if (!paperRows.length) return;
-
-  const displayName = entityKey;
-  titleEl.textContent = (kind === 'author' ? 'Author: ' : 'Institution: ') + displayName;
-
-  // Aggregate stats
-  const venues = new Set(paperRows.map((r) => venueById.get(r.v)?.series ?? r.v));
-  const years = [...new Set(paperRows.map((r) => venueById.get(r.v)?.year).filter(Boolean))] as number[];
-  years.sort((a, b) => a - b);
-  const yearSpan = years.length > 1 ? `${years[0]}–${years[years.length - 1]}` : years[0] ? `${years[0]}` : '';
-
-  const yearCount = new Map<string, number>();
-  const venueCount = new Map<string, number>();
-  for (const { v } of paperRows) {
-    const yr = venueById.get(v)?.year;
-    if (yr) yearCount.set(String(yr), (yearCount.get(String(yr)) ?? 0) + 1);
-    const ser = venueById.get(v)?.series ?? v;
-    venueCount.set(ser, (venueCount.get(ser) ?? 0) + 1);
-  }
-
-  // Related: co-authors (for author view) or co-institutions (for inst view)
-  let relatedHtml = '';
-  if (kind === 'author') {
-    const coauthorMap = new Map<string, number>();
-    for (const { p } of paperRows) {
-      p.authors.forEach((nm, i) => {
-        const rk = resolveAuthor(p, i);
-        if (normKey(rk.name) !== normKey(entityKey)) {
-          coauthorMap.set(rk.name, (coauthorMap.get(rk.name) ?? 0) + 1);
-        }
-      });
-    }
-    const top = [...coauthorMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12);
-    if (top.length) {
-      relatedHtml = `<section class="entity-section"><h4 class="entity-section-title">Co-authors</h4><div class="entity-chips">
-        ${top.map(([nm, n]) => `<button class="chip entity-chip" data-entity-author-profile="${esc(nm)}">${esc(nm)}<span class="tag-n">${n}</span></button>`).join('')}
-      </div></section>`;
-    }
-  } else {
-    const coInstMap = new Map<string, number>();
-    for (const { p } of paperRows) {
-      for (const inst of instList(p)) {
-        if (inst !== entityKey) coInstMap.set(inst, (coInstMap.get(inst) ?? 0) + 1);
-      }
-    }
-    const top = [...coInstMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12);
-    if (top.length) {
-      relatedHtml = `<section class="entity-section"><h4 class="entity-section-title">Related institutions</h4><div class="entity-chips">
-        ${top.map(([inst, n]) => `<button class="chip entity-chip" data-entity-inst-profile="${esc(inst)}">${esc(inst)}<span class="tag-n">${n}</span></button>`).join('')}
-      </div></section>`;
-    }
-  }
-
-  const statBar = `<div class="entity-stats">
-    <div class="entity-stat"><span class="entity-stat-n">${paperRows.length}</span><span class="entity-stat-l">${plural(paperRows.length, 'paper')}</span></div>
-    <div class="entity-stat"><span class="entity-stat-n">${venues.size}</span><span class="entity-stat-l">${plural(venues.size, 'venue')}</span></div>
-    ${yearSpan ? `<div class="entity-stat"><span class="entity-stat-n">${esc(yearSpan)}</span><span class="entity-stat-l">years</span></div>` : ''}
-  </div>`;
-
-  const MAX_PAPERS = 25;
-  const slice = paperRows.slice(0, MAX_PAPERS);
-  const showAllBtn = paperRows.length > MAX_PAPERS
-    ? `<div class="entity-show-all"><button class="text-btn" data-entity-show-all="${esc(kind)}:${esc(entityKey)}">Show all ${paperRows.length} papers in main view →</button></div>`
-    : '';
-  const filterBtn = `<div class="entity-show-all"><button class="text-btn" data-entity-show-all="${esc(kind)}:${esc(entityKey)}">${kind === 'author' ? 'Filter to this author in main view' : 'Filter to this institution in main view'} →</button></div>`;
-
-  bodyEl.innerHTML = statBar +
-    barChart('By year', yearCount, 'ent-year', 10, { order: 'key' }) +
-    barChart('Venues', venueCount, 'ent-venue', 8) +
-    relatedHtml +
-    `<section class="entity-section"><h4 class="entity-section-title">Papers</h4>
-      <div class="mini-card-list">${slice.map((r) => miniCardHtml(r.p, r.v)).join('')}</div>
-      ${paperRows.length > MAX_PAPERS ? showAllBtn : filterBtn}
-    </section>`;
-
-  // Persist to URL
-  state.entityModal = { kind, key: entityKey };
-  writeUrl();
-  modal.hidden = false;
 }
 
 // --- author co-authorship network (modal, canvas force layout) --------
@@ -2721,9 +2615,7 @@ function setQuery(q: string) {
 function closeModals() {
   if (promptResolver) settlePrompt(null);
   if (confirmResolver) settleConfirm(false);
-  const entityWasOpen = !document.querySelector<HTMLElement>('#entityModal')?.hidden;
   document.querySelectorAll<HTMLElement>('.modal').forEach((m) => { m.hidden = true; });
-  if (entityWasOpen && state.entityModal) { state.entityModal = null; writeUrl(); }
   closePop();
   stopNetwork();
 }
@@ -3047,10 +2939,6 @@ function wire() {
     } else if (target.closest('[data-find-similar]')) {
       const fk = (target.closest('[data-find-similar]') as HTMLElement).dataset.findSimilar!;
       openSimilarModal('Similar papers', similarTo(fk, 10));
-    } else if (target.closest('[data-author-profile]')) {
-      openEntity('author', (target.closest('[data-author-profile]') as HTMLElement).dataset.authorProfile!);
-    } else if (target.closest('[data-inst-profile]')) {
-      openEntity('inst', (target.closest('[data-inst-profile]') as HTMLElement).dataset.instProfile!);
     } else if (target.closest('[data-inst]')) {
       setQuery(`inst:"${(target.closest('[data-inst]') as HTMLElement).dataset.inst!}"`);
     } else if (target.closest('[data-author]')) {
@@ -3153,39 +3041,17 @@ function wire() {
     if (tagPurge) { const tag = tagPurge.dataset.tagPurge ?? ''; const n = tagCounts().get(tag) ?? 0; askConfirm({ title: 'Remove tag', message: `Remove tag "${tag}" from ${n} ${plural(n, 'paper')}? This removes it from all papers.`, ok: 'Remove', danger: true }).then((ok) => { if (!ok) return; for (const [k, tags] of [...state.tags]) { const next = tags.filter((x) => x !== tag); if (next.length) state.tags.set(k, next); else state.tags.delete(k); } saveTags(); renderSettings(); render(); }); return; }
   });
 
-  // entity modal interactions (co-author chips, mini-card, show-all, bar charts)
+  // similar-papers modal: venue badge on mini-cards filters to that venue
   const entityBodyEl = document.querySelector<HTMLElement>('#entityBody');
   if (entityBodyEl) {
     entityBodyEl.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
-      const authorProfile = t.closest<HTMLElement>('[data-entity-author-profile]');
-      if (authorProfile) { openEntity('author', authorProfile.dataset.entityAuthorProfile!); return; }
-      const instProfile = t.closest<HTMLElement>('[data-entity-inst-profile]');
-      if (instProfile) { openEntity('inst', instProfile.dataset.entityInstProfile!); return; }
-      const showAll = t.closest<HTMLElement>('[data-entity-show-all]');
-      if (showAll) {
-        const [kind, ...rest] = showAll.dataset.entityShowAll!.split(':');
-        const key = rest.join(':');
-        closeModals();
-        setQuery(`${kind === 'author' ? 'author' : 'inst'}:"${key}"`);
-        return;
-      }
       const miniVenue = t.closest<HTMLElement>('[data-mini-venue]');
       if (miniVenue) {
         const vId = miniVenue.dataset.miniVenue!;
         closeModals();
         const ser = venueById.get(vId)?.series ?? vId;
         setQuery(`venue:"${ser}"`);
-        return;
-      }
-      // Bar chart clicks inside entity modal
-      const bar = t.closest<HTMLElement>('[data-chart]');
-      if (bar) {
-        const kind = bar.dataset.chart!;
-        const val = bar.dataset.val ?? '';
-        closeModals();
-        if (kind === 'ent-year') setQuery(`year:"${val}"`);
-        else if (kind === 'ent-venue') setQuery(`venue:"${val}"`);
         return;
       }
     });
@@ -3473,7 +3339,6 @@ function openSimilarModal(title: string, rows: { p: Paper; v: string; score: num
   } else {
     bodyEl.innerHTML = `<div class="mini-card-list">${rows.map((r) => miniCardHtml(r.p, r.v)).join('')}</div>`;
   }
-  state.entityModal = null; // similar modal doesn't need URL state
   modal.hidden = false;
 }
 
@@ -3531,11 +3396,7 @@ function init() {
   reflectTagFilter();
   reflectStatusFilter();
   renderSettings();
-  const pendingEntity = state.entityModal; // read before first render clears it
-  ensureLoaded([...state.selected]).then(() => {
-    render();
-    if (pendingEntity) openEntity(pendingEntity.kind, pendingEntity.key);
-  });
+  ensureLoaded([...state.selected]).then(() => { render(); });
 }
 
 init();

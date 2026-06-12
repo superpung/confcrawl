@@ -872,18 +872,9 @@ html.is-rail-collapsed { --col-right: 0; }
 .rail-stat--reading .rail-stat-n { color: var(--status-reading); }
 .rail-stat--done    .rail-stat-n { color: var(--status-done); }
 
-/* Entity (author / institution) profile modal ------------------------- */
+/* Similar-papers modal (shared by "Find similar" and "For you" recommendations) */
 .entity-body { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 0 2px; }
-.entity-stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-.entity-stat { display: flex; flex-direction: column; gap: 2px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 9px; text-align: center; }
-.entity-stat-n { font-size: 17px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
-.entity-stat-l { font-size: 10.5px; color: var(--faint); }
-.entity-section { margin-bottom: 14px; }
-.entity-section-title { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--faint); letter-spacing: 0.05em; text-transform: uppercase; }
-.entity-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.entity-chip { cursor: pointer; }
-.entity-chip:hover { border-color: var(--accent); color: var(--accent); }
-/* Compact paper rows inside entity modal */
+/* Compact paper rows inside similar-papers modal */
 .mini-card-list { display: flex; flex-direction: column; gap: 8px; }
 .mini-card { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }
 .mini-card:hover { border-color: var(--line-strong); }
@@ -894,16 +885,6 @@ html.is-rail-collapsed { --col-right: 0; }
 .mini-card-title { margin: 0 0 3px; font-size: 13.5px; font-weight: 500; line-height: 1.35; color: var(--text); overflow-wrap: break-word; }
 .mini-card-authors { margin: 0; font-size: 12px; color: var(--muted); }
 .mini-card-note { margin: 4px 0 0; font-size: 12px; color: var(--accent); font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.entity-show-all { margin-top: 12px; text-align: center; }
-/* Author profile button (↗) beside the author name — hidden by default */
-.author-profile-btn, .inst-profile-btn {
-  display: inline-block; border: 0; background: none; padding: 0 2px; margin-left: 2px; font-size: 10px;
-  color: var(--faint); opacity: 0; cursor: pointer; pointer-events: none; transition: opacity .12s;
-  vertical-align: middle; line-height: 1;
-}
-.paper-card:hover .author-profile-btn,
-.paper-card:hover .inst-profile-btn { opacity: 1; pointer-events: auto; }
-.author-profile-btn:hover, .inst-profile-btn:hover { color: var(--accent); }
 
 .rail-section { display: flex; flex-direction: column; gap: 9px; }
 .rail-section-title { margin: 0; color: var(--faint); font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
