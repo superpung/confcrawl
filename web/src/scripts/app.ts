@@ -12,7 +12,7 @@ const K_VGROUPS = 'confer.venueGroups';      // VenueGroup[] (series-level group
 const K_COLLECTIONS = 'confer.collections';  // Collection[] (paper collections)
 const K_TAGS = 'confer.paperTags';           // Record<paperKey, string[]>
 const K_NOTES = 'confer.paperNotes';         // Record<paperKey, string> — private notes
-const K_STATUS = 'confer.readStatus';        // Record<paperKey, 'reading'|'done'> — omit 'unread'
+const K_STATUS = 'confer.readStatus';        // Record<paperKey, 'toread'|'reading'|'done'> — omit 'unread'
 const K_SORT = 'confer.sort';               // last-used sort — local only, never synced
 const K_ACCENT = 'confer.accent';            // accent color key (e.g. "sage")
 const K_GH_TOKEN = 'confer.ghToken';         // GitHub gist-scoped access token
@@ -81,10 +81,15 @@ const ICONS = {
   extLink: '<svg style="width:12px;height:12px;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;display:inline-block;vertical-align:middle" viewBox="0 0 24 24" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>',
   refresh: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
   chevronDown: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>',
-  // reading-status icons (circle outline / half-filled dot / checkmark)
+  // reading-status icons (circle outline / half-filled dot / checkmark / bookmark+plus)
   statusUnread:  '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>',
+  statusToread:  '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><line x1="12" y1="8" x2="12" y2="14"/><line x1="9" y1="11" x2="15" y2="11"/></svg>',
   statusReading: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/></svg>',
   statusDone:    '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="8.5 12 11 14.5 15.5 9.5"/></svg>',
+  // find-similar icon (two overlapping circles = venn/similarity)
+  similar: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg>',
+  // "for you" / sparkle icon for the toolbar recommendation button
+  sparkle: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5z"/><path d="M5 3l.7 2.3L8 6l-2.3.7L5 9l-.7-2.3L2 6l2.3-.7z"/><path d="M19 16l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5-1.5-.5 1.5-.5z"/></svg>',
 };
 
 function readJson<T>(key: string, fallback: T): T {
@@ -284,7 +289,8 @@ const state = {
   tags: new Map<string, string[]>(Object.entries(readJson<Record<string, string[]>>(K_TAGS, {}))),
   notes: new Map<string, string>(Object.entries(readJson<Record<string, string>>(K_NOTES, {}))),
   status: new Map<string, string>(Object.entries(readJson<Record<string, string>>(K_STATUS, {}))),
-  statusFilter: '',                                          // '' = all, 'reading', 'done'
+  statusFilter: '',                                          // '' = all, 'toread', 'reading', 'done'
+  notesOnly: false,                                          // show only papers with notes
   sel: new Set<string>(),
   saved: readJson<SavedSearch[]>(K_SAVED, []),
   shown: PAGE,
@@ -305,17 +311,21 @@ function noteOf(k: string): string { return state.notes.get(k) ?? ''; }
 function saveNotes() {
   writeJson(K_NOTES, Object.fromEntries([...state.notes].filter(([, v]) => v)));
 }
-/** 'unread' is the implicit default — only 'reading' and 'done' are persisted. */
+/** 'unread' is the implicit default — 'toread', 'reading', 'done' are persisted. */
 function statusOf(k: string): string { return state.status.get(k) ?? 'unread'; }
 function saveStatus() {
   writeJson(K_STATUS, Object.fromEntries([...state.status].filter(([, v]) => v && v !== 'unread')));
 }
 const STATUS_ICONS: Record<string, string> = {
-  unread: ICONS.statusUnread, reading: ICONS.statusReading, done: ICONS.statusDone,
+  unread: ICONS.statusUnread, toread: ICONS.statusToread,
+  reading: ICONS.statusReading, done: ICONS.statusDone,
 };
-const STATUS_NEXT: Record<string, string> = { unread: 'reading', reading: 'done', done: 'unread' };
+const STATUS_NEXT: Record<string, string> = {
+  unread: 'toread', toread: 'reading', reading: 'done', done: 'unread',
+};
 const STATUS_TITLE: Record<string, string> = {
-  unread: 'Mark as reading',
+  unread: 'Mark as to read',
+  toread: 'Mark as reading (currently: to read)',
   reading: 'Mark as done (currently: reading)',
   done: 'Mark as unread (currently: done)',
 };
@@ -337,6 +347,7 @@ function readUrl() {
   (q.get('event') ?? '').split(',').filter(Boolean).forEach((e) => state.events.add(e));
   (q.get('tags') ?? '').split(',').filter(Boolean).forEach((t) => state.tagFilter.add(t));
   state.statusFilter = q.get('status') ?? '';
+  state.notesOnly = q.has('notes');
   (q.get('vf') ?? '').split(',').filter(Boolean).forEach((id) => state.venuesFacet.add(id));
   return !!v || q.has('q') || q.has('track');
 }
@@ -351,6 +362,7 @@ function writeUrl() {
   if (state.events.size) q.set('event', [...state.events].join(','));
   if (state.tagFilter.size) q.set('tags', [...state.tagFilter].join(','));
   if (state.statusFilter) q.set('status', state.statusFilter);
+  if (state.notesOnly) q.set('notes', '1');
   if (state.venuesFacet.size) q.set('vf', [...state.venuesFacet].join(','));
   const qs = q.toString();
   history.replaceState(null, '', qs ? `?${qs}` : location.pathname);
@@ -403,6 +415,7 @@ function matches(row: { p: Paper; v: string }): boolean {
   if (state.events.size && !eventList(p).some((e) => state.events.has(e))) return false;
   if (state.tagFilter.size && !tagsOf(key(v, p.id)).some((t) => state.tagFilter.has(t))) return false;
   if (state.statusFilter && statusOf(key(v, p.id)) !== state.statusFilter) return false;
+  if (state.notesOnly && !noteOf(key(v, p.id))) return false;
   if (!matchQuery(row, state.terms)) return false;
   return true;
 }
@@ -516,7 +529,7 @@ function cardHtml(p: Paper, v: string): string {
       ${doiHtml || pdfHtml || artifactHtml ? `<span class="meta-item meta-links"><strong>Links</strong>${doiHtml}${pdfHtml}${artifactHtml}</span>` : ''}
     </div>` : '';
   const noteHtml = note ? `<p class="disc-note"><strong>Note:</strong> ${esc(note)}</p>` : '';
-  const similarBtn = `<button class="text-btn text-btn--sm similar-btn" data-find-similar="${esc(k)}" type="button">Find similar</button>`;
+  const similarBtn = `<button class="icon-btn similar-btn" data-find-similar="${esc(k)}" type="button" title="Find similar papers (global search)" aria-label="Find similar papers">${ICONS.similar}</button>`;
   const discInner = noteHtml + (p.abstract ? `<p class="disc-text">${esc(p.abstract)}</p>` : '') + metaHtml + (p.abstract || hasMeta ? `<div class="disc-actions">${similarBtn}</div>` : '');
   // The title is the toggle: clicking it expands the disclosure, and the whole
   // card animates height via the grid-template-rows 0fr↔1fr trick. Papers with
@@ -530,15 +543,19 @@ function cardHtml(p: Paper, v: string): string {
     : '';
   return `<article class="paper-card${sel ? ' is-selected' : ''}" data-key="${esc(k)}">
     <span class="card-select"><input type="checkbox" data-sel ${sel ? 'checked' : ''} aria-label="Select"></span>
-    <div class="card-head">
-      <button class="venue-badge" data-venue-badge title="Filter results to ${esc(venue.name)} (click to toggle; use Filters panel to remove)">${esc(venue.name)}</button>
-      <span class="paper-id">${esc(p.id)}</span>
+    <div class="card-top">
+      <div class="card-head">
+        <button class="venue-badge" data-venue-badge title="Filter results to ${esc(venue.name)} (click to toggle; use Filters panel to remove)">${esc(venue.name)}</button>
+        <span class="paper-id">${esc(p.id)}</span>
+      </div>
+      <div class="card-actions">
+        <button class="icon-btn status-btn status-btn--${status}" data-status-cycle title="${STATUS_TITLE[status]}" aria-label="${STATUS_TITLE[status]}">${STATUS_ICONS[status]}</button>
+        <button class="icon-btn note-btn${note ? ' is-on' : ''}" data-note-edit title="${note ? `Note: ${esc(note)}` : 'Add a note'}" aria-label="Note">${ICONS.pencil}</button>
+        <button class="icon-btn collect-btn${collected ? ' is-on' : ''}" data-collect data-pop-anchor aria-pressed="${collected}" title="${collected ? 'In a collection — edit' : 'Add to a collection'}">${collected ? ICONS.bookmarkFilled : ICONS.bookmark}</button>
+      </div>
     </div>
     ${titleHtml}
     <p class="paper-authors">${authors}</p>
-    <button class="icon-btn status-btn status-btn--${status}" data-status-cycle title="${STATUS_TITLE[status]}" aria-label="${STATUS_TITLE[status]}">${STATUS_ICONS[status]}</button>
-    <button class="icon-btn note-btn${note ? ' is-on' : ''}" data-note-edit title="${note ? `Note: ${esc(note)}` : 'Add a note'}" aria-label="Note">${ICONS.pencil}</button>
-    <button class="icon-btn collect-btn${collected ? ' is-on' : ''}" data-collect data-pop-anchor aria-pressed="${collected}" title="${collected ? 'In a collection — edit' : 'Add to a collection'}">${collected ? ICONS.bookmarkFilled : ICONS.bookmark}</button>
     ${disc}
     <div class="chips${tags.length ? ' has-tags' : ''}">${tracks}${extra}${tagChips}${addTagBtn}</div>
     ${p.urls[0] ? `<a class="icon-btn program-link" href="${esc(p.urls[0])}" target="_blank" rel="noreferrer" title="Open program page" aria-label="Open program page">${ICONS.externalLink}</a>` : ''}
@@ -589,6 +606,7 @@ function renderActiveFilters() {
   state.venuesFacet.forEach((v) => add('venue', v, venueById.get(v)?.name ?? v));
   state.tagFilter.forEach((t) => add('tagfilter', t, `tag: ${t}`));
   if (state.statusFilter) add('statusfilter', state.statusFilter, `status: ${state.statusFilter}`);
+  if (state.notesOnly) add('notesonly', '', 'has notes');
   if (chips.length > 1) {
     chips.push('<button class="filter-clear" data-clear-filters type="button">Clear all</button>');
   }
@@ -602,6 +620,7 @@ function clearFilters() {
   state.venuesFacet.clear();
   state.tagFilter.clear();
   state.statusFilter = '';
+  state.notesOnly = false;
   state.shown = PAGE;
   writeUrl();
   render();
@@ -654,6 +673,7 @@ function renderRail(filtered: { p: Paper; v: string }[]) {
     });
     for (const t of new Set(p.tracks)) trackCount.set(t, (trackCount.get(t) ?? 0) + 1);
   }
+  const toreadN = filtered.filter((r) => statusOf(key(r.v, r.p.id)) === 'toread').length;
   const readingN = filtered.filter((r) => statusOf(key(r.v, r.p.id)) === 'reading').length;
   const doneN = filtered.filter((r) => statusOf(key(r.v, r.p.id)) === 'done').length;
   const stat = (n: number, label: string, cls = '') =>
@@ -662,40 +682,34 @@ function renderRail(filtered: { p: Paper; v: string }[]) {
     ${stat(filtered.length, plural(filtered.length, 'paper'))}
     ${stat(authorCount.size, plural(authorCount.size, 'author'))}
     ${stat(instCount.size, plural(instCount.size, 'institution'))}
+    ${toreadN ? stat(toreadN, 'to read', 'rail-stat--toread') : ''}
     ${readingN ? stat(readingN, 'reading', 'rail-stat--reading') : ''}
     ${doneN ? stat(doneN, 'done', 'rail-stat--done') : ''}
   </div>`;
   const netBtn = (mode: string, label: string) =>
     `<button class="rail-net-btn" data-open-network="${mode}" title="${label}" aria-label="${label}">${ICONS.network}</button>`;
-  // "For you" recommendations — shown only when the user has saved papers
-  const hasSaved = state.collections.some((c) => c.keys.length > 0) ||
-    state.tags.size > 0 || state.status.size > 0;
-  const forYouHtml = hasSaved
-    ? `<section class="rail-section">
-        <div class="rail-section-head"><h3 class="rail-section-title">For you</h3></div>
-        <button class="text-btn text-btn--sm" data-open-recommend type="button" style="margin-bottom:2px">Show recommendations</button>
-      </section>`
-    : '';
   els.railBody.innerHTML =
     summary +
-    forYouHtml +
     barChart('Top institutions', instCount, 'inst', 8, { action: netBtn('inst', 'Institution network') }) +
     barChart('Top authors', authorCount, 'author', 8, { label: (k) => railAuthorName.get(k) ?? k, action: netBtn('author', 'Co-author network') }) +
     barChart('Top tracks', trackCount, 'track', 6);
 }
 
-// --- similar-papers modal (mini-card renderer, shared with openSimilarModal) ---
+// --- similar-papers / recommend modal renderer ---
 function miniCardHtml(p: Paper, v: string): string {
   const venue = venueById.get(v)!;
   const k = key(v, p.id);
   const note = noteOf(k);
   const status = statusOf(k);
   const statusCls = status !== 'unread' ? ` mini-card--${status}` : '';
+  const authorBtns = p.authors.slice(0, 5).map((a) =>
+    `<button class="mini-author" data-mini-author="${esc(a)}" type="button">${esc(a)}</button>`
+  ).join(', ') + (p.authors.length > 5 ? ` +${p.authors.length - 5}` : '');
   return `<div class="mini-card${statusCls}">
-    <button class="venue-badge" data-mini-venue="${esc(v)}">${esc(venue.name)}</button>
+    <button class="venue-badge" data-mini-venue="${esc(v)}" type="button">${esc(venue.name)}</button>
     <div class="mini-card-body">
-      <p class="mini-card-title">${esc(p.title)}</p>
-      <p class="mini-card-authors">${esc(p.authors.slice(0, 5).join(', '))}${p.authors.length > 5 ? ` +${p.authors.length - 5}` : ''}</p>
+      <button class="mini-card-title-btn" data-mini-search="${esc(p.title)}" type="button">${esc(p.title)}</button>
+      <p class="mini-card-authors">${authorBtns}</p>
       ${note ? `<p class="mini-card-note">${esc(note)}</p>` : ''}
     </div>
   </div>`;
@@ -866,6 +880,7 @@ function render() {
   reflectCollectionFilter();
   reflectTagFilter();
   reflectStatusFilter();
+  reflectNotesFilter();
 
   if (!state.selected.size) {
     els.list.innerHTML = `<div class="empty-state"><h2>No venues selected</h2><p>Pick one or more venues from the left to browse their papers.</p></div>`;
@@ -1157,6 +1172,99 @@ function settleConfirm(value: boolean) {
   resolve(value);
 }
 
+// --- note dialog (custom preview/edit modal for per-paper notes) ------
+let noteDlgKey = '';  // paper key currently open in the note dialog
+
+function openNoteDialog(k: string) {
+  closePop();
+  noteDlgKey = k;
+  const note = noteOf(k);
+  if (note) {
+    showNoteDlgPreview(note);
+  } else {
+    showNoteDlgEdit('');
+  }
+  $('#noteDialog').hidden = false;
+}
+
+function showNoteDlgPreview(text: string) {
+  $('#noteDialogPreview').hidden = false;
+  $('#noteDialogEditMode').hidden = true;
+  $('#noteDialogText').textContent = text;
+}
+
+function showNoteDlgEdit(text: string) {
+  $('#noteDialogPreview').hidden = true;
+  $('#noteDialogEditMode').hidden = false;
+  const ta = $<HTMLTextAreaElement>('#noteDialogTextarea');
+  ta.value = text;
+  updateNoteDlgChar(text.length);
+  setTimeout(() => { ta.focus(); ta.setSelectionRange(text.length, text.length); }, 20);
+}
+
+function updateNoteDlgChar(len: number) {
+  const el = document.querySelector<HTMLElement>('#noteDialogChar');
+  if (el) el.textContent = `${len} / 500`;
+}
+
+function updateNoteCardInPlace(k: string, clean: string) {
+  const card = document.querySelector<HTMLElement>(`.paper-card[data-key="${CSS.escape(k)}"]`);
+  if (!card) return;
+  const btn = card.querySelector<HTMLElement>('[data-note-edit]');
+  if (btn) {
+    btn.classList.toggle('is-on', !!clean);
+    btn.title = clean ? `Note: ${clean}` : 'Add a note';
+  }
+  const discInner = card.querySelector<HTMLElement>('.disc-inner');
+  if (discInner) {
+    const existing = discInner.querySelector<HTMLElement>('.disc-note');
+    if (clean) {
+      if (existing) existing.innerHTML = `<strong>Note:</strong> ${esc(clean)}`;
+      else {
+        const el = document.createElement('p');
+        el.className = 'disc-note';
+        el.innerHTML = `<strong>Note:</strong> ${esc(clean)}`;
+        discInner.insertBefore(el, discInner.firstChild);
+      }
+    } else if (existing) {
+      existing.remove();
+    }
+  }
+}
+
+function settleNoteDlg(action: 'save' | 'delete' | 'cancel' | 'close') {
+  const k = noteDlgKey;
+  if (!k) { $('#noteDialog').hidden = true; return; }
+  if (action === 'save') {
+    const ta = $<HTMLTextAreaElement>('#noteDialogTextarea');
+    const clean = ta.value.trim();
+    if (clean) state.notes.set(k, clean); else state.notes.delete(k);
+    saveNotes();
+    updateNoteCardInPlace(k, clean);
+    reflectNotesFilter();
+    noteDlgKey = '';
+    $('#noteDialog').hidden = true;
+  } else if (action === 'delete') {
+    state.notes.delete(k);
+    saveNotes();
+    updateNoteCardInPlace(k, '');
+    reflectNotesFilter();
+    noteDlgKey = '';
+    $('#noteDialog').hidden = true;
+  } else if (action === 'cancel') {
+    // If there was a pre-existing note and we're in edit mode, go back to preview
+    const note = noteOf(k);
+    if (note) { showNoteDlgPreview(note); return; }
+    // No pre-existing note → just close
+    noteDlgKey = '';
+    $('#noteDialog').hidden = true;
+  } else {
+    // close
+    noteDlgKey = '';
+    $('#noteDialog').hidden = true;
+  }
+}
+
 // Collection picker for a paper key.
 function openCollectPop(anchor: HTMLElement, k: string) {
   const render = () => {
@@ -1394,7 +1502,7 @@ function reflectStatusFilter() {
   if (!btn) return;
   const hasAny = state.rows.some((r) => {
     const s = statusOf(key(r.v, r.p.id));
-    return s === 'reading' || s === 'done';
+    return s === 'toread' || s === 'reading' || s === 'done';
   });
   btn.hidden = !hasAny;
   btn.setAttribute('aria-expanded', String(!popEl.hidden && popAnchor === btn));
@@ -1407,13 +1515,14 @@ function reflectStatusFilter() {
 }
 
 function openStatusFilterPop(anchor: HTMLElement) {
-  const counts: Record<string, number> = { reading: 0, done: 0 };
+  const counts: Record<string, number> = { toread: 0, reading: 0, done: 0 };
   for (const { p, v } of state.rows) {
     const s = statusOf(key(v, p.id));
-    if (s === 'reading' || s === 'done') counts[s]++;
+    if (s in counts) counts[s]++;
   }
   const buildHtml = () => {
     const opts: { val: string; label: string }[] = [
+      { val: 'toread', label: 'To read' },
       { val: 'reading', label: 'Reading' },
       { val: 'done', label: 'Done' },
     ].filter((o) => counts[o.val] > 0);
@@ -1430,6 +1539,15 @@ function openStatusFilterPop(anchor: HTMLElement) {
       state.shown = PAGE; writeUrl(); render(); paintPop();
     }
   });
+}
+
+/** Sync the Notes filter button (visibility + active state). */
+function reflectNotesFilter() {
+  const btn = document.querySelector<HTMLElement>('#notesFilterBtn');
+  if (!btn) return;
+  btn.hidden = state.notes.size === 0;
+  btn.classList.toggle('is-active', state.notesOnly);
+  btn.setAttribute('aria-pressed', String(state.notesOnly));
 }
 
 // --- toast -------------------------------------------------------------
@@ -2618,6 +2736,7 @@ function setQuery(q: string) {
 function closeModals() {
   if (promptResolver) settlePrompt(null);
   if (confirmResolver) settleConfirm(false);
+  noteDlgKey = '';
   document.querySelectorAll<HTMLElement>('.modal').forEach((m) => { m.hidden = true; });
   closePop();
   stopNetwork();
@@ -2845,6 +2964,42 @@ function wire() {
       else openStatusFilterPop(statusFilterBtn);
     });
   }
+  // Notes filter toggle (show only papers with notes)
+  const notesFilterBtn = document.querySelector<HTMLElement>('#notesFilterBtn');
+  if (notesFilterBtn) {
+    notesFilterBtn.addEventListener('click', () => {
+      state.notesOnly = !state.notesOnly;
+      state.shown = PAGE;
+      writeUrl();
+      render();
+      reflectNotesFilter();
+    });
+  }
+  // "For you" toolbar button — global recommendations
+  document.body.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('[data-open-recommend]')) {
+      ensureAllLoaded().then(() => {
+        openRecommendModal('For you — recommended papers', recommendGlobal(40));
+      });
+    }
+  });
+
+  // Note dialog buttons
+  $<HTMLButtonElement>('#noteDialogClose').addEventListener('click', () => settleNoteDlg('close'));
+  $<HTMLButtonElement>('#noteDialogEditBtn').addEventListener('click', () => showNoteDlgEdit(noteOf(noteDlgKey)));
+  $<HTMLButtonElement>('#noteDialogDeleteBtn').addEventListener('click', () => settleNoteDlg('delete'));
+  $<HTMLButtonElement>('#noteDialogSaveBtn').addEventListener('click', () => settleNoteDlg('save'));
+  $<HTMLButtonElement>('#noteDialogCancelBtn').addEventListener('click', () => settleNoteDlg('cancel'));
+  $<HTMLTextAreaElement>('#noteDialogTextarea').addEventListener('input', (e) => {
+    updateNoteDlgChar((e.target as HTMLTextAreaElement).value.length);
+  });
+  $('#noteDialog').addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape') settleNoteDlg('close');
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) settleNoteDlg('save');
+  });
+  $('#noteDialog').addEventListener('click', (e: MouseEvent) => {
+    if (e.target === document.getElementById('noteDialog')) settleNoteDlg('close');
+  });
 
   // facets toggle + changes
   $('[data-facets-toggle]').addEventListener('click', (e) => {
@@ -2878,6 +3033,7 @@ function wire() {
     const kind = btn.dataset.kind;
     if (kind === 'query') { state.query = ''; }
     else if (kind === 'statusfilter') { state.statusFilter = ''; }
+    else if (kind === 'notesonly') { state.notesOnly = false; reflectNotesFilter(); }
     else {
       const set = kind === 'track' ? state.tracks : kind === 'event' ? state.events : kind === 'tagfilter' ? state.tagFilter : state.venuesFacet;
       set.delete(btn.dataset.val ?? '');
@@ -2917,34 +3073,7 @@ function wire() {
       }
       reflectStatusFilter();
     } else if (noteEdit) {
-      askText({ title: 'Paper note', value: noteOf(k), placeholder: 'Add a private note…', max: 500, ok: 'Save' }).then((v) => {
-        if (v === null) return; // cancelled
-        const clean = v.trim();
-        if (clean) state.notes.set(k, clean); else state.notes.delete(k);
-        saveNotes();
-        // Targeted in-place note update
-        const btn = card.querySelector<HTMLElement>('[data-note-edit]');
-        if (btn) {
-          btn.classList.toggle('is-on', !!clean);
-          btn.title = clean ? `Note: ${clean}` : 'Add a note';
-        }
-        // Update the note text inside the disclosure if it's open
-        const discInner = card.querySelector<HTMLElement>('.disc-inner');
-        if (discInner) {
-          let existing = discInner.querySelector<HTMLElement>('.disc-note');
-          if (clean) {
-            if (existing) existing.innerHTML = `<strong>Note:</strong> ${esc(clean)}`;
-            else {
-              const el = document.createElement('p');
-              el.className = 'disc-note';
-              el.innerHTML = `<strong>Note:</strong> ${esc(clean)}`;
-              discInner.insertBefore(el, discInner.firstChild);
-            }
-          } else if (existing) {
-            existing.remove();
-          }
-        }
-      });
+      openNoteDialog(k);
     } else if (collectBtn) {
       if (popAnchor === collectBtn && !popEl.hidden) closePop();
       else openCollectPop(collectBtn, k);
@@ -2962,7 +3091,9 @@ function wire() {
       state.shown = PAGE; writeUrl(); render();
     } else if (target.closest('[data-find-similar]')) {
       const fk = (target.closest('[data-find-similar]') as HTMLElement).dataset.findSimilar!;
-      openSimilarModal('Similar papers', similarTo(fk, 10));
+      ensureAllLoaded().then(() => {
+        openRecommendModal('Similar papers', similarGlobal(fk, 30));
+      });
     } else if (target.closest('[data-inst]')) {
       setQuery(`inst:"${(target.closest('[data-inst]') as HTMLElement).dataset.inst!}"`);
     } else if (target.closest('[data-author]')) {
@@ -3078,6 +3209,33 @@ function wire() {
         setQuery(`venue:"${ser}"`);
         return;
       }
+      // Title click → search by title
+      const titleBtn = t.closest<HTMLElement>('[data-mini-search]');
+      if (titleBtn) {
+        closeModals();
+        setQuery(titleBtn.dataset.miniSearch!);
+        return;
+      }
+      // Author click → author search
+      const authorBtn = t.closest<HTMLElement>('[data-mini-author]');
+      if (authorBtn) {
+        closeModals();
+        setQuery(`author:"${authorBtn.dataset.miniAuthor!}"`);
+        return;
+      }
+      // Recommend panel filter/sort controls
+      const venueChip = t.closest<HTMLElement>('[data-rec-venue]');
+      if (venueChip) {
+        recPanelState.venueFilter = venueChip.dataset.recVenue!;
+        renderRecPanel(entityBodyEl);
+        return;
+      }
+      const sortBtn = t.closest<HTMLElement>('[data-rec-sort]');
+      if (sortBtn) {
+        recPanelState.sort = sortBtn.dataset.recSort as 'sim' | 'year' | 'title';
+        renderRecPanel(entityBodyEl);
+        return;
+      }
     });
   }
 
@@ -3102,12 +3260,6 @@ function wire() {
   els.railBody.addEventListener('click', (e) => {
     const netBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-open-network]');
     if (netBtn) { openNetwork(netBtn.dataset.openNetwork === 'inst' ? 'inst' : 'author'); return; }
-    const recBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-open-recommend]');
-    if (recBtn) {
-      const recs = recommendFromSaved(12);
-      openSimilarModal('For you — recommended papers', recs);
-      return;
-    }
     const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-chart]');
     if (!btn) return;
     const kind = btn.dataset.chart!;
@@ -3366,6 +3518,185 @@ function openSimilarModal(title: string, rows: { p: Paper; v: string; score: num
   modal.hidden = false;
 }
 
+// --- global corpus TF-IDF (separate from the in-view index) -----------
+// Uses p._gvec instead of p._vec; built lazily after ensureAllLoaded().
+let _globalTfidfBuilt = false;
+let _globalIdf = new Map<string, number>();
+
+function allLoadedRows(): { p: Paper; v: string }[] {
+  const rows: { p: Paper; v: string }[] = [];
+  for (const [vid, papers] of state.loaded) {
+    const v = venueById.get(vid);
+    if (!v) continue;
+    for (const p of papers) rows.push({ p, v: vid });
+  }
+  return rows;
+}
+
+async function ensureAllLoaded(): Promise<void> {
+  await ensureLoaded(manifest.map((v) => v.id));
+  _globalTfidfBuilt = false; // invalidate when corpus grows
+}
+
+function buildGlobalTfidf() {
+  if (_globalTfidfBuilt) return;
+  _globalTfidfBuilt = true;
+  const allRows = allLoadedRows();
+  const docCount = allRows.length;
+  if (!docCount) return;
+  const df = new Map<string, number>();
+  for (const { p } of allRows) {
+    const focused = `${p.title} ${p.abstract} ${(p.keywords ?? []).join(' ')} ${p.tracks.join(' ')}`;
+    const terms = new Set(tfidfTokenize(focused));
+    for (const t of terms) df.set(t, (df.get(t) ?? 0) + 1);
+  }
+  _globalIdf = new Map([...df.entries()].map(([t, d]) => [t, Math.log((docCount + 1) / (d + 1))]));
+  for (const { p } of allRows) {
+    const pp = p as Paper & { _gvec?: Map<string, number> };
+    if (pp._gvec) continue;
+    const focused = `${p.title} ${p.abstract} ${(p.keywords ?? []).join(' ')} ${p.tracks.join(' ')}`;
+    const tokens = tfidfTokenize(focused);
+    if (!tokens.length) { pp._gvec = new Map(); continue; }
+    const tf = new Map<string, number>();
+    for (const t of tokens) tf.set(t, (tf.get(t) ?? 0) + 1);
+    const vec = new Map<string, number>();
+    let norm = 0;
+    for (const [t, c] of tf) {
+      const w = (c / tokens.length) * (_globalIdf.get(t) ?? 0);
+      if (w > 0) { vec.set(t, w); norm += w * w; }
+    }
+    norm = Math.sqrt(norm) || 1;
+    for (const [t, w] of vec) vec.set(t, w / norm);
+    pp._gvec = vec;
+  }
+}
+
+function similarGlobal(paperKey: string, n = 30): { p: Paper; v: string; score: number }[] {
+  buildGlobalTfidf();
+  const allRows = allLoadedRows();
+  const target = allRows.find((r) => key(r.v, r.p.id) === paperKey);
+  if (!target) return [];
+  const vec = (target.p as Paper & { _gvec?: Map<string, number> })._gvec;
+  if (!vec || !vec.size) return [];
+  return allRows
+    .filter((r) => key(r.v, r.p.id) !== paperKey)
+    .map((r) => ({
+      ...r,
+      score: cosine(vec, (r.p as Paper & { _gvec?: Map<string, number> })._gvec ?? new Map()),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, n)
+    .filter((x) => x.score > 0);
+}
+
+function recommendGlobal(n = 40): { p: Paper; v: string; score: number }[] {
+  buildGlobalTfidf();
+  const savedKeys = new Set<string>();
+  for (const c of state.collections) c.keys.forEach((k2) => savedKeys.add(k2));
+  for (const [k2] of state.tags) savedKeys.add(k2);
+  for (const [k2] of state.status) savedKeys.add(k2);
+  for (const [k2] of state.notes) savedKeys.add(k2);
+  if (!savedKeys.size) return [];
+  const allRows = allLoadedRows();
+  const profile = new Map<string, number>();
+  let savedCount = 0;
+  for (const paperKey of savedKeys) {
+    const row = allRows.find((r) => key(r.v, r.p.id) === paperKey);
+    if (!row) continue;
+    const vec = (row.p as Paper & { _gvec?: Map<string, number> })._gvec ?? new Map();
+    for (const [t, w] of vec) profile.set(t, (profile.get(t) ?? 0) + w);
+    savedCount++;
+  }
+  if (!savedCount) return [];
+  for (const [t, w] of profile) profile.set(t, w / savedCount);
+  let pnorm = 0;
+  for (const w of profile.values()) pnorm += w * w;
+  pnorm = Math.sqrt(pnorm) || 1;
+  for (const [t, w] of profile) profile.set(t, w / pnorm);
+  return allRows
+    .filter((r) => !savedKeys.has(key(r.v, r.p.id)))
+    .map((r) => ({
+      ...r,
+      score: cosine(profile, (r.p as Paper & { _gvec?: Map<string, number> })._gvec ?? new Map()),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, n)
+    .filter((x) => x.score > 0);
+}
+
+// --- global recommend modal (categorised by venue, with filter + sort) ----
+const recPanelState = {
+  rows: [] as { p: Paper; v: string; score: number }[],
+  venueFilter: '',          // series name or '' = all
+  sort: 'sim' as 'sim' | 'year' | 'title',
+};
+
+function renderRecPanel(bodyEl: HTMLElement) {
+  const rows = recPanelState.rows;
+  const allSeries = [...new Set(rows.map((r) => venueById.get(r.v)?.series ?? r.v))].sort();
+  let filtered = recPanelState.venueFilter
+    ? rows.filter((r) => (venueById.get(r.v)?.series ?? r.v) === recPanelState.venueFilter)
+    : rows;
+  if (recPanelState.sort === 'year') {
+    filtered = [...filtered].sort((a, b) => {
+      const ya = venueById.get(a.v)?.year ?? 0;
+      const yb = venueById.get(b.v)?.year ?? 0;
+      return (yb - ya) || b.score - a.score;
+    });
+  } else if (recPanelState.sort === 'title') {
+    filtered = [...filtered].sort((a, b) => a.p.title.localeCompare(b.p.title));
+  }
+  // Group by venue series (maintain sort order within each group)
+  const groups = new Map<string, { p: Paper; v: string; score: number }[]>();
+  for (const row of filtered) {
+    const series = venueById.get(row.v)?.series ?? row.v;
+    if (!groups.has(series)) groups.set(series, []);
+    groups.get(series)!.push(row);
+  }
+  const venueChips = ['', ...allSeries].map((s) =>
+    `<button class="rec-venue-chip${recPanelState.venueFilter === s ? ' is-active' : ''}" data-rec-venue="${esc(s)}" type="button">${esc(s || 'All')}</button>`
+  ).join('');
+  const SORT_LABELS: Record<string, string> = { sim: 'Similarity', year: 'Year', title: 'Title' };
+  const sortBtns = (['sim', 'year', 'title'] as const).map((s) =>
+    `<button class="rec-sort-opt${recPanelState.sort === s ? ' is-active' : ''}" data-rec-sort="${s}" type="button">${SORT_LABELS[s]}</button>`
+  ).join('');
+  const groupHtml = [...groups.entries()].map(([series, cards]) =>
+    `<div class="rec-venue-group">
+      <h3 class="rec-venue-head">${esc(series)} <span class="rec-venue-count">${cards.length}</span></h3>
+      <div class="mini-card-list">${cards.map((r) => miniCardHtml(r.p, r.v)).join('')}</div>
+    </div>`
+  ).join('');
+  bodyEl.innerHTML = `
+    <div class="rec-controls">
+      <div class="rec-filter-row">
+        <span class="rec-label">Venue</span>
+        <div class="rec-venue-chips">${venueChips}</div>
+      </div>
+      <div class="rec-filter-row">
+        <span class="rec-label">Sort</span>
+        <div class="rec-sort-opts">${sortBtns}</div>
+      </div>
+    </div>
+    <div class="rec-results">${groupHtml || '<p class="rail-empty">No papers match the filter.</p>'}</div>`;
+}
+
+function openRecommendModal(title: string, rows: { p: Paper; v: string; score: number }[]) {
+  const modal = document.querySelector<HTMLElement>('#entityModal');
+  const titleEl = document.querySelector<HTMLElement>('#entityTitle');
+  const bodyEl = document.querySelector<HTMLElement>('#entityBody');
+  if (!modal || !titleEl || !bodyEl) return;
+  titleEl.textContent = title;
+  recPanelState.rows = rows;
+  recPanelState.venueFilter = '';
+  recPanelState.sort = 'sim';
+  if (!rows.length) {
+    bodyEl.innerHTML = '<p class="rail-empty">No recommendations available. Save or tag some papers first, then try again.</p>';
+  } else {
+    renderRecPanel(bodyEl);
+  }
+  modal.hidden = false;
+}
+
 // --- init --------------------------------------------------------------
 // Fill the footer's "Built … ago" with a relative time computed at view time
 // (build-time would freeze it). The exact timestamp stays in the title tooltip.
@@ -3419,6 +3750,7 @@ function init() {
   reflectCollectionFilter();
   reflectTagFilter();
   reflectStatusFilter();
+  reflectNotesFilter();
   renderSettings();
   ensureLoaded([...state.selected]).then(() => { render(); });
 }

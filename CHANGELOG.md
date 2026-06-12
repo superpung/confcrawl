@@ -9,19 +9,28 @@ Entries are user-facing; implementation details belong in commit messages.
 ## [Unreleased]
 
 ### Added
-- Per-paper **reading status**: cycle cards between Unread / Reading / Done with a
-  status icon; filter the result list to any status via the active-filters bar
-  (`?status=reading` / `?status=done`). Status is synced to GitHub Gist like tags.
-- Per-paper **private notes**: add freeform text to any paper; notes appear in the
-  expanded card below the abstract and are persisted and synced across devices.
-- Reading progress summary in the Insights rail: "N reading · N done" stats with
-  color-coded indicators.
-- **"Find similar" per paper**: open a paper's abstract, then click "Find similar"
-  to get a ranked list of topically-related papers computed on the fly with
-  client-side TF-IDF cosine similarity. Runs lazily — no work at page load.
-- **"For you" recommendations** in the Insights rail: when you have saved/tagged
-  papers, a "For you" section appears showing papers most similar to your
-  collection, excluding already-saved papers.
+- Per-paper **reading status**: 4-state cycle on the card — None → To read →
+  Reading → Done; filter the list to any status from the controls bar
+  (`?status=toread` / `?status=reading` / `?status=done`). Status is synced to
+  GitHub Gist. Rapid multi-paper toggles coalesce into a single sync push.
+- **Card action layout**: status / note / bookmark sit in a horizontal icon row
+  at the top-right of each card, eliminating the old vertical overlap with the
+  "open program page" link at the bottom-right.
+- Per-paper **private notes**: dedicated preview/edit dialog — shows note in
+  read-only preview mode when a note exists; drops straight into edit mode for
+  new notes. Includes Edit, Delete, Save, and Cancel actions. Notes synced to
+  GitHub Gist across devices.
+- **"Has notes" filter**: a Notes toggle in the controls bar filters the list to
+  only papers with notes (`?notes=1`); a removable active-filter chip appears
+  in the filter bar.
+- Reading progress stats in the Insights rail now include a "to read" count
+  alongside reading / done.
+- **"Find similar"** per paper: icon button in the expanded abstract opens a
+  global corpus search (all venues loaded on demand) with results grouped by
+  venue and sortable by similarity / year / title.
+- **"For you" recommendations**: toolbar button loads papers from the full corpus
+  and recommends them based on the user's saved / tagged / noted / status-marked
+  papers, grouped by venue with venue filter and sort controls.
 - Latest AI/ML, NLP, and NDSS paper datasets are now included in the site.
 - Theme auto mode: toggle now cycles light → dark → auto; auto follows the OS
   `prefers-color-scheme` live (page reacts immediately when the OS switches).

@@ -84,7 +84,7 @@ export interface SettingsBundle {
   savedSearches?: SavedSearch[];
   /** Per-paper private notes, keyed "venueId:paperId". */
   paperNotes?: Record<string, string>;
-  /** Per-paper reading status, keyed "venueId:paperId". Values: 'reading'|'done'. */
+  /** Per-paper reading status, keyed "venueId:paperId". Values: 'toread'|'reading'|'done'. */
   readStatus?: Record<string, string>;
 }
 
