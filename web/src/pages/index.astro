@@ -1,6 +1,7 @@
 ---
 import { execSync } from 'node:child_process';
 import Layout from '../layouts/Layout.astro';
+import pkg from '../../package.json';
 import { loadVenues, groupByCategory, totalPaperCount, loadGeneratedAt } from '../lib/data';
 import '../styles/global.css';
 
@@ -16,6 +17,8 @@ if (!commit) {
 }
 const shortHash = commit ? commit.slice(0, 7) : '';
 const commitUrl = commit ? `${REPO_URL}/commit/${commit}` : REPO_URL;
+const version = pkg.version;
+const versionUrl = `${REPO_URL}/releases/tag/v${version}`;
 
 const generatedAt = loadGeneratedAt();
 const updatedLabel = generatedAt
@@ -124,7 +127,11 @@ const year = new Date().getFullYear();
           {shortHash && (
             <a class="foot-hash" href={commitUrl} target="_blank" rel="noreferrer" title="View this commit">{shortHash}</a>
           )}
-          {shortHash && generatedAt && <span class="foot-sep" aria-hidden="true">·</span>}
+          {shortHash && version && <span class="foot-sep" aria-hidden="true">·</span>}
+          {version && (
+            <a class="foot-version" href={versionUrl} target="_blank" rel="noreferrer" title="View this release">v{version}</a>
+          )}
+          {(version || shortHash) && generatedAt && <span class="foot-sep" aria-hidden="true">·</span>}
           {generatedAt && (
             <time class="foot-built" datetime={generatedAt} title={builtExact} data-built>Built {updatedLabel}</time>
           )}

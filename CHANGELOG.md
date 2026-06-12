@@ -6,15 +6,7 @@ Entries are user-facing; implementation details belong in commit messages.
 
 ---
 
-## [Unreleased]
-
-### Changed
-- **History expand button** now matches the sidebar collapse pattern: the chevron
-  swaps between ▾ and ▴ on toggle instead of rotating, and the button is sized to
-  match the adjacent Restore button for a visually level row.
-- **Unified warning color token** (`--danger`): Sign out, Clear local data, delete
-  hovers, confirm-dialog danger buttons, error text, and del-chips all share one
-  canonical red in both light and dark themes.
+## [1.0.0] - 2026-06-12
 
 ### Added
 - **Config version history**: a full-screen "Config history" view (accessible via
@@ -35,8 +27,6 @@ Entries are user-facing; implementation details belong in commit messages.
 - **Topic trend chart** at the bottom of the Insights rail: top-5 tracks plotted
   as a multi-line SVG chart across the selected venue editions (requires ≥ 2
   distinct years); click the expand button to open an enlarged view in a modal.
-
-
 - Per-paper **reading status**: 4-state cycle on the card — None → To read →
   Reading → Done; filter the list to any status from the controls bar
   (`?status=toread` / `?status=reading` / `?status=done`). Status is synced to
@@ -58,6 +48,15 @@ Entries are user-facing; implementation details belong in commit messages.
 - **"For you" recommendations**: toolbar button loads papers from the full corpus
   and recommends them based on the user's saved / tagged / noted / status-marked
   papers, grouped by venue with venue filter and sort controls.
+- **"For you" and "Find similar" inline actions**: select papers with per-row
+  checkboxes (plus select-all / select-none), then bulk-add to a collection; each
+  row also has inline reading-status, note, collection, and tag buttons.
+- **Search bar field-aware mode**: recognised field prefixes (`author:`, `title:`,
+  `inst:`, etc.) are highlighted in accent colour; typing a partial field name
+  (e.g. `au`) shows a dim ghost completion, and **Tab** inserts it; a full-width
+  colon `：` and trailing spaces after the colon are auto-normalised to `field:`
+  (Chinese IME protected); search debounce is longer while a field name is being
+  typed to reduce mid-keystroke queries.
 - Latest AI/ML, NLP, and NDSS paper datasets are now included in the site.
 - Theme auto mode: toggle now cycles light → dark → auto; auto follows the OS
   `prefers-color-scheme` live (page reacts immediately when the OS switches).
@@ -80,24 +79,13 @@ Entries are user-facing; implementation details belong in commit messages.
   showing a spurious conflict modal.
 - `CHANGELOG.md` (this file) and a changelog convention in `AGENTS.md`.
 
-### Added
-- "For you" and "Find similar" panel rows are now actionable: select papers with
-  per-row checkboxes (plus select-all / select-none), then bulk-add all checked
-  papers to a collection; each row also has inline reading-status, note,
-  collection, and tag buttons, vertically centred in the row.
-- Search bar field-aware mode: recognised field prefixes (`author:`, `title:`,
-  `inst:`, etc.) are highlighted in accent colour; typing a partial field name
-  (e.g. `au`) shows a dim ghost completion, and **Tab** inserts it; a full-width
-  colon `：` and trailing spaces after the colon are auto-normalised to `field:`
-  (Chinese IME protected); search debounce is longer while a field name is being
-  typed to reduce mid-keystroke queries.
-
-### Fixed
-- Global search text was invisible after Segment 4's field-highlight overlay was
-  added (opaque input painted over the overlay; fixed by moving the border/bg to
-  the wrapper so the overlay stays visible below the transparent input).
-
 ### Changed
+- **History expand button** now matches the sidebar collapse pattern: the chevron
+  swaps between ▾ and ▴ on toggle instead of rotating, and the button is sized to
+  match the adjacent Restore button for a visually level row.
+- **Unified warning color token** (`--danger`): Sign out, Clear local data, delete
+  hovers, confirm-dialog danger buttons, error text, and del-chips all share one
+  canonical red in both light and dark themes.
 - Topic trend chart folded into the **Top tracks** Insights section as a chart
   button (matching the network buttons on institutions / authors); no separate
   "Topic trends" section in the rail.
@@ -146,6 +134,9 @@ Entries are user-facing; implementation details belong in commit messages.
 - Removing a series from a venue group in Settings now asks for confirmation.
 
 ### Fixed
+- Global search text was invisible after Segment 4's field-highlight overlay was
+  added (opaque input painted over the overlay; fixed by moving the border/bg to
+  the wrapper so the overlay stays visible below the transparent input).
 - Scroll-seam fade masks now appear only when content actually overflows, and only
   on the edge with hidden content — short lists and unscrolled tops show no phantom
   gradient (popovers, sidebar facets, Settings body, For-you / Find-similar panel).
@@ -179,7 +170,6 @@ Entries are user-facing; implementation details belong in commit messages.
   (theme/accent are not part of the synced bundle).
 - Page load with a saved accent no longer briefly shows "Pending" for a logged-in
   user who has no actual pending changes.
-
 ---
 
 ## [2026-06-10]

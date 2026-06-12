@@ -316,6 +316,11 @@ html.is-rail-collapsed { --col-right: 0; }
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 .foot-hash:hover { color: var(--accent); }
+.foot-version {
+  color: var(--muted); font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.foot-version:hover { color: var(--accent); }
 .foot-copy { margin: 0; }
 .foot-copy a { color: inherit; }
 .foot-copy a:hover { color: var(--accent); }
