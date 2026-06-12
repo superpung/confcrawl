@@ -41,17 +41,27 @@ without any account.
   pull up every paper from that institution. Same-name authors are disambiguated in
   analytics and networks.
 - 📊 **Insights panel.** Live charts of the top institutions, authors, and tracks for
-  whatever is currently in view — click any bar to drill in.
+  whatever is currently in view — click any bar to drill in. Open the topic-trend
+  chart to see how tracks rise and fall across editions.
 - 🕸 **Relationship networks.** Explore co-author and institution networks for the
   current result set.
 - ⭐ **Groups, collections & tags.** Build custom venue groups (series-level), file
   papers into named collections, tag papers freely, and save filter sets to return to
-  later. Everything is local and exportable from a settings panel.
+  later. Everything is local and exportable — see your whole library at a glance from
+  the settings panel.
+- 📖 **Reading status & notes.** Mark papers to-read / reading / done and attach
+  private notes; filter to any status or to noted papers. Status and notes sync
+  across devices when signed in.
+- 🔍 **Find similar & "For you".** Open any paper's abstract to find related papers
+  from the entire corpus. The "For you" toolbar button recommends papers based on
+  what you've saved, tagged, or noted — act on results inline or bulk-add to a
+  collection.
 - 📤 **Selection & export.** Select papers from the list, then copy BibTeX or download
   CSV with DOI and publication metadata.
 - 🔗 **Share & sync.** Share a collection or your whole setup with a link. Or sign in
   with GitHub to sync everything across devices automatically — stored in a private
-  gist only you can reach. No account needed; sync is opt-in.
+  gist only you can reach. Review the full config version history and roll back to
+  any earlier revision. No account needed; sync is opt-in.
 - ⚡ **Fast & private.** A single pre-rendered page; all filtering happens client-side.
   Light/dark themes with accent colors, keyboard shortcuts (`⌘K`, `⌘/`), and a
   responsive mobile layout.

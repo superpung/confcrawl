@@ -816,12 +816,15 @@ function renderRail(filtered: { p: Paper; v: string }[]) {
   </div>`;
   const netBtn = (mode: string, label: string) =>
     `<button class="rail-net-btn" data-open-network="${mode}" title="${label}" aria-label="${label}">${ICONS.network}</button>`;
+  railTrend = computeTrend(filtered);
+  const trendBtn = railTrend
+    ? `<button class="rail-net-btn" data-open-trend title="Topic trends" aria-label="Topic trends">${ICONS.expand}</button>`
+    : '';
   els.railBody.innerHTML =
     summary +
     barChart('Top institutions', instCount, 'inst', 8, { action: netBtn('inst', 'Institution network') }) +
     barChart('Top authors', authorCount, 'author', 8, { label: (k) => railAuthorName.get(k) ?? k, action: netBtn('author', 'Co-author network') }) +
-    barChart('Top tracks', trackCount, 'track', 6) +
-    topicTrendChart(filtered);
+    barChart('Top tracks', trackCount, 'track', 6, { action: trendBtn });
 }
 
 // --- topic trend chart ---------------------------------------------------
@@ -877,8 +880,9 @@ function trendSvg(
   </svg>`;
 }
 
-/** Build the topic trend section for the rail (top tracks over years). */
-function topicTrendChart(filtered: { p: Paper; v: string }[]): string {
+/** Compute topic trend data (top 5 tracks across years) for the selected papers.
+ *  Returns null when fewer than 2 distinct years are present. */
+function computeTrend(filtered: { p: Paper; v: string }[]): typeof railTrend {
   const trackYearMap = new Map<string, Map<number, number>>();
   for (const { p, v } of filtered) {
     const yr = venueById.get(v)?.year
@@ -895,14 +899,7 @@ function topicTrendChart(filtered: { p: Paper; v: string }[]): string {
   for (const m of trackYearMap.values()) m.forEach((_, yr) => yearSet.add(yr));
   const years = [...yearSet].sort((a, b) => a - b);
 
-  const expandBtn = `<button class="rail-net-btn" data-open-trend title="Enlarge" aria-label="Enlarge topic trends">${ICONS.expand}</button>`;
-
-  if (years.length < 2) {
-    return `<section class="rail-section">
-      <div class="rail-section-head"><h3 class="rail-section-title">Topic trends</h3></div>
-      <p class="trend-empty">Select multiple editions of a series to see topic trends.</p>
-    </section>`;
-  }
+  if (years.length < 2) return null;
 
   // Top 5 tracks by total count
   const totals = [...trackYearMap.entries()]
@@ -914,17 +911,7 @@ function topicTrendChart(filtered: { p: Paper; v: string }[]): string {
     track: t,
     counts: years.map((yr) => trackYearMap.get(t)?.get(yr) ?? 0),
   }));
-  railTrend = { years, series };
-
-  const legendItems = series.map((s, i) =>
-    `<span class="trend-legend-item"><span class="trend-legend-dot" style="background:${TREND_PALETTE[i % TREND_PALETTE.length]}"></span>${esc(s.track)}</span>`
-  ).join('');
-
-  return `<section class="rail-section">
-    <div class="rail-section-head"><h3 class="rail-section-title">Topic trends</h3>${expandBtn}</div>
-    ${trendSvg(years, series)}
-    <div class="trend-legend">${legendItems}</div>
-  </section>`;
+  return { years, series };
 }
 
 /** Open the trend enlarge modal with a bigger SVG chart. */
@@ -1716,13 +1703,12 @@ function openTagFilterPop(anchor: HTMLElement) {
   for (const { p, v } of state.rows) {
     for (const t of tagsOf(key(v, p.id))) viewTags.set(t, (viewTags.get(t) ?? 0) + 1);
   }
-  if (!viewTags.size) return;
   const buildHtml = () => {
     const entries = [...viewTags.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
     const rows = entries.map(([t, n]) =>
       `<div class="pop-row" data-tag-filter-val="${esc(t)}" role="button"><input type="checkbox" tabindex="-1" ${state.tagFilter.has(t) ? 'checked' : ''}><span class="pop-row-label">${esc(t)}</span><span class="pop-row-n">${n}</span></div>`
     ).join('');
-    return `<div class="pop-title">Filter by tag</div><div class="pop-list">${rows || '<p class="pop-empty">No tags.</p>'}</div>`;
+    return `<div class="pop-title">Filter by tag</div><div class="pop-list">${rows || '<p class="pop-empty">No tags yet.</p>'}</div>`;
   };
   openPop(anchor, buildHtml, (t) => {
     const row = t.closest<HTMLElement>('[data-tag-filter-val]');

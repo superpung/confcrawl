@@ -86,6 +86,11 @@ Entries are user-facing; implementation details belong in commit messages.
   the wrapper so the overlay stays visible below the transparent input).
 
 ### Changed
+- Topic trend chart folded into the **Top tracks** Insights section as a chart
+  button (matching the network buttons on institutions / authors); no separate
+  "Topic trends" section in the rail.
+- Tags filter pill now always opens a popover on click (like the Status pill), even
+  when no tags exist yet — shows "No tags yet." instead of silently doing nothing.
 - Card status and note reveal buttons now fade in on hover (opacity only, **no
   zoom/scale effect**); hover still animates the button colour as before.
 - "For you" / "Find similar" row action buttons (status, note, collect, tag) are
