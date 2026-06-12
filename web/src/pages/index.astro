@@ -326,6 +326,20 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
+    <div class="modal" id="historyModal" hidden>
+      <div class="modal-card modal-card--page" role="dialog" aria-modal="true" aria-label="Config history">
+        <div class="modal-head"><h2>Config history</h2><button class="icon-btn" data-modal-close aria-label="Close"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        <div id="historyBody" class="settings-body"></div>
+      </div>
+    </div>
+
+    <div class="modal" id="trendModal" hidden>
+      <div class="modal-card modal-card--wide" role="dialog" aria-modal="true" aria-label="Topic trends">
+        <div class="modal-head"><h2>Topic trends</h2><button class="icon-btn" data-modal-close aria-label="Close"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        <div id="trendBody" class="trend-modal-body"></div>
+      </div>
+    </div>
+
     <div class="modal" id="confirmModal" hidden>
       <div class="modal-card modal-card--prompt" role="dialog" aria-modal="true" aria-label="Confirm">
         <div class="modal-head">

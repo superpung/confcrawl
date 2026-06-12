@@ -29,6 +29,7 @@ const OAUTH_BROKER = '/.netlify/functions/github-oauth';
 // GitHub OAuth App client_id (public; the secret lives only in Netlify env).
 // Fill this in after registering the OAuth App at github.com/settings/developers.
 const GH_CLIENT_ID = import.meta.env.PUBLIC_GH_CLIENT_ID ?? '';
+const REPO_URL = 'https://github.com/superpung/confer';
 const PAGE = 200;
 
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -92,6 +93,10 @@ const ICONS = {
   sparkle: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.2 7.3L21.5 12l-7.3 2.2L12 21.5l-2.2-7.3L2.5 12l7.3-2.2z"/></svg>',
   // tag / label icon
   tag: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor" stroke="none"/></svg>',
+  // expand / fullscreen icon (for chart enlarge)
+  expand: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>',
+  // history / rotate-left icon (for config history)
+  history: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v6h6"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/></svg>',
 };
 
 function readJson<T>(key: string, fallback: T): T {
@@ -736,6 +741,10 @@ function clearFilters() {
 // --- right rail: insights for the current view ------------------------
 // Maps a Top-authors bar key (disambiguated) back to a display name for clicks.
 let railAuthorName = new Map<string, string>();
+// Cached gist revisions keyed by version SHA (lazy-loaded on demand).
+const revisionCache = new Map<string, SettingsBundle>();
+// Latest topic trend data for the enlarge modal; null when chart is not rendered.
+let railTrend: { years: number[]; series: { track: string; counts: number[] }[] } | null = null;
 function barChart(
   title: string, counts: Map<string, number>, kind: string, n: number,
   opts: { order?: 'count' | 'key'; label?: (k: string) => string; action?: string } = {},
@@ -797,7 +806,126 @@ function renderRail(filtered: { p: Paper; v: string }[]) {
     summary +
     barChart('Top institutions', instCount, 'inst', 8, { action: netBtn('inst', 'Institution network') }) +
     barChart('Top authors', authorCount, 'author', 8, { label: (k) => railAuthorName.get(k) ?? k, action: netBtn('author', 'Co-author network') }) +
-    barChart('Top tracks', trackCount, 'track', 6);
+    barChart('Top tracks', trackCount, 'track', 6) +
+    topicTrendChart(filtered);
+}
+
+// --- topic trend chart ---------------------------------------------------
+const TREND_PALETTE = ['var(--accent)', '#5a7c5a', '#4a6e8a', '#8c3a52', '#a67a36'];
+
+/** Render an inline SVG line chart for top track counts across years. */
+function trendSvg(
+  years: number[],
+  series: { track: string; counts: number[] }[],
+  opts: { big?: boolean } = {},
+): string {
+  const W = opts.big ? 560 : 220;
+  const H = opts.big ? 210 : 105;
+  const pad = opts.big
+    ? { t: 12, r: 10, b: 28, l: 34 }
+    : { t: 8, r: 6, b: 18, l: 26 };
+  const iW = W - pad.l - pad.r;
+  const iH = H - pad.t - pad.b;
+  const n = years.length;
+  const allCounts = series.flatMap((s) => s.counts);
+  const maxCount = Math.max(...allCounts, 1);
+
+  const xAt = (i: number) => pad.l + (n <= 1 ? iW / 2 : (i / (n - 1)) * iW);
+  const yAt = (c: number) => pad.t + iH - (c / maxCount) * iH;
+
+  const gridLines = opts.big
+    ? [0, 0.25, 0.5, 0.75, 1].map((f) => {
+        const y = (pad.t + iH * (1 - f)).toFixed(1);
+        const cnt = Math.round(f * maxCount);
+        return `<line x1="${pad.l}" y1="${y}" x2="${(W - pad.r).toFixed(1)}" y2="${y}" stroke="var(--line)" stroke-width="0.5"/>
+        <text x="${(pad.l - 4).toFixed(1)}" y="${(Number(y) + 3).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--faint)">${cnt}</text>`;
+      }).join('')
+    : '';
+
+  const lines = series.map((s, ci) => {
+    if (n < 2) return '';
+    const pts = s.counts.map((c, i) => `${xAt(i).toFixed(1)},${yAt(c).toFixed(1)}`).join(' ');
+    return `<polyline points="${pts}" fill="none" stroke="${TREND_PALETTE[ci % TREND_PALETTE.length]}" stroke-width="${opts.big ? 2 : 1.5}" stroke-linejoin="round" stroke-linecap="round"/>`;
+  }).join('');
+
+  const dots = series.flatMap((s, ci) =>
+    s.counts.map((c, i) =>
+      `<circle cx="${xAt(i).toFixed(1)}" cy="${yAt(c).toFixed(1)}" r="${opts.big ? 3.5 : 2.5}" fill="${TREND_PALETTE[ci % TREND_PALETTE.length]}" stroke="var(--panel)" stroke-width="1.5"/>`
+    )
+  ).join('');
+
+  const xLabels = years.map((yr, i) =>
+    `<text x="${xAt(i).toFixed(1)}" y="${(H - pad.b + (opts.big ? 14 : 11)).toFixed(1)}" text-anchor="middle" font-size="${opts.big ? 9 : 8}" fill="var(--faint)">${yr}</text>`
+  ).join('');
+
+  return `<svg class="trend-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Topic trends by year">
+    ${gridLines}${lines}${dots}${xLabels}
+  </svg>`;
+}
+
+/** Build the topic trend section for the rail (top tracks over years). */
+function topicTrendChart(filtered: { p: Paper; v: string }[]): string {
+  const trackYearMap = new Map<string, Map<number, number>>();
+  for (const { p, v } of filtered) {
+    const yr = venueById.get(v)?.year
+      ?? (p.publicationDate ? Number(p.publicationDate.slice(0, 4)) || null : null);
+    if (!yr) continue;
+    for (const t of new Set(p.tracks)) {
+      if (!trackYearMap.has(t)) trackYearMap.set(t, new Map());
+      const m = trackYearMap.get(t)!;
+      m.set(yr, (m.get(yr) ?? 0) + 1);
+    }
+  }
+
+  const yearSet = new Set<number>();
+  for (const m of trackYearMap.values()) m.forEach((_, yr) => yearSet.add(yr));
+  const years = [...yearSet].sort((a, b) => a - b);
+
+  const expandBtn = `<button class="rail-net-btn" data-open-trend title="Enlarge" aria-label="Enlarge topic trends">${ICONS.expand}</button>`;
+
+  if (years.length < 2) {
+    return `<section class="rail-section">
+      <div class="rail-section-head"><h3 class="rail-section-title">Topic trends</h3></div>
+      <p class="trend-empty">Select multiple editions of a series to see topic trends.</p>
+    </section>`;
+  }
+
+  // Top 5 tracks by total count
+  const totals = [...trackYearMap.entries()]
+    .map(([t, m]) => ({ t, total: [...m.values()].reduce((a, b) => a + b, 0) }))
+    .sort((a, b) => b.total - a.total);
+  const topTracks = totals.slice(0, 5).map((x) => x.t);
+
+  const series = topTracks.map((t) => ({
+    track: t,
+    counts: years.map((yr) => trackYearMap.get(t)?.get(yr) ?? 0),
+  }));
+  railTrend = { years, series };
+
+  const legendItems = series.map((s, i) =>
+    `<span class="trend-legend-item"><span class="trend-legend-dot" style="background:${TREND_PALETTE[i % TREND_PALETTE.length]}"></span>${esc(s.track)}</span>`
+  ).join('');
+
+  return `<section class="rail-section">
+    <div class="rail-section-head"><h3 class="rail-section-title">Topic trends</h3>${expandBtn}</div>
+    ${trendSvg(years, series)}
+    <div class="trend-legend">${legendItems}</div>
+  </section>`;
+}
+
+/** Open the trend enlarge modal with a bigger SVG chart. */
+function openTrend() {
+  if (!railTrend) return;
+  const body = document.querySelector<HTMLElement>('#trendBody');
+  if (!body) return;
+  const { years, series } = railTrend;
+  const legendItems = series.map((s, i) =>
+    `<div class="trend-legend-item"><span class="trend-legend-dot" style="background:${TREND_PALETTE[i % TREND_PALETTE.length]}"></span><span class="trend-legend-label">${esc(s.track)}</span></div>`
+  ).join('');
+  body.innerHTML = `<div class="trend-modal-chart">${trendSvg(years, series, { big: true })}</div>
+    <div class="trend-legend trend-legend--big">${legendItems}</div>`;
+  const modal = document.querySelector<HTMLElement>('#trendModal');
+  if (modal) modal.hidden = false;
 }
 
 // --- similar-papers / recommend modal renderer ---
@@ -1841,8 +1969,32 @@ function renderSettings() {
     `<button class="accent-sw${currentAccent === key ? ' is-on' : ''}" data-accent-pick="${key}" title="${label}" type="button" style="background:${light}"></button>`
   ).join('');
 
+  // Personal stats
+  const toreadN = [...state.status.values()].filter((v) => v === 'toread').length;
+  const readingN = [...state.status.values()].filter((v) => v === 'reading').length;
+  const doneN = [...state.status.values()].filter((v) => v === 'done').length;
+  const collectedN = new Set(state.collections.flatMap((c) => c.keys)).size;
+  const distinctTags = tagCounts().size;
+  const statTile = (n: number, label: string) =>
+    `<div class="set-stat"><span class="set-stat-n">${n.toLocaleString()}</span><span class="set-stat-l">${esc(label)}</span></div>`;
+  const statsHtml = `<div class="set-stats">
+    ${statTile(collectedN, 'collected')}
+    ${statTile(state.collections.length, 'collections')}
+    ${statTile(state.tags.size, 'tagged papers')}
+    ${statTile(distinctTags, 'tags')}
+    ${statTile(state.notes.size, 'notes')}
+    ${statTile(toreadN, 'to read')}
+    ${statTile(readingN, 'reading')}
+    ${statTile(doneN, 'done')}
+    ${statTile(state.groups.length, 'groups')}
+    ${statTile(state.saved.length, 'saved searches')}
+  </div>`;
+
+  const hasGist = Boolean(localStorage.getItem(K_GIST_ID));
+
   body.innerHTML = `
     ${renderSyncSection()}
+    <section class="set-section"><h3 class="set-title">Your library</h3>${statsHtml}</section>
     <section class="set-section"><h3 class="set-title">Appearance</h3><div class="accent-swatches">${swatchesHtml}</div></section>
     <section class="set-section"><h3 class="set-title">Venue groups</h3>${groupsHtml}</section>
     <section class="set-section"><h3 class="set-title">Collections</h3>${colsHtml}</section>
@@ -1855,13 +2007,22 @@ function renderSettings() {
       <h3 class="set-title"><span>Config</span><span class="set-item-meta">${formatBytes(configBundleBytes())}</span>
         <button class="set-mini" data-settings-export type="button" aria-label="Export config" title="Export">${ICONS.download}</button>
         <button class="set-mini" data-settings-import type="button" aria-label="Import config" title="Import">${ICONS.upload}</button>
-        <button class="set-mini" data-share-full type="button" aria-label="Copy share link" title="Share all">${ICONS.link}</button></h3>
+        <button class="set-mini" data-share-full type="button" aria-label="Copy share link" title="Share all">${ICONS.link}</button>
+        ${hasGist ? `<button class="set-mini" data-open-history type="button" aria-label="View config history" title="View history">${ICONS.history}</button>` : ''}</h3>
       <p class="set-note">Site config stored in this browser.</p>
       <pre class="set-raw">${esc(JSON.stringify(raw, null, 2))}</pre>
     </section>
     <section class="set-section">
       <h3 class="set-title"><span>Local storage</span><span class="set-item-meta">${formatBytes(localDataBytes())}</span></h3>
       <button class="text-btn text-btn--danger-ghost" data-clear-local type="button">${ICONS.trash} Clear local data</button>
+    </section>
+    <section class="set-section">
+      <h3 class="set-title">Feedback</h3>
+      <p class="set-note">Help improve confer — report data issues or suggest new venues.</p>
+      <div class="set-actions">
+        <button class="text-btn" data-feedback-error type="button">Report a data issue</button>
+        <button class="text-btn" data-feedback-venue type="button">Suggest a venue</button>
+      </div>
     </section>`;
 }
 
@@ -2116,6 +2277,174 @@ function signOutGitHub() {
     clearSyncRetry();
     toast('Signed out');
     renderSettings();
+  });
+}
+
+// --- feedback (GitHub issue prefill) ----------------------------------
+
+/** Open a prefilled GitHub issue for error reporting or venue suggestions. */
+function openIssue(kind: 'error' | 'venue') {
+  const templates: Record<string, { title: string; labels: string; body: string }> = {
+    error: {
+      title: 'Data issue: [venue / paper title]',
+      labels: 'data',
+      body: [
+        '**Venue / Year:**\n',
+        '**Paper title or ID:**\n',
+        '**What\'s wrong:**\n',
+        '**Expected:**\n',
+        '---',
+        '_Tip: you can find a paper\'s ID in its venue badge tooltip._',
+      ].join('\n'),
+    },
+    venue: {
+      title: 'Venue request: [name and year]',
+      labels: 'venue',
+      body: [
+        '**Venue name and year(s):**\n',
+        '**Official program URL:**\n',
+        '**Platform (Researchr / OpenReview / DBLP / other):**\n',
+        '**Why include it:**\n',
+      ].join('\n'),
+    },
+  };
+  const tmpl = templates[kind]!;
+  const url = `${REPO_URL}/issues/new?title=${encodeURIComponent(tmpl.title)}&labels=${encodeURIComponent(tmpl.labels)}&body=${encodeURIComponent(tmpl.body)}`;
+  window.open(url, '_blank', 'noreferrer');
+}
+
+// --- config version history -------------------------------------------
+
+/** A single entry in the GitHub Gist revision history. */
+interface HistoryEntry {
+  version: string;
+  committed_at: string;
+  change_status: { additions: number; deletions: number; total: number };
+  url: string;
+}
+
+/** Per-category diff between two revisions: show added/removed items. */
+function revisionDiff(prev: SettingsBundle, cur: SettingsBundle): string {
+  type Row = { label: string; added: string[]; removed: string[] };
+  const rows: Row[] = [];
+
+  const pGIds = new Set((prev.venueGroups ?? []).map((g) => g.id));
+  const cGIds = new Set((cur.venueGroups ?? []).map((g) => g.id));
+  const gAdded = (cur.venueGroups ?? []).filter((g) => !pGIds.has(g.id)).map((g) => g.name);
+  const gRemoved = (prev.venueGroups ?? []).filter((g) => !cGIds.has(g.id)).map((g) => g.name);
+  if (gAdded.length || gRemoved.length) rows.push({ label: 'Groups', added: gAdded, removed: gRemoved });
+
+  const pCIds = new Set((prev.collections ?? []).map((c) => c.id));
+  const cCIds = new Set((cur.collections ?? []).map((c) => c.id));
+  const colAdded = (cur.collections ?? []).filter((c) => !pCIds.has(c.id)).map((c) => c.name);
+  const colRemoved = (prev.collections ?? []).filter((c) => !cCIds.has(c.id)).map((c) => c.name);
+  if (colAdded.length || colRemoved.length) rows.push({ label: 'Collections', added: colAdded, removed: colRemoved });
+
+  const pTags = new Set(Object.values(prev.paperTags ?? {}).flat());
+  const cTags = new Set(Object.values(cur.paperTags ?? {}).flat());
+  const tagsAdded = [...cTags].filter((t) => !pTags.has(t));
+  const tagsRemoved = [...pTags].filter((t) => !cTags.has(t));
+  if (tagsAdded.length || tagsRemoved.length) rows.push({ label: 'Tags', added: tagsAdded, removed: tagsRemoved });
+
+  const pSNames = new Set((prev.savedSearches ?? []).map((s) => s.name));
+  const cSNames = new Set((cur.savedSearches ?? []).map((s) => s.name));
+  const ssAdded = (cur.savedSearches ?? []).filter((s) => !pSNames.has(s.name)).map((s) => s.name);
+  const ssRemoved = (prev.savedSearches ?? []).filter((s) => !cSNames.has(s.name)).map((s) => s.name);
+  if (ssAdded.length || ssRemoved.length) rows.push({ label: 'Saved searches', added: ssAdded, removed: ssRemoved });
+
+  const pNKeys = new Set(Object.keys(prev.paperNotes ?? {}));
+  const cNKeys = new Set(Object.keys(cur.paperNotes ?? {}));
+  const notesAdded = [...cNKeys].filter((k) => !pNKeys.has(k)).length;
+  const notesRemoved = [...pNKeys].filter((k) => !cNKeys.has(k)).length;
+  if (notesAdded || notesRemoved) rows.push({ label: 'Notes', added: notesAdded ? [`+${notesAdded}`] : [], removed: notesRemoved ? [`−${notesRemoved}`] : [] });
+
+  const pSKeys = new Set(Object.keys(prev.readStatus ?? {}));
+  const cSKeys = new Set(Object.keys(cur.readStatus ?? {}));
+  const statusAdded = [...cSKeys].filter((k) => !pSKeys.has(k)).length;
+  const statusRemoved = [...pSKeys].filter((k) => !cSKeys.has(k)).length;
+  if (statusAdded || statusRemoved) rows.push({ label: 'Status', added: statusAdded ? [`+${statusAdded}`] : [], removed: statusRemoved ? [`−${statusRemoved}`] : [] });
+
+  if (!rows.length) return '<p class="set-note" style="margin:4px 0 0">No content changes in this revision.</p>';
+
+  const chips = (items: string[], cls: string) =>
+    items.slice(0, 5).map((s) => `<span class="chip hist-chip--${cls}">${esc(s)}</span>`).join('') +
+    (items.length > 5 ? `<span class="set-note" style="margin:0"> +${items.length - 5}</span>` : '');
+
+  return rows.map((r) =>
+    `<div class="hist-diff-row">
+      <span class="hist-diff-label">${esc(r.label)}</span>
+      <div class="hist-diff-changes">${chips(r.added, 'add')}${chips(r.removed, 'del')}</div>
+    </div>`
+  ).join('');
+}
+
+/** Fetch the history list for the user's config Gist. */
+async function fetchGistHistory(): Promise<HistoryEntry[]> {
+  const token = await getValidToken();
+  if (!token) throw new Error('Not signed in');
+  const gistId = localStorage.getItem(K_GIST_ID);
+  if (!gistId) throw new Error('No gist found');
+  const res = await ghFetch(`https://api.github.com/gists/${gistId}`, token);
+  if (!res.ok) throw new Error('Request failed');
+  const data = await res.json() as { history?: HistoryEntry[] };
+  return data.history ?? [];
+}
+
+/** Fetch a specific revision bundle, caching by SHA. */
+async function loadRevision(version: string): Promise<SettingsBundle> {
+  if (revisionCache.has(version)) return revisionCache.get(version)!;
+  const token = await getValidToken();
+  if (!token) throw new Error('Not signed in');
+  const gistId = localStorage.getItem(K_GIST_ID);
+  if (!gistId) throw new Error('No gist found');
+  const res = await ghFetch(`https://api.github.com/gists/${gistId}/${version}`, token);
+  if (!res.ok) throw new Error('Failed to load revision');
+  const data = await res.json() as { files?: { 'confer-config.json'?: { content?: string } } };
+  const content = data.files?.['confer-config.json']?.content ?? '{}';
+  const bundle = JSON.parse(content) as SettingsBundle;
+  revisionCache.set(version, bundle);
+  return bundle;
+}
+
+/** Render the history list into #historyBody. */
+function renderHistoryList(entries: HistoryEntry[]) {
+  const body = document.querySelector<HTMLElement>('#historyBody');
+  if (!body) return;
+  if (!entries.length) {
+    body.innerHTML = '<p class="set-empty" style="padding:4px 0">No history available.</p>';
+    return;
+  }
+  body.innerHTML = entries.map((e, i) =>
+    `<div class="hist-row">
+      <div class="hist-row-head">
+        <span class="hist-when" title="${esc(fullTimestamp(e.committed_at))}">${
+          i === 0 ? `<span class="chip hist-chip--current">Current</span> ` : ``
+        }${esc(relativeTime(e.committed_at))}</span>
+        <span class="hist-stat hist-stat--add" title="Lines added">+${e.change_status.additions}</span>
+        <span class="hist-stat hist-stat--del" title="Lines deleted">−${e.change_status.deletions}</span>
+        <button class="icon-btn hist-expand"
+          data-hist-expand="${i}"
+          data-hist-version="${esc(e.version)}"
+          data-hist-prev="${esc(i + 1 < entries.length ? entries[i + 1].version : '')}"
+          aria-label="Show changes" title="Show changes">${ICONS.chevronDown}</button>
+        ${i > 0 ? `<button class="text-btn text-btn--primary hist-restore" data-hist-restore="${esc(e.version)}" type="button">Restore</button>` : ''}
+      </div>
+      <div class="hist-diff" id="hist-diff-${i}" hidden></div>
+    </div>`
+  ).join('');
+}
+
+/** Open the history modal and start loading. */
+function openHistory() {
+  const modal = document.querySelector<HTMLElement>('#historyModal');
+  if (!modal) return;
+  const body = document.querySelector<HTMLElement>('#historyBody');
+  if (body) body.innerHTML = '<p class="set-note" style="padding:8px 0">Loading history…</p>';
+  modal.hidden = false;
+  fetchGistHistory().then((entries) => {
+    renderHistoryList(entries);
+  }).catch((err) => {
+    if (body) body.innerHTML = `<p class="set-note" style="padding:8px 0;color:var(--faint)">Failed to load history: ${esc(String(err))}</p>`;
   });
 }
 
@@ -3376,7 +3705,68 @@ function wire() {
     if (cDel) { const c = collectionById(cDel.dataset.colDel ?? ''); if (c) askConfirm({ title: 'Delete collection', message: `Delete collection “${c.name}”?`, ok: 'Delete', danger: true }).then((ok) => { if (!ok) return; state.collections = state.collections.filter((x) => x.id !== c.id); if (state.collection === c.id) state.collection = ''; saveCollections(); afterCollectionsChange(); render(); }); return; }
     const tagPurge = t.closest<HTMLElement>('[data-tag-purge]');
     if (tagPurge) { const tag = tagPurge.dataset.tagPurge ?? ''; const n = tagCounts().get(tag) ?? 0; askConfirm({ title: 'Remove tag', message: `Remove tag "${tag}" from ${n} ${plural(n, 'paper')}? This removes it from all papers.`, ok: 'Remove', danger: true }).then((ok) => { if (!ok) return; for (const [k, tags] of [...state.tags]) { const next = tags.filter((x) => x !== tag); if (next.length) state.tags.set(k, next); else state.tags.delete(k); } saveTags(); renderSettings(); render(); }); return; }
+    if (t.closest('[data-open-history]')) { openHistory(); return; }
+    if (t.closest('[data-feedback-error]')) { openIssue('error'); return; }
+    if (t.closest('[data-feedback-venue]')) { openIssue('venue'); return; }
   });
+
+  // history modal: expand diffs and restore
+  const historyBodyEl = document.querySelector<HTMLElement>('#historyBody');
+  if (historyBodyEl) {
+    historyBodyEl.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+
+      const expandBtn = t.closest<HTMLElement>('[data-hist-expand]');
+      if (expandBtn) {
+        const idx = expandBtn.dataset.histExpand!;
+        const diffEl = document.querySelector<HTMLElement>(`#hist-diff-${idx}`);
+        if (!diffEl) return;
+        const isOpen = !diffEl.hidden;
+        if (isOpen) { diffEl.hidden = true; expandBtn.classList.remove('is-open'); return; }
+        expandBtn.classList.add('is-open');
+        diffEl.innerHTML = '<span class="set-note">Loading…</span>';
+        diffEl.hidden = false;
+        const curVersion = expandBtn.dataset.histVersion ?? '';
+        const prevVersion = expandBtn.dataset.histPrev ?? '';
+        if (!curVersion) { diffEl.innerHTML = '<p class="set-note">No version info.</p>'; return; }
+        const loadCur = loadRevision(curVersion);
+        const loadPrev = prevVersion ? loadRevision(prevVersion) : Promise.resolve(null as SettingsBundle | null);
+        Promise.all([loadCur, loadPrev]).then(([cur, prev]) => {
+          diffEl.innerHTML = prev ? revisionDiff(prev, cur) : '<p class="set-note" style="margin:4px 0 0">First revision — nothing to compare.</p>';
+        }).catch(() => {
+          diffEl.innerHTML = '<p class="set-note" style="margin:4px 0 0;color:var(--faint)">Failed to load revision content.</p>';
+        });
+        return;
+      }
+
+      const restoreBtn = t.closest<HTMLElement>('[data-hist-restore]');
+      if (restoreBtn) {
+        const version = restoreBtn.dataset.histRestore!;
+        void askConfirm({ title: 'Restore version', message: 'Restore this version? Your current config will be overwritten and a new revision will be pushed to the cloud.', ok: 'Restore', danger: true }).then(async (ok) => {
+          if (!ok) return;
+          const btn = restoreBtn as HTMLButtonElement;
+          btn.disabled = true; btn.textContent = 'Restoring…';
+          try {
+            const bundle = await loadRevision(version);
+            applySettingsBundle(bundle);
+            const token = await getValidToken();
+            if (!token) throw new Error('Not signed in');
+            const gistId = localStorage.getItem(K_GIST_ID);
+            if (!gistId) throw new Error('No gist');
+            await pushBundle(token, gistId, bundle);
+            revisionCache.clear();
+            toast('Version restored ✓');
+            renderSettings();
+            openHistory();
+          } catch (err) {
+            toast(`Restore failed: ${String(err)}`);
+            btn.disabled = false; btn.textContent = 'Restore';
+          }
+        });
+        return;
+      }
+    });
+  }
 
   // similar-papers modal: venue badge on mini-cards filters to that venue;
   // also handles per-row actions (status / note / collect) and bulk selection.
@@ -3604,6 +3994,8 @@ function wire() {
   els.railBody.addEventListener('click', (e) => {
     const netBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-open-network]');
     if (netBtn) { openNetwork(netBtn.dataset.openNetwork === 'inst' ? 'inst' : 'author'); return; }
+    const trendBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-open-trend]');
+    if (trendBtn) { openTrend(); return; }
     const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-chart]');
     if (!btn) return;
     const kind = btn.dataset.chart!;

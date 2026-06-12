@@ -9,6 +9,22 @@ Entries are user-facing; implementation details belong in commit messages.
 ## [Unreleased]
 
 ### Added
+- **Config version history**: a full-screen "Config history" view (accessible via
+  the history icon in Settings → Config when signed in) lists every synced
+  revision with relative timestamps and +/− line counts; expanding a row shows a
+  per-category breakdown (groups / collections / tags / saved searches / notes /
+  reading status) of what changed; **Restore** rolls back to any earlier version
+  (applies the bundle locally and pushes a new revision so history stays linear).
+- **Feedback section** in Settings: one-click "Report a data issue" and
+  "Suggest a venue" open a prefilled GitHub issue with a structured template.
+- **"Your library" stats card** in Settings: a grid of counts — collected papers,
+  collections, tagged papers, distinct tags, notes, to-read / reading / done,
+  venue groups, and saved searches — computed live from local state.
+- **Topic trend chart** at the bottom of the Insights rail: top-5 tracks plotted
+  as a multi-line SVG chart across the selected venue editions (requires ≥ 2
+  distinct years); click the expand button to open an enlarged view in a modal.
+
+
 - Per-paper **reading status**: 4-state cycle on the card — None → To read →
   Reading → Done; filter the list to any status from the controls bar
   (`?status=toread` / `?status=reading` / `?status=done`). Status is synced to
