@@ -52,7 +52,20 @@ Entries are user-facing; implementation details belong in commit messages.
   showing a spurious conflict modal.
 - `CHANGELOG.md` (this file) and a changelog convention in `AGENTS.md`.
 
+### Added
+- "For you" and "Find similar" panel rows are now actionable: select papers with
+  per-row checkboxes (plus select-all / select-none), then bulk-add all checked
+  papers to a collection; each row also has inline reading-status, note, and
+  collection buttons, vertically centred in the row.
+
 ### Changed
+- Card status and note reveal buttons now fade in on hover (opacity only, **no
+  zoom/scale effect**); hover still animates the button colour as before.
+- Card expand/collapse animation shortened to 0.2 s and card layout is now
+  contained (`contain: layout`) to avoid reflow of sibling cards, reducing
+  perceived lag on long lists.
+- "For you" / "Find similar" paper titles truncate to one line with an ellipsis
+  when too long.
 - Sidebar "All" / "None" / expand-all buttons normalized to the same height.
 - Sidebar "All" / "None" selection buttons restored to text labels (were icon
   buttons).
@@ -60,7 +73,7 @@ Entries are user-facing; implementation details belong in commit messages.
   headers stay in place.
 - "For you" toolbar button updated to a cleaner single 4-point star icon.
 - "To read" status icon changed to a circle-plus, distinct from the bookmark/collect icon.
-- Status and note card buttons now animate in with a scale+fade on card hover.
+- Status and note card buttons fade in on card hover (opacity reveal; no scale).
 - Note preview no longer shows a left-edge accent bar; soft background tint used instead.
 - "For you" / "Find similar" no longer shows the top progress bar while loading;
   the modal opens immediately in a loading state and fades in the results.
@@ -77,6 +90,8 @@ Entries are user-facing; implementation details belong in commit messages.
 - Removing a series from a venue group in Settings now asks for confirmation.
 
 ### Fixed
+- In-card note block no longer shows a left accent bar (aligns with the no-left-
+  edge-bar design guardrail; soft accent-tint background retained).
 - Official-site links now appear in the sidebar for AAAI 2026, ICLR 2026,
   ICML 2025, NeurIPS 2025, ACL 2025, and NDSS 2026.
 - Settings and "For you" panels no longer jank or scroll the underlying page when

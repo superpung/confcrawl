@@ -704,16 +704,24 @@ function miniCardHtml(p: Paper, v: string): string {
   const note = noteOf(k);
   const status = statusOf(k);
   const statusCls = status !== 'unread' ? ` mini-card--${status}` : '';
+  const collected = collectionsOf(k).length > 0;
+  const checked = recPanelState.selected.has(k);
   const authorBtns = p.authors.slice(0, 5).map((a) =>
     `<button class="mini-author" data-mini-author="${esc(a)}" type="button">${esc(a)}</button>`
   ).join(', ') + (p.authors.length > 5 ? ` +${p.authors.length - 5}` : '');
-  return `<div class="mini-card${statusCls}">
+  const actions = `<div class="mini-card-actions">
+    <button class="icon-btn status-btn status-btn--${status}" data-mini-status="${esc(k)}" type="button" title="${STATUS_TITLE[status]}" aria-label="${STATUS_TITLE[status]}">${STATUS_ICONS[status]}</button>
+    <button class="icon-btn note-btn${note ? ' is-on' : ''}" data-mini-note="${esc(k)}" type="button" title="${note ? 'Edit note' : 'Add a note'}" aria-label="Note">${ICONS.pencil}</button>
+    <button class="icon-btn collect-btn${collected ? ' is-on' : ''}" data-mini-collect="${esc(k)}" data-pop-anchor type="button" title="${collected ? 'In a collection — edit' : 'Add to collection'}" aria-label="Collection">${collected ? ICONS.bookmarkFilled : ICONS.bookmark}</button>
+  </div>`;
+  return `<div class="mini-card${statusCls}" data-mini-key="${esc(k)}">
+    <input class="mini-card-sel" type="checkbox" data-mini-sel="${esc(k)}" ${checked ? 'checked' : ''} aria-label="Select">
     <button class="venue-badge" data-mini-venue="${esc(v)}" type="button">${esc(venue.name)}</button>
     <div class="mini-card-body">
-      <button class="mini-card-title-btn" data-mini-search="${esc(p.title)}" type="button">${esc(p.title)}</button>
+      <button class="mini-card-title-btn" data-mini-search="${esc(p.title)}" type="button" title="${esc(p.title)}">${esc(p.title)}</button>
       <p class="mini-card-authors">${authorBtns}</p>
-      ${note ? `<p class="mini-card-note">${esc(note)}</p>` : ''}
     </div>
+    ${actions}
   </div>`;
 }
 
@@ -3196,11 +3204,157 @@ function wire() {
     if (tagPurge) { const tag = tagPurge.dataset.tagPurge ?? ''; const n = tagCounts().get(tag) ?? 0; askConfirm({ title: 'Remove tag', message: `Remove tag "${tag}" from ${n} ${plural(n, 'paper')}? This removes it from all papers.`, ok: 'Remove', danger: true }).then((ok) => { if (!ok) return; for (const [k, tags] of [...state.tags]) { const next = tags.filter((x) => x !== tag); if (next.length) state.tags.set(k, next); else state.tags.delete(k); } saveTags(); renderSettings(); render(); }); return; }
   });
 
-  // similar-papers modal: venue badge on mini-cards filters to that venue
+  // similar-papers modal: venue badge on mini-cards filters to that venue;
+  // also handles per-row actions (status / note / collect) and bulk selection.
   const entityBodyEl = document.querySelector<HTMLElement>('#entityBody');
   if (entityBodyEl) {
     entityBodyEl.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
+
+      // --- Per-row action: status cycle ---
+      const miniStatus = t.closest<HTMLElement>('[data-mini-status]');
+      if (miniStatus) {
+        const k = miniStatus.dataset.miniStatus!;
+        const cur = statusOf(k);
+        const next = STATUS_NEXT[cur] ?? 'reading';
+        if (next === 'unread') state.status.delete(k); else state.status.set(k, next);
+        saveStatus();
+        // In-place update: button class/icon
+        miniStatus.className = `icon-btn status-btn status-btn--${next}`;
+        miniStatus.title = STATUS_TITLE[next] ?? '';
+        miniStatus.setAttribute('aria-label', STATUS_TITLE[next] ?? '');
+        miniStatus.innerHTML = STATUS_ICONS[next] ?? '';
+        // Stripe on the row
+        const row = miniStatus.closest<HTMLElement>('.mini-card');
+        if (row) {
+          row.classList.remove('mini-card--toread', 'mini-card--reading', 'mini-card--done');
+          if (next !== 'unread') row.classList.add(`mini-card--${next}`);
+        }
+        reflectStatusFilter();
+        return;
+      }
+
+      // --- Per-row action: note ---
+      const miniNote = t.closest<HTMLElement>('[data-mini-note]');
+      if (miniNote) {
+        const k = miniNote.dataset.miniNote!;
+        openNoteDialog(k);
+        // After dialog closes, refresh the note button state in the mini-card
+        const refreshNote = () => {
+          const noted = !!noteOf(k);
+          miniNote.classList.toggle('is-on', noted);
+          miniNote.title = noted ? 'Edit note' : 'Add a note';
+        };
+        // The note dialog uses a custom modal that resolves; hook once on the
+        // next mutation or trust the user to re-open the panel (lightweight path).
+        const obs = new MutationObserver(() => { refreshNote(); obs.disconnect(); });
+        const noteMod = document.querySelector('#noteModal');
+        if (noteMod) obs.observe(noteMod, { attributes: true, attributeFilter: ['hidden'] });
+        return;
+      }
+
+      // --- Per-row action: collect ---
+      const miniCollect = t.closest<HTMLElement>('[data-mini-collect]');
+      if (miniCollect) {
+        const k = miniCollect.dataset.miniCollect!;
+        openCollectPop(miniCollect, k);
+        // Reflect collect state after pop closes via MutationObserver
+        const refreshCollect = () => {
+          const on = collectionsOf(k).length > 0;
+          miniCollect.classList.toggle('is-on', on);
+          miniCollect.setAttribute('aria-pressed', String(on));
+          miniCollect.innerHTML = on ? ICONS.bookmarkFilled : ICONS.bookmark;
+        };
+        const obs2 = new MutationObserver((_, o) => { refreshCollect(); o.disconnect(); });
+        obs2.observe(popEl, { attributes: true, attributeFilter: ['hidden'] });
+        return;
+      }
+
+      // --- Checkbox selection ---
+      const miniSel = t.closest<HTMLInputElement>('[data-mini-sel]');
+      if (miniSel) {
+        const k = miniSel.dataset.miniSel!;
+        if ((miniSel as HTMLInputElement).checked) recPanelState.selected.add(k);
+        else recPanelState.selected.delete(k);
+        // Update bulk toolbar count in place without full re-render
+        const bulkCount = entityBodyEl.querySelector<HTMLElement>('.rec-bulk-count');
+        const bulkAdd = entityBodyEl.querySelector<HTMLElement>('[data-rec-add-collection]');
+        const n = recPanelState.selected.size;
+        if (bulkCount) bulkCount.textContent = `${n} selected`;
+        if (n > 0) {
+          if (!bulkCount) {
+            // Need to add the count + button elements; simplest is a targeted re-render
+            renderRecPanel(entityBodyEl);
+          } else {
+            if (bulkAdd) bulkAdd.textContent = `Add ${n} to collection…`;
+          }
+        } else {
+          // Remove bulk action elements
+          bulkCount?.remove();
+          bulkAdd?.remove();
+        }
+        return;
+      }
+
+      // --- Bulk: select all ---
+      if (t.closest('[data-rec-select-all]')) {
+        // Select all currently-filtered rows
+        const filtered2 = recPanelState.venueFilter
+          ? recPanelState.rows.filter((r) => (venueById.get(r.v)?.series ?? r.v) === recPanelState.venueFilter)
+          : recPanelState.rows;
+        for (const r of filtered2) recPanelState.selected.add(key(r.v, r.p.id));
+        renderRecPanel(entityBodyEl);
+        return;
+      }
+
+      // --- Bulk: select none ---
+      if (t.closest('[data-rec-select-none]')) {
+        recPanelState.selected.clear();
+        renderRecPanel(entityBodyEl);
+        return;
+      }
+
+      // --- Bulk: add selected to collection ---
+      const addBtn = t.closest<HTMLElement>('[data-rec-add-collection]');
+      if (addBtn) {
+        const keys = [...recPanelState.selected];
+        if (!keys.length) return;
+        // Open a pop anchored to the button with all selected keys
+        const renderPop = () => {
+          const rows2 = state.collections.map((c) =>
+            `<div class="pop-row" data-bulk-col-toggle="${c.id}" role="button"><input type="checkbox" tabindex="-1" ${keys.every((k2) => c.keys.includes(k2)) ? 'checked' : ''}><span class="pop-row-label">${esc(c.name)}</span><span class="pop-row-n">${c.keys.length}</span></div>`
+          ).join('');
+          return `<div class="pop-title">Add ${keys.length} papers to collection</div>${rows2 || '<p class="pop-empty">No collections yet.</p>'}<button class="pop-action" data-bulk-col-new type="button">＋ New collection…</button>`;
+        };
+        openPop(addBtn, renderPop, (pt) => {
+          const toggle = pt.closest<HTMLElement>('[data-bulk-col-toggle]');
+          if (toggle) {
+            const c = collectionById(toggle.dataset.bulkColToggle ?? '');
+            if (c) {
+              // Add all missing keys
+              for (const k2 of keys) { if (!c.keys.includes(k2)) c.keys.push(k2); }
+              saveCollections();
+              afterCollectionsChange();
+              // Refresh bulk button
+              renderRecPanel(entityBodyEl);
+            }
+            return;
+          }
+          if (pt.closest('[data-bulk-col-new]')) {
+            askText({ title: 'New collection', placeholder: 'Collection name', max: 80 }).then((name) => {
+              const clean = (name ?? '').trim();
+              if (!clean) return;
+              state.collections.push({ id: uid(), name: clean, keys: [...keys] });
+              saveCollections();
+              afterCollectionsChange();
+              renderRecPanel(entityBodyEl);
+            });
+          }
+        });
+        return;
+      }
+
+      // --- Navigation: venue badge → filter ---
       const miniVenue = t.closest<HTMLElement>('[data-mini-venue]');
       if (miniVenue) {
         const vId = miniVenue.dataset.miniVenue!;
@@ -3209,21 +3363,21 @@ function wire() {
         setQuery(`venue:"${ser}"`);
         return;
       }
-      // Title click → search by title
+      // --- Navigation: title → search ---
       const titleBtn = t.closest<HTMLElement>('[data-mini-search]');
       if (titleBtn) {
         closeModals();
         setQuery(titleBtn.dataset.miniSearch!);
         return;
       }
-      // Author click → author search
+      // --- Navigation: author → search ---
       const authorBtn = t.closest<HTMLElement>('[data-mini-author]');
       if (authorBtn) {
         closeModals();
         setQuery(`author:"${authorBtn.dataset.miniAuthor!}"`);
         return;
       }
-      // Recommend panel filter/sort controls
+      // --- Panel controls: venue filter / sort ---
       const venueChip = t.closest<HTMLElement>('[data-rec-venue]');
       if (venueChip) {
         recPanelState.venueFilter = venueChip.dataset.recVenue!;
@@ -3629,6 +3783,7 @@ const recPanelState = {
   rows: [] as { p: Paper; v: string; score: number }[],
   venueFilter: '',          // series name or '' = all
   sort: 'sim' as 'sim' | 'year' | 'title',
+  selected: new Set<string>(), // keys of checked mini-cards
 };
 
 function renderRecPanel(bodyEl: HTMLElement) {
@@ -3666,6 +3821,13 @@ function renderRecPanel(bodyEl: HTMLElement) {
       <div class="mini-card-list">${cards.map((r) => miniCardHtml(r.p, r.v)).join('')}</div>
     </div>`
   ).join('');
+  const selCount = recPanelState.selected.size;
+  const filteredKeys = filtered.map((r) => key(r.v, r.p.id));
+  const bulkHtml = `<div class="rec-bulk">
+    <button class="rec-venue-chip" data-rec-select-all type="button">Select all</button>
+    <button class="rec-venue-chip" data-rec-select-none type="button">Select none</button>
+    ${selCount > 0 ? `<span class="rec-bulk-count">${selCount} selected</span><button class="rec-bulk-add" data-rec-add-collection data-rec-filter-keys="${esc(filteredKeys.join(','))}" type="button">Add ${selCount} to collection…</button>` : ''}
+  </div>`;
   bodyEl.innerHTML = `
     <div class="rec-controls">
       <div class="rec-filter-row">
@@ -3676,6 +3838,7 @@ function renderRecPanel(bodyEl: HTMLElement) {
         <span class="rec-label">Sort</span>
         <div class="rec-sort-opts">${sortBtns}</div>
       </div>
+      <div class="rec-filter-row">${bulkHtml}</div>
     </div>
     <div class="rec-results">${groupHtml || '<p class="rail-empty">No papers match the filter.</p>'}</div>`;
 }
@@ -3703,6 +3866,7 @@ function populateRecommendModal(title: string, rows: { p: Paper; v: string; scor
   recPanelState.rows = rows;
   recPanelState.venueFilter = '';
   recPanelState.sort = 'sim';
+  recPanelState.selected = new Set();
   if (!rows.length) {
     bodyEl.innerHTML = '<p class="rail-empty">No recommendations available. Save or tag some papers first, then try again.</p>';
   } else {
