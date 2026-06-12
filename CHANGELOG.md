@@ -53,10 +53,15 @@ Entries are user-facing; implementation details belong in commit messages.
 - `CHANGELOG.md` (this file) and a changelog convention in `AGENTS.md`.
 
 ### Changed
+- Sidebar "All" / "None" / expand-all buttons normalized to the same height.
 - Sidebar "All" / "None" selection buttons restored to text labels (were icon
   buttons).
 - Expand/collapse toggle in the sidebar now only collapses venue series; category
   headers stay in place.
+- "For you" toolbar button updated to a cleaner single 4-point star icon.
+- "To read" status icon changed to a circle-plus, distinct from the bookmark/collect icon.
+- Status and note card buttons now animate in with a scale+fade on card hover.
+- Note preview no longer shows a left-edge accent bar; soft background tint used instead.
 - "For you" / "Find similar" no longer shows the top progress bar while loading;
   the modal opens immediately in a loading state and fades in the results.
 - Sign-out confirmation dialog now uses a red (danger) button, consistent with
@@ -72,6 +77,10 @@ Entries are user-facing; implementation details belong in commit messages.
 - Removing a series from a venue group in Settings now asks for confirmation.
 
 ### Fixed
+- Official-site links now appear in the sidebar for AAAI 2026, ICLR 2026,
+  ICML 2025, NeurIPS 2025, ACL 2025, and NDSS 2026.
+- Settings and "For you" panels no longer jank or scroll the underlying page when
+  scrolled to the end (removed backdrop-filter, added overscroll containment).
 - Sort label no longer briefly flashes "Sort: Venue" on reload when a different
   sort is saved in the URL.
 - Private note dialog no longer feels sluggish to open (removed double

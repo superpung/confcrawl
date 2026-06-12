@@ -83,13 +83,13 @@ const ICONS = {
   chevronDown: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>',
   // reading-status icons (circle outline / half-filled dot / checkmark / bookmark+plus)
   statusUnread:  '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>',
-  statusToread:  '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><line x1="12" y1="8" x2="12" y2="14"/><line x1="9" y1="11" x2="15" y2="11"/></svg>',
+  statusToread:  '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8.5" x2="12" y2="15.5"/><line x1="8.5" y1="12" x2="15.5" y2="12"/></svg>',
   statusReading: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/></svg>',
   statusDone:    '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="8.5 12 11 14.5 15.5 9.5"/></svg>',
   // find-similar icon (two overlapping circles = venn/similarity)
   similar: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg>',
   // "for you" / sparkle icon for the toolbar recommendation button
-  sparkle: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 6.2L20 11l-6.2 1.8L12 19l-1.8-6.2L4 11l6.2-1.8z"/><path d="M18.5 4l.6 2 2 .6-2 .6-.6 2-.6-2-2-.6 2-.6z"/></svg>',
+  sparkle: '<svg class="ic ic--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.2 7.3L21.5 12l-7.3 2.2L12 21.5l-2.2-7.3L2.5 12l7.3-2.2z"/></svg>',
 };
 
 function readJson<T>(key: string, fallback: T): T {

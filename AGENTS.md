@@ -206,6 +206,11 @@ npm run build                     # static build → web/dist/ (what Netlify pub
 - **Site aesthetic:** keep the minimal, Claude-like style (warm paper bg `#faf9f5`,
   clay accent `#c96442`, Source Serif 4 headings, flat thin-bordered cards). The tokens
   live in `web/src/styles/global.css`.
+- **No left-edge accent bars on text/content boxes** (e.g. `border-left: … solid
+  var(--accent)` on note previews, blockquotes, or read-only text areas). They look
+  unfinished. Use a background tint (`var(--panel-soft)`) or spacing instead. The
+  status-stripe on `.mini-card--toread/reading/done` is a deliberate *state indicator*
+  on a card row and is exempt.
 - **Favorites** are client-side `localStorage`. When multi-venue lands, key them as
   `venueId:paperId` so they do not collide across venues.
 - **No backend:** the site is fully static. All filtering/search is client-side.
